@@ -11,7 +11,7 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import AddModal from "components/ProvidersList/AddModal";
-import TextField from "@material-ui/core/Textfield";
+import TextField from "@material-ui/core/TextField";
 import SearchIcon from "@material-ui/icons/Search";
 import { InputAdornment } from "@material-ui/core";
 
