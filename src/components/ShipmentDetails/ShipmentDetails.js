@@ -53,7 +53,7 @@ export default function ShipmentDetails() {
       //console.log(res.data);
       setShipmentData(res.data);
     });
-  }, []);
+  }, [id]);
 
   const handleClickOpen = () => {
     setOpen(!open);
