@@ -1,6 +1,6 @@
 {
-  "homepage": "https://tomasorellana.github.io/ShipMent-front/",
-  "name": "shipment-front",
+  "homepage": "http://shipment.southcentralus.cloudapp.azure.com/",
+  "name": "shipment-front", 
   "version": "1.9.0",
   "description": "Shipment Front Panel",
   "private": false,
