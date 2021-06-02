@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { AuthContext } from "context/AuthProvider";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -9,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Navbar from "components/Navbars/Navbar.js";
 import Footer from "components/Footer/Footer.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
-//import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 
 import routes, { RoutesInMenu } from "routes.js";
 
@@ -17,6 +17,7 @@ import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 import bgImage from "assets/img/sidebar-emprendedores.jpg";
 import logo from "assets/img/logo.jpg";
+import AccessView from "components/Access/Access";
 
 let ps;
 
@@ -41,6 +42,7 @@ const switchRoutes = (
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
+  const { loggedIn } = useContext(AuthContext);
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -92,34 +94,38 @@ export default function Admin({ ...rest }) {
       window.removeEventListener("resize", resizeFunction);
     };
   }, [mainPanel]);
-  return (
-    <div className={classes.wrapper}>
-      <Sidebar
-        routes={RoutesInMenu}
-        logoText={"Emprendedores Chile"}
-        logo={logo}
-        image={image}
-        handleDrawerToggle={handleDrawerToggle}
-        open={mobileOpen}
-        color={color}
-        {...rest}
-      />
-      <div className={classes.mainPanel} ref={mainPanel}>
-        <Navbar
+
+  if (!loggedIn) {
+    return <AccessView />;
+  } else {
+    return (
+      <div className={classes.wrapper}>
+        <Sidebar
           routes={RoutesInMenu}
+          logoText={"Emprendedores Chile"}
+          logo={logo}
+          image={image}
           handleDrawerToggle={handleDrawerToggle}
+          open={mobileOpen}
+          color={color}
           {...rest}
         />
-        {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-        {getRoute() ? (
-          <div className={classes.content}>
-            <div className={classes.container}>{switchRoutes}</div>
-          </div>
-        ) : (
-          <div className={classes.map}>{switchRoutes}</div>
-        )}
-        {getRoute() ? <Footer /> : null}
-        {/* <FixedPlugin
+        <div className={classes.mainPanel} ref={mainPanel}>
+          <Navbar
+            routes={RoutesInMenu}
+            handleDrawerToggle={handleDrawerToggle}
+            {...rest}
+          />
+          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+          {getRoute() ? (
+            <div className={classes.content}>
+              <div className={classes.container}>{switchRoutes}</div>
+            </div>
+          ) : (
+            <div className={classes.map}>{switchRoutes}</div>
+          )}
+          {getRoute() ? <Footer /> : null}
+          {/* <FixedPlugin
           handleImageClick={handleImageClick}
           handleColorClick={handleColorClick}
           bgColor={color}
@@ -127,7 +133,8 @@ export default function Admin({ ...rest }) {
           handleFixedClick={handleFixedClick}
           fixedClasses={fixedClasses}
         /> */}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
