@@ -21,8 +21,9 @@ const animation = {
 };
 
 export const AccessView = () => {
-  const { SignIn } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const { SignIn, errorSignIn, isLoading, setIsLoading } = useContext(
+    AuthContext
+  );
   const classes = useStyles();
   const {
     control,
@@ -30,14 +31,12 @@ export const AccessView = () => {
     handleSubmit,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = ({ user, password }) => {
     setIsLoading(true);
-    SignIn();
-    setIsLoading(false);
+    SignIn(user, password);
   };
 
-  const errorsQuest = errors.password || errors.user;
+  const errorsQuest = errors.password || errors.user || errorSignIn;
 
   return (
     <div className={classes.root}>
@@ -88,7 +87,7 @@ export const AccessView = () => {
           variant="contained"
           className={classes.addButton}
           startIcon={<VpnKey />}
-          disable={isLoading}
+          disabled={isLoading}
           color="bussiness"
           type="submit"
         >
@@ -101,7 +100,13 @@ export const AccessView = () => {
           variants={animation}
           className={classes.messageArea}
         >
-          <Typography className={classes.text}>Campos requeridos</Typography>
+          {errorSignIn ? (
+            <Typography className={classes.text}>
+              Credenciales incorrectas
+            </Typography>
+          ) : (
+            <Typography className={classes.text}>Campos requeridos</Typography>
+          )}
         </motion.div>
       )}
     </div>

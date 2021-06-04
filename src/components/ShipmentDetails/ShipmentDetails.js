@@ -49,8 +49,8 @@ export default function ShipmentDetails() {
   const [shipmentData, setShipmentData] = useState({});
 
   useEffect(() => {
-    API.get(`embarques/${id}`).then((res) => {
-      //console.log(res.data);
+    API.get(`shipment/${id}`).then((res) => {
+      console.log(res.data);
       setShipmentData(res.data);
     });
   }, [id]);

@@ -63,8 +63,8 @@ export default function TableList() {
   const [shipmentList, setShipmentList] = useState({});
 
   useEffect(() => {
-    API.get(`embarques`).then((res) => {
-      setShipmentList(res.data.allMisiones);
+    API.get(`shipment`, {}).then((res) => {
+      setShipmentList(res.data.allEmbarques);
     });
   }, []);
 

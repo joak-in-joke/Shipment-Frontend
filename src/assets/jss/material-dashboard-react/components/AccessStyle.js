@@ -10,7 +10,7 @@ const AccessStyle = {
   },
   messageArea: {
     position: "absolute",
-    top: "60%",
+    bottom: "20%",
     display: "flex",
     backgroundColor: "#FFFFFF",
     padding: "20px",
