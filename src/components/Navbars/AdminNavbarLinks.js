@@ -10,10 +10,8 @@ import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
 import Poppers from "@material-ui/core/Popper";
-import Divider from "@material-ui/core/Divider";
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
-import Dashboard from "@material-ui/icons/Dashboard";
 // core components
 import Button from "components/CustomButtons/Button.js";
 
@@ -40,7 +38,7 @@ export default function AdminNavbarLinks() {
   };
   return (
     <div>
-      <Button
+      {/* <Button
         color={window.innerWidth > 959 ? "transparent" : "white"}
         justIcon={window.innerWidth > 959}
         simple={!(window.innerWidth > 959)}
@@ -51,7 +49,7 @@ export default function AdminNavbarLinks() {
         <Hidden mdUp implementation="css">
           <p className={classes.linkText}>Dashboard</p>
         </Hidden>
-      </Button>
+      </Button> */}
       <div className={classes.manager}>
         <Button
           color={window.innerWidth > 959 ? "transparent" : "white"}
@@ -64,7 +62,7 @@ export default function AdminNavbarLinks() {
         >
           <Person className={classes.icons} />
           <Hidden mdUp implementation="css">
-            <p className={classes.linkText}>Profile</p>
+            <p className={classes.linkText}>Cuenta</p>
           </Hidden>
         </Button>
         <Poppers
@@ -101,8 +99,8 @@ export default function AdminNavbarLinks() {
                       className={classes.dropdownItem}
                     >
                       Ajustes
-                    </MenuItem> */}
-                    <Divider light />
+                    </MenuItem> 
+                    <Divider light /> */}
                     <MenuItem
                       onClick={handleLogOut}
                       className={classes.dropdownItem}

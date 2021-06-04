@@ -6,3 +6,12 @@ export const getAllMissions = () => {
     return res.data.allMissiones;
   });
 };
+
+export const signIn = (rut,password) => {
+  API.post(`auth/signin`, {
+    rut: rut,
+    password: password
+  }).then((res) => {
+    return res;
+  });
+};

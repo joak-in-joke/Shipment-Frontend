@@ -16,7 +16,7 @@ ReactDOM.render(
     <Router history={hist}>
       <Switch>
         <Route path="/admin" component={Admin} />
-        <Redirect from="/" to="/admin/inicio" />
+        <Redirect from="/" to="/admin" />
       </Switch>
     </Router>
   </AuthProvider>,
