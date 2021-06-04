@@ -1,6 +1,8 @@
 import axios from "axios";
-export const address = process.env.REACT_APP_ADDRESS_IP;
-export const port = process.env.REACT_APP_ADDRESS_PORT;
+// export const address = "localhost";
+// export const port = "4000";
+export const address = "104.210.210.2";
+export const port = "4000";
 
 export const serverUrl = `${address}:${port}`;
 
