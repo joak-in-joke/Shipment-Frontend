@@ -64,7 +64,7 @@ export default function TableList() {
 
   useEffect(() => {
     API.get(`shipment`, {}).then((res) => {
-      setShipmentList(res.data.allEmbarques);
+      setShipmentList(res.data);
     });
   }, []);
 
