@@ -26,6 +26,9 @@ export default function CustomSelect(props) {
     error,
     success,
     options,
+    value = null,
+    onChange = null,
+    name = "",
   } = props;
 
   const labelClasses = classNames({
@@ -61,6 +64,9 @@ export default function CustomSelect(props) {
           underline: underlineClasses,
         }}
         id={id}
+        name={name}
+        value={value}
+        onChange={onChange}
         {...inputProps}
       >
         {options.map((option, key) => (
