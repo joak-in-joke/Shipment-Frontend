@@ -10,7 +10,7 @@ import TimelineDot from "@material-ui/lab/TimelineDot";
 import {
   HighlightOff,
   KeyboardArrowRight,
-  DirectionsBoat,
+  PriorityHigh,
   DoneAll,
 } from "@material-ui/icons";
 import { Paper, Typography } from "@material-ui/core";
@@ -67,7 +67,7 @@ export default function TimelineCustom({ timelineData, fetchTimeline }) {
           </TimelineOppositeContent>
           <TimelineSeparator>
             <TimelineDot>
-              <DirectionsBoat />
+              <PriorityHigh />
             </TimelineDot>
             <TimelineConnector />
           </TimelineSeparator>
