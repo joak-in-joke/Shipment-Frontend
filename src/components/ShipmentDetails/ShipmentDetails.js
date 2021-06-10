@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { Edit, Delete } from "@material-ui/icons";
+import { parseDate } from "./variables/parse";
 import Button from "components/CustomButtons/Button.js";
 import API from "variables/api.js";
 import useStyles from "./styles";
@@ -15,7 +16,12 @@ export default function ShipmentDetails({ id }) {
   useEffect(() => {
     API.get(`shipment/${id}`, {})
       .then(({ data: { resultado, data } }) => {
-        if (resultado) setShipmentData(data);
+        if (resultado) {
+          data.etd = parseDate(data.etd);
+          data.eta = parseDate(data.eta);
+          data.fecha_transb = parseDate(data.fecha_transb);
+          setShipmentData(data);
+        }
         setIsLoading(false);
       })
       .catch((error) => {
@@ -61,14 +67,14 @@ export default function ShipmentDetails({ id }) {
           className={classes.Button}
           color="primary"
           disabled={!isEditting}
-          onClick={updateShipment}
+          onClick={() => updateShipment()}
         >
           <Edit className={classes.icon} />
           Confirmar edición
         </Button>
 
         <Button color="bussiness">
-          <Delete className={classes.icon} onClick={deleteShipment} />
+          <Delete className={classes.icon} onClick={() => deleteShipment()} />
           Eliminar embarque
         </Button>
       </Grid>

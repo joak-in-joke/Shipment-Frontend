@@ -20,7 +20,6 @@ import useStyles from "../styles";
 export default function TimelineCustom({ timelineData, fetchTimeline }) {
   const classes = useStyles();
   const { etd, estado, timeline } = timelineData;
-  console.log(timelineData);
 
   const deleteComentary = (id) => {
     API.post(`timeline/delete`, {
@@ -89,7 +88,7 @@ export default function TimelineCustom({ timelineData, fetchTimeline }) {
         </TimelineItem>
       ))}
 
-      {estado === "finalizado" && (
+      {estado === "Finalizado" && (
         <TimelineItem>
           <TimelineSeparator>
             <TimelineDot color="secondary">

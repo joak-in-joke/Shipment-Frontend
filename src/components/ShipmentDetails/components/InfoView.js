@@ -1,8 +1,8 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 import useStyles from "../styles";
-import { formatDate } from "variables/functions";
-import Paper from "./Paper";
+import { stateOptions, transportOptions } from "../variables/options";
+import Paper from "./Papers/index";
 
 export const InfoView = ({ shipmentData, handleShipmentData }) => {
   const classes = useStyles();
@@ -10,15 +10,17 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
     <>
       <Grid container spacing={3}>
         <Grid item xs={2}>
-          <Paper
+          <Paper.Select
             title="estado"
             item="estado"
             content={shipmentData.estado}
             handleShipmentData={handleShipmentData}
+            isSelect={true}
+            selectOptions={stateOptions}
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="referencia"
             item="referencia"
             content={shipmentData.referencia}
@@ -26,34 +28,38 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Select
             title="medio de transporte"
             item="medio_transporte"
             content={shipmentData.medio_transporte}
             handleShipmentData={handleShipmentData}
+            isSelect={true}
+            selectOptions={transportOptions}
           />
         </Grid>
         <Grid item xs={2}>
-          <Paper
+          <Paper.Date
             title="ETD"
             item="etd"
-            content={formatDate(shipmentData.etd)}
+            content={shipmentData.etd}
             handleShipmentData={handleShipmentData}
+            isDate={true}
           />
         </Grid>
         <Grid item xs={2}>
-          <Paper
+          <Paper.Date
             title="ETA"
             item="eta"
-            content={formatDate(shipmentData.eta)}
+            content={shipmentData.eta}
             handleShipmentData={handleShipmentData}
+            isDate={true}
           />
         </Grid>
       </Grid>
 
       <Grid container spacing={3} className={classes.GridRow}>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="operacion"
             item="tipo_operacion"
             content={shipmentData.tipo_operacion}
@@ -61,7 +67,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="importador"
             item="importador"
             content={shipmentData.importador}
@@ -69,7 +75,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="exportador"
             item="exportador"
             content={shipmentData.exportador}
@@ -77,7 +83,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="embarcador"
             item="embarcador"
             content={shipmentData.embarcador}
@@ -88,7 +94,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
 
       <Grid container spacing={3}>
         <Grid item xs={4}>
-          <Paper
+          <Paper.Text
             title="intercom"
             item="intercom"
             content={shipmentData.intercom}
@@ -96,7 +102,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={4}>
-          <Paper
+          <Paper.Text
             title="agencia aduana"
             item="agencia_aduana"
             content={shipmentData.agencia_aduana}
@@ -104,7 +110,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={4}>
-          <Paper
+          <Paper.Text
             title="reserva"
             item="reserva"
             content={shipmentData.reserva}
@@ -115,7 +121,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
 
       <Grid container spacing={3}>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="documento"
             item="tipo_documento"
             content={shipmentData.tipo_documento}
@@ -123,7 +129,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="motonave"
             item="motonave"
             content={shipmentData.motonave}
@@ -131,7 +137,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="naviera"
             item="naviera"
             content={shipmentData.naviera}
@@ -139,7 +145,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           />
         </Grid>
         <Grid item xs={3}>
-          <Paper
+          <Paper.Text
             title="viaje"
             item="viaje"
             content={shipmentData.viaje}
@@ -153,7 +159,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
           <p>Transbordo</p>
           <Grid container spacing={3}>
             <Grid item xs={5}>
-              <Paper
+              <Paper.Text
                 title="Puerto Transbordo"
                 item="puerto_transb"
                 content={shipmentData.puerto_transb}
@@ -161,7 +167,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={5}>
-              <Paper
+              <Paper.Text
                 title="nave transbordo"
                 item="naver_transb"
                 content={shipmentData.naver_transb}
@@ -169,10 +175,10 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Paper
+              <Paper.Date
                 title="fecha transbordo"
                 item="fecha_transb"
-                content={formatDate(shipmentData.fecha_transb)}
+                content={shipmentData.fecha_transb}
                 handleShipmentData={handleShipmentData}
               />
             </Grid>
@@ -185,7 +191,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
         {shipmentData.medio_transporte === "LCL" ? (
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Paper
+              <Paper.Text
                 title="contenedor"
                 item="contenedor"
                 nested="data_transporte"
@@ -194,7 +200,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={3}>
-              <Paper
+              <Paper.Text
                 title="destino"
                 item="lugar_destino"
                 nested="data_transporte"
@@ -203,7 +209,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Paper
+              <Paper.Text
                 title="cantidad"
                 item="cant_bultos"
                 nested="data_transporte"
@@ -213,8 +219,8 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Paper
-                title="peso un."
+              <Paper.Text
+                title="peso un.(Kg)"
                 item="peso"
                 nested="data_transporte"
                 content={shipmentData.data_transporte.peso}
@@ -223,8 +229,8 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Paper
-                title="volumen tot."
+              <Paper.Text
+                title="volumen tot.(m³)"
                 item="volumen"
                 nested="data_transporte"
                 content={shipmentData.data_transporte.volumen}
@@ -236,7 +242,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
         ) : (
           <Grid container spacing={3}>
             <Grid item xs={3}>
-              <Paper
+              <Paper.Text
                 title="puerto destino"
                 item="puerto_destino"
                 nested="data_transporte"
@@ -245,7 +251,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={3}>
-              <Paper
+              <Paper.Text
                 title="destino"
                 item="lugar_destino"
                 nested="data_transporte"
@@ -254,7 +260,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Paper
+              <Paper.Text
                 title="deposito"
                 item="deposito_contenedores"
                 nested="data_transporte"
@@ -263,7 +269,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Paper
+              <Paper.Text
                 title="tipo cont."
                 item="cont_tipo"
                 nested="data_transporte"
@@ -272,7 +278,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
               />
             </Grid>
             <Grid item xs={2}>
-              <Paper
+              <Paper.Text
                 title="sello"
                 item="sello"
                 nested="data_transporte"
@@ -288,7 +294,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
         <p>Información mercancía</p>
         <Grid container spacing={3}>
           <Grid item xs={3}>
-            <Paper
+            <Paper.Text
               title="nombre"
               item="nombre_mercancia"
               nested="valorData"
@@ -297,7 +303,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
             />
           </Grid>
           <Grid item xs={2}>
-            <Paper
+            <Paper.Text
               title="valor (usd)"
               item="valor_usd"
               nested="valorData"
@@ -307,7 +313,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
             />
           </Grid>
           <Grid item xs={2}>
-            <Paper
+            <Paper.Text
               title="flete (usd)"
               item="flete_usd"
               nested="valorData"
@@ -317,7 +323,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
             />
           </Grid>
           <Grid item xs={2}>
-            <Paper
+            <Paper.Text
               title="seguro (usd)"
               item="seguro_usd"
               nested="valorData"
@@ -327,13 +333,17 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
             />
           </Grid>
           <Grid item xs={3}>
-            <Paper
+            <Paper.Text
               title="valor (cif)"
               item="valor_cif"
               nested="valorData"
-              content={shipmentData.valorData.valor_cif}
+              content={
+                parseInt(shipmentData.valorData.valor_usd) +
+                parseInt(shipmentData.valorData.flete_usd) +
+                parseInt(shipmentData.valorData.seguro_usd)
+              }
               handleShipmentData={handleShipmentData}
-              number={true}
+              readOnly={true}
             />
           </Grid>
         </Grid>

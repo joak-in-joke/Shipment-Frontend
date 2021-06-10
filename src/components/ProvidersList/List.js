@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AlignItemsList() {
+export default function AlignItemsList({ providers, deleteProvider }) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -29,59 +29,61 @@ export default function AlignItemsList() {
     setPage(0);
   };
 
-  return (
-    <React.Fragment>
-      <List className={classes.root}>
-        <ItemList
-          nombre="Proveedor1"
-          pais="Chile"
-          direccion="Avenida 333, santiago"
-          rut="1932363-2"
-          email="asd@asd.cl"
-          nombre_contacto="josemiguelito"
-          cargo="esclavo"
-          telefono="+562334344"
-          email_contacto="josemiguelitobonito@latinchat.cl"
-          banco="Banco Santander"
-          cuenta="33434"
-          tipo_cuenta="Cuenta Corriente"
-          nombre_cuenta="Empresa SPA"
-          email_cuenta="empresa@empresaspa.cl"
-        />
-        <Divider variant="inset" component="li" />
-        <ItemList
-          nombre="AProveedor2"
-          pais="Perú"
-          direccion="Avenida 333, Lima"
-          rut="1932363-2"
-          email="asd@asd.cl"
-          nombre_contacto="josemiguelito"
-          cargo="esclavo"
-          telefono="+562334344"
-          email_contacto="josemiguelitobonito@latinchat.com.pe"
-          banco="Banco Santander"
-          cuenta="33434"
-          tipo_cuenta="Cuenta Corriente"
-          nombre_cuenta="Empresa SPA"
-          email_cuenta="empresa@empresaspa.com.pe"
-        />
-        <Divider variant="inset" component="li" />
-      </List>
+  if (providers)
+    return (
+      <React.Fragment>
+        <List className={classes.root}>
+          {providers.map(
+            ({
+              id,
+              nombre,
+              pais,
+              direccion,
+              rut,
+              email,
+              cuenta_contacto,
+              contacto_proveedor,
+            }) => (
+              <>
+                <ItemList
+                  id={id}
+                  nombre={nombre}
+                  pais={pais}
+                  direccion={direccion}
+                  rut={rut}
+                  email={email}
+                  nombre_contacto={contacto_proveedor[0].nombre}
+                  cargo={contacto_proveedor[0].cargo}
+                  telefono={contacto_proveedor[0].telefono}
+                  email_contacto={contacto_proveedor[0].email}
+                  banco={cuenta_contacto[0].banco}
+                  cuenta={cuenta_contacto[0].n_cuenta}
+                  tipo_cuenta={cuenta_contacto[0].tipo_cuenta}
+                  nombre_cuenta={cuenta_contacto[0].nombre_empresa}
+                  email_cuenta={cuenta_contacto[0].email}
+                  deleteProvider={deleteProvider}
+                />
+                <Divider variant="inset" component="li" />
+              </>
+            )
+          )}
+        </List>
 
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        component="div"
-        //count={tableData.length}
-        count="2"
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-        labelDisplayedRows={({ from, to, count }) => {
-          return "" + from + "-" + to + " de " + count;
-        }}
-        labelRowsPerPage={"Filas por página"}
-      />
-    </React.Fragment>
-  );
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          //count={tableData.length}
+          count="2"
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          labelDisplayedRows={({ from, to, count }) => {
+            return "" + from + "-" + to + " de " + count;
+          }}
+          labelRowsPerPage={"Filas por página"}
+        />
+      </React.Fragment>
+    );
+  else return null;
 }

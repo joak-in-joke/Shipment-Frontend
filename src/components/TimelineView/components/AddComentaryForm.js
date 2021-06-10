@@ -11,6 +11,7 @@ export const AddComentaryForm = ({
   addComentary,
   newComentaryValues,
   setNewComentaryValues,
+  isActive,
 }) => {
   const classes = useStyles();
 
@@ -89,6 +90,7 @@ export const AddComentaryForm = ({
         startIcon={<Add />}
         color="bussiness"
         onClick={onSubmit}
+        disabled={isActive ? false : true}
       >
         Añadir nuevo comentario
       </Button>
