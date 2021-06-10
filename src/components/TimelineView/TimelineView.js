@@ -7,6 +7,7 @@ import TimelineCustom from "./components/Timeline.js";
 import useStyles from "./styles.js";
 import AddComentaryForm from "./components/AddComentaryForm";
 import FinishTimelineForm from "./components/FinishTimelineForm.js";
+import ConfirmDialog from "./components/ConfirmDialog.js";
 
 export default function TimelineView({ id }) {
   const {
@@ -22,13 +23,18 @@ export default function TimelineView({ id }) {
   const [finishValue, setFinishValue] = useState({
     date: "2017-05-24",
   });
+  const [isActive, setIsActive] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [confirmDialog, setConfirmDialog] = useState(false);
   const classes = useStyles();
 
   const fetchTimeline = useCallback(() => {
     API.get(`timeline/${id}`, {})
       .then(({ data: { resultado, data } }) => {
-        if (resultado) setTimelineData(data);
+        if (resultado) {
+          setTimelineData(data);
+          if (data.estado === "Activo") setIsActive(true);
+        }
         setIsLoading(false);
       })
       .catch((error) => {
@@ -61,12 +67,20 @@ export default function TimelineView({ id }) {
       id: id,
       fecha: finishValue.date,
     })
-      .then(({ data: { resultado } }) => {
-        if (resultado) fetchTimeline();
+      .then(({ data: { resultado, TimelineUpdate, embarqueData } }) => {
+        if (resultado) {
+          console.log(resultado, TimelineUpdate, embarqueData);
+          fetchTimeline();
+          handleDialog();
+        }
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleDialog = () => {
+    setConfirmDialog(!confirmDialog);
   };
 
   if (isLoading) return null;
@@ -83,14 +97,22 @@ export default function TimelineView({ id }) {
           addComentary={addComentary}
           newComentaryValues={newComentaryValues}
           setNewComentaryValues={setNewComentaryValues}
+          isActive={isActive}
         />
         <FinishTimelineForm
           finishTimeline={finishTimeline}
           setFinishValue={setFinishValue}
+          handleDialog={handleDialog}
           finishValue={finishValue}
-          status={timelineData.estado}
+          isActive={isActive}
         />
       </Grid>
+
+      <ConfirmDialog
+        open={confirmDialog}
+        handleClose={handleDialog}
+        onSubmit={() => finishTimeline()}
+      />
     </Grid>
   );
 }
