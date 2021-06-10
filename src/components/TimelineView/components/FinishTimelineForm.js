@@ -6,10 +6,10 @@ import Paper from "@material-ui/core/Paper";
 import useStyles from "../styles.js";
 
 const FinishTimelineForm = ({
-  finishTimeline,
   setFinishValue,
   finishValue,
-  status,
+  isActive,
+  handleDialog,
 }) => {
   const classes = useStyles();
 
@@ -42,8 +42,8 @@ const FinishTimelineForm = ({
           className={classes.finishButton}
           startIcon={<DoneAllIcon />}
           color="secondary"
-          disabled={status === "Finalizado" ? true : false}
-          onClick={() => finishTimeline()}
+          disabled={isActive ? false : true}
+          onClick={() => handleDialog()}
         >
           Finalizar embarque
         </Button>

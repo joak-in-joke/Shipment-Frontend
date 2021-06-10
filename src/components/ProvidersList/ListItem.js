@@ -1,80 +1,24 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Grid from "@material-ui/core/Grid";
-import Edit from "@material-ui/icons/Edit";
-import Close from "@material-ui/icons/Close";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import EditModal from "./EditModal";
+import {
+  Grid,
+  Tooltip,
+  IconButton,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@material-ui/core";
+import { ExpandMore, Edit, Close } from "@material-ui/icons";
 import DialogCustom from "components/Dialog/Dialog.js";
-
-const useStyles = makeStyles((theme) => ({
-  inline: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  text: {
-    fontSize: "14px",
-    color: "#4F4F4F",
-    lineHeight: "24px",
-  },
-  textProvider: {
-    fontSize: "18px",
-    paddingTop: "10px",
-    paddingBottom: "10px",
-    fontWeight: "380",
-  },
-  textTitle: {
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    fontWeight: "bold",
-  },
-  accordionHeaderTop: {
-    backgroundColor: "#2361E8",
-    borderTopLeftRadius: "4px",
-    borderTopRightRadius: "4px",
-  },
-  accordionHeaderBottom: {
-    backgroundColor: "#33B8FF",
-    borderBottomLeftRadius: "4px",
-    borderBottomRightRadius: "4px",
-  },
-  accordionHeaderText: {
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    fontSize: "16px",
-    color: "#FFFFFF",
-    fontWeight: "300",
-  },
-  tableActionButton: {
-    width: "27px",
-    height: "27px",
-    padding: "0",
-  },
-  tableActionButtonIcon: {
-    width: "17px",
-    height: "17px",
-  },
-  edit: {
-    backgroundColor: "transparent",
-    color: "#9c27b0",
-    boxShadow: "none",
-  },
-  close: {
-    backgroundColor: "transparent",
-    color: "#f44336",
-    boxShadow: "none",
-  },
-}));
+import EditModal from "./EditModal";
+import useStyles from "./styles";
 
 const ItemList = ({
+  id,
   nombre,
   pais,
   direccion,
@@ -89,6 +33,7 @@ const ItemList = ({
   tipo_cuenta,
   nombre_cuenta,
   email_cuenta,
+  deleteProvider,
 }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -157,7 +102,7 @@ const ItemList = ({
               <Accordion className={classes.inline}>
                 <AccordionSummary
                   expandIcon={
-                    <ExpandMoreIcon className={classes.accordionHeaderText} />
+                    <ExpandMore className={classes.accordionHeaderText} />
                   }
                   aria-controls="panel1a-content"
                   id="panel1a-header"
@@ -211,7 +156,7 @@ const ItemList = ({
               <Accordion className={classes.inline}>
                 <AccordionSummary
                   expandIcon={
-                    <ExpandMoreIcon className={classes.accordionHeaderText} />
+                    <ExpandMore className={classes.accordionHeaderText} />
                   }
                   aria-controls="panel2a-content"
                   id="panel2a-header"
@@ -269,6 +214,7 @@ const ItemList = ({
           title="Eliminar Proveedor"
           buttonSubmit="Eliminar"
           maxWidth={false}
+          onSubmit={() => deleteProvider(id)}
           content={
             <Typography>
               ¿Estás seguro de que quieres eliminar a este proveedor?

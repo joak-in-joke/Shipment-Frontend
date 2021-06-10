@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import DialogCustom from "components/Dialog/Dialog.js";
 import { Grid, TextField } from "@material-ui/core";
@@ -11,14 +11,22 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function AddModal({ open, handleClose }) {
+export default function AddModal({
+  open,
+  handleClose,
+  createProvider,
+  data,
+  handleChange,
+}) {
   const classes = useStyles();
+
   return (
     <DialogCustom
       open={open}
       handleClose={handleClose}
       title="Añadir nuevo proveedor"
       maxWidth={false}
+      onSubmit={createProvider}
       content={
         <React.Fragment>
           <Grid container spacing={2}>
@@ -27,7 +35,8 @@ export default function AddModal({ open, handleClose }) {
                 label="Proveedor"
                 variant="outlined"
                 name="proveedor"
-                //onChange={handleChange}
+                value={data.nombre}
+                onChange={handleChange}
                 className={classes.formControl}
               />
             </Grid>
