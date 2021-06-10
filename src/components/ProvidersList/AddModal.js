@@ -18,7 +18,7 @@ export default function AddModal({ open, handleClose }) {
       open={open}
       handleClose={handleClose}
       title="Añadir nuevo proveedor"
-      maxWidth={false}
+      maxWidth="lg"
       content={
         <React.Fragment>
           <Grid container spacing={2}>

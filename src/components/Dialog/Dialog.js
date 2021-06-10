@@ -24,6 +24,7 @@ const DialogCustom = ({
   maxWidth = false,
   buttonSubmit = "Agregar",
   onSubmit,
+  style,
 }) => {
   const classes = useStyles();
   return (
@@ -33,6 +34,8 @@ const DialogCustom = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
       maxWidth={maxWidth}
+      style={style}
+      fullWidth
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>

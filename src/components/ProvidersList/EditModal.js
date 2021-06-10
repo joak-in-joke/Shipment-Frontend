@@ -35,7 +35,7 @@ export default function EditModal({
       open={open}
       handleClose={handleClose}
       title="Editar proveedor"
-      maxWidth={false}
+      maxWidth="lg"
       buttonSubmit="Editar"
       content={
         <React.Fragment>

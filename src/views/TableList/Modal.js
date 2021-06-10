@@ -9,9 +9,17 @@ import {
   InputLabel,
   FormControl,
   Switch,
+  Paper,
+  Divider,
+  Box,
 } from "@material-ui/core";
 // core components
 import DialogCustom from "components/Dialog/Dialog";
+import Autocomplete, {
+  createFilterOptions,
+} from "@material-ui/lab/Autocomplete";
+
+const filter = createFilterOptions();
 
 const styles = {
   line: {},
@@ -31,6 +39,18 @@ const styles = {
     marginTop: "25px",
     borderRadius: "4px",
     border: "1px solid #000000",
+  },
+  headerBox: {
+    // width: "100%",
+    height: "70%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: "15px",
+    paddingLeft: "15px",
+  },
+  divider: {
+    marginTop: "100px",
+    paddingBottom: "10px",
   },
 };
 
@@ -72,6 +92,8 @@ export default function Modal({ open, handleClose }) {
     });
   };
 
+  const [value, setValue] = useState(null);
+
   const onChangeNumericInput = (e) => {
     const re = /^[0-9\b]+$/;
 
@@ -103,9 +125,14 @@ export default function Modal({ open, handleClose }) {
         open={open}
         handleClose={handleClose}
         title="Añadir nuevo embarque"
-        maxWidth={false}
+        maxWidth="xl"
         content={
           <>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs={12}>
+                Información general
+              </Grid>
+            </Grid>
             <Grid container className={classes.line} spacing={2}>
               <Grid item xs={2}>
                 <FormControl variant="outlined" className={classes.formControl}>
@@ -153,7 +180,7 @@ export default function Modal({ open, handleClose }) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   label="ID"
                   variant="outlined"
@@ -173,7 +200,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={1}>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="estadolabel">Estado</InputLabel>
                   <Select
@@ -220,8 +247,14 @@ export default function Modal({ open, handleClose }) {
                   </Select>
                 </FormControl>
               </Grid>
-
-              <Grid item xs={3}>
+            </Grid>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs={12}>
+                Datos de envío
+              </Grid>
+            </Grid>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs>
                 <TextField
                   label="Exportador"
                   variant="outlined"
@@ -231,7 +264,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs>
                 <TextField
                   label="Importador"
                   variant="outlined"
@@ -241,7 +274,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs>
                 <TextField
                   label="Embarcador"
                   variant="outlined"
@@ -251,7 +284,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs>
                 <TextField
                   label="Agencia aduana"
                   variant="outlined"
@@ -260,117 +293,119 @@ export default function Modal({ open, handleClose }) {
                   className={classes.formControl}
                 />
               </Grid>
+            </Grid>
 
-              {(state.transporte === "LCL" || state.transporte === "FCL") && (
-                <>
-                  {state.tipo === "exportacion" && (
-                    <Grid item xs={2}>
-                      <TextField
-                        label="Número de Reserva"
+            {(state.transporte === "LCL" || state.transporte === "FCL") && (
+              <Grid container className={classes.line} spacing={2}>
+                {state.tipo === "exportacion" && (
+                  <Grid item xs>
+                    <TextField
+                      label="Número de Reserva"
+                      variant="outlined"
+                      name="reserva"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
+                )}
+
+                {state.transporte === "LCL" && (
+                  <>
+                    <Grid item xs>
+                      <FormControl
                         variant="outlined"
-                        name="reserva"
+                        className={classes.formControl}
+                      >
+                        <InputLabel id="tipoDocumentolabel">
+                          Tipo de documento
+                        </InputLabel>
+                        <Select
+                          labelId="tipoDocumentolabel"
+                          name="tipoDocumento"
+                          value={state.tipoDocumento}
+                          onChange={handleChange}
+                          label="Tipo de documento"
+                        >
+                          <MenuItem value="">
+                            <em>Seleccionar</em>
+                          </MenuItem>
+                          <MenuItem value="MBL">MBL</MenuItem>
+                          <MenuItem value="HBL">HBL</MenuItem>
+                          <MenuItem value="NBL">NBL</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+
+                    <Grid item xs={8}>
+                      <TextField
+                        label="Número de Documento"
+                        variant="outlined"
+                        name="documento"
                         onChange={handleChange}
                         className={classes.formControl}
                       />
                     </Grid>
-                  )}
-                </>
-              )}
+                  </>
+                )}
 
-              {state.transporte === "LCL" && (
-                <>
-                  <Grid item xs={2}>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <InputLabel id="tipoDocumentolabel">
-                        Tipo de documento
-                      </InputLabel>
-                      <Select
-                        labelId="tipoDocumentolabel"
-                        name="tipoDocumento"
-                        value={state.tipoDocumento}
+                {state.transporte === "FCL" && (
+                  <>
+                    <Grid item xs>
+                      <TextField
+                        label="Depósito de Contenedores"
+                        variant="outlined"
+                        name="deposito_contenedores"
                         onChange={handleChange}
-                        label="Tipo de documento"
+                        className={classes.formControl}
+                      />
+                    </Grid>
+
+                    <Grid item xs={2}>
+                      <FormControl
+                        variant="outlined"
+                        className={classes.formControl}
                       >
-                        <MenuItem value="">
-                          <em>Seleccionar</em>
-                        </MenuItem>
-                        <MenuItem value="MBL">MBL</MenuItem>
-                        <MenuItem value="HBL">HBL</MenuItem>
-                        <MenuItem value="NBL">NBL</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
+                        <InputLabel id="contTipolabel">Tipo</InputLabel>
+                        <Select
+                          labelId="contTipolabel"
+                          name="cont_tipo"
+                          value={state.cont_tipo}
+                          onChange={handleChange}
+                          label="Tipo"
+                        >
+                          <MenuItem value="">
+                            <em>Seleccionar</em>
+                          </MenuItem>
+                          <MenuItem value="0">Sin container</MenuItem>
+                          <MenuItem value="1">20’ Flat Rack</MenuItem>
+                          <MenuItem value="2">20’ Open Top</MenuItem>
+                          <MenuItem value="3">20’ Standard</MenuItem>
+                          <MenuItem value="4">40’ Flat Rack</MenuItem>
+                          <MenuItem value="5">40’ High Cube</MenuItem>
+                          <MenuItem value="6">40’ NOR</MenuItem>
+                          <MenuItem value="7">40’ Open Top</MenuItem>
+                          <MenuItem value="8">40’ Reefer</MenuItem>
+                          <MenuItem value="9">40’ Standard</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
 
-                  <Grid item xs={2}>
-                    <TextField
-                      label="Número de Documento"
-                      variant="outlined"
-                      name="documento"
-                      onChange={handleChange}
-                      className={classes.formControl}
-                    />
-                  </Grid>
-                </>
-              )}
-
-              {state.transporte === "FCL" && (
-                <>
-                  <Grid item xs={3}>
-                    <TextField
-                      label="Depósito de Contenedores"
-                      variant="outlined"
-                      name="deposito_contenedores"
-                      onChange={handleChange}
-                      className={classes.formControl}
-                    />
-                  </Grid>
-
-                  <Grid item xs={3}>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <InputLabel id="contTipolabel">Tipo</InputLabel>
-                      <Select
-                        labelId="contTipolabel"
-                        name="cont_tipo"
-                        value={state.cont_tipo}
+                    <Grid item xs>
+                      <TextField
+                        label="Sello"
+                        variant="outlined"
+                        name="sello"
                         onChange={handleChange}
-                        label="Tipo"
-                      >
-                        <MenuItem value="">
-                          <em>Seleccionar</em>
-                        </MenuItem>
-                        <MenuItem value="0">Sin container</MenuItem>
-                        <MenuItem value="1">20’ Flat Rack</MenuItem>
-                        <MenuItem value="2">20’ Open Top</MenuItem>
-                        <MenuItem value="3">20’ Standard</MenuItem>
-                        <MenuItem value="4">40’ Flat Rack</MenuItem>
-                        <MenuItem value="5">40’ High Cube</MenuItem>
-                        <MenuItem value="6">40’ NOR</MenuItem>
-                        <MenuItem value="7">40’ Open Top</MenuItem>
-                        <MenuItem value="8">40’ Reefer</MenuItem>
-                        <MenuItem value="9">40’ Standard</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
+                        className={classes.formControl}
+                      />
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+            )}
 
-                  <Grid item xs={3}>
-                    <TextField
-                      label="Sello"
-                      variant="outlined"
-                      name="sello"
-                      onChange={handleChange}
-                      className={classes.formControl}
-                    />
-                  </Grid>
-                </>
-              )}
-
-              <Grid item xs={3}>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs>
                 <TextField
                   label="Motonave"
                   variant="outlined"
@@ -380,7 +415,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs>
                 <TextField
                   label="Viaje"
                   variant="outlined"
@@ -390,7 +425,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs>
                 <TextField
                   label="Naviera"
                   variant="outlined"
@@ -402,7 +437,7 @@ export default function Modal({ open, handleClose }) {
 
               {state.transporte === "LCL" && (
                 <>
-                  <Grid item xs={3}>
+                  <Grid item xs>
                     <TextField
                       label="Almacen extraportuario"
                       variant="outlined"
@@ -411,8 +446,14 @@ export default function Modal({ open, handleClose }) {
                       className={classes.formControl}
                     />
                   </Grid>
+                </>
+              )}
+            </Grid>
 
-                  <Grid item xs={2}>
+            {state.transporte === "LCL" && (
+              <Grid container className={classes.line} spacing={2}>
+                <>
+                  <Grid item xs={8}>
                     <TextField
                       label="Número de Contenedor"
                       variant="outlined"
@@ -422,7 +463,7 @@ export default function Modal({ open, handleClose }) {
                     />
                   </Grid>
 
-                  <Grid item xs={2}>
+                  <Grid item xs>
                     <TextField
                       label="Cantidad de bultos"
                       variant="outlined"
@@ -433,7 +474,7 @@ export default function Modal({ open, handleClose }) {
                     />
                   </Grid>
 
-                  <Grid item xs={1}>
+                  <Grid item xs>
                     <TextField
                       label="Peso (kg)"
                       variant="outlined"
@@ -444,7 +485,7 @@ export default function Modal({ open, handleClose }) {
                     />
                   </Grid>
 
-                  <Grid item xs={1}>
+                  <Grid item xs>
                     <TextField
                       label="Volumen (m³)"
                       variant="outlined"
@@ -455,9 +496,16 @@ export default function Modal({ open, handleClose }) {
                     />
                   </Grid>
                 </>
-              )}
+              </Grid>
+            )}
 
-              <Grid item xs={1.5}>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs={12}>
+                Información de fechas
+              </Grid>
+            </Grid>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs>
                 <TextField
                   label="ETD"
                   variant="outlined"
@@ -472,7 +520,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="puertoETDlabel">Puerto embarque</InputLabel>
                   <Select
@@ -491,7 +539,7 @@ export default function Modal({ open, handleClose }) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={1.5}>
+              <Grid item xs>
                 <TextField
                   label="ETA"
                   variant="outlined"
@@ -506,7 +554,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="puertoETAlabel">Puerto destino</InputLabel>
                   <Select
@@ -525,7 +573,7 @@ export default function Modal({ open, handleClose }) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs>
                 <TextField
                   label="Lugar destino"
                   variant="outlined"
@@ -534,9 +582,10 @@ export default function Modal({ open, handleClose }) {
                   className={classes.formControl}
                 />
               </Grid>
-
-              <Grid item xs={2} className={classes.checkboxArea}>
-                Transbordo?
+            </Grid>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs={1} className={classes.checkboxArea}>
+                Transbordo
                 <Switch
                   checked={state.transbordo}
                   onChange={handleChangeCheckbox}
@@ -547,7 +596,7 @@ export default function Modal({ open, handleClose }) {
               </Grid>
 
               {state.transbordo === true && (
-                <Grid container spacing={3}>
+                <>
                   <Grid item xs>
                     <FormControl
                       variant="outlined"
@@ -594,12 +643,21 @@ export default function Modal({ open, handleClose }) {
                       className={classes.formControl}
                     />
                   </Grid>
-                </Grid>
+                </>
               )}
             </Grid>
 
-            <Grid container spacing={4} className={classes.sumSeccion}>
-              <Grid item>
+            <Grid container className={classes.line} spacing={2}>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+
+              <Grid item xs={12}>
+                Detalle de producto
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} className={classes.line}>
+              <Grid item xs={4}>
                 <TextField
                   label="Nombre mercancia"
                   variant="outlined"
@@ -639,7 +697,9 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
               <Grid item xs>
-                Total: {state.valorTotal}
+                <Paper variant="outlined" className={classes.headerBox}>
+                  Total: {state.valorTotal}
+                </Paper>
               </Grid>
             </Grid>
           </>
@@ -648,3 +708,5 @@ export default function Modal({ open, handleClose }) {
     </>
   );
 }
+
+const puertos = [{ nombre: "Hola" }, { nombre: "Hola2" }, { nombre: "Hola3" }];
