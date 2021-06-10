@@ -117,12 +117,15 @@ export default function Modal({ open, handleClose }) {
                     name="tipo"
                     value={state.tipo}
                     onChange={handleChange}
+                    label="Tipo de operación"
                   >
                     <MenuItem value="">
-                      <em>Selecciona tipo</em>
+                      <em>Seleccionar</em>
                     </MenuItem>
-                    <MenuItem value="importacion">importacion</MenuItem>
-                    <MenuItem value="exportacion">exportacion</MenuItem>
+                    <MenuItem value="importacion">Importación</MenuItem>
+                    <MenuItem value="exportacion">Exportación</MenuItem>
+                    <MenuItem value="triangulacion">Triangulación</MenuItem>
+                    <MenuItem value="otros">Otros</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -137,9 +140,10 @@ export default function Modal({ open, handleClose }) {
                     name="transporte"
                     value={state.transporte}
                     onChange={handleChange}
+                    label="Medio de transporte"
                   >
                     <MenuItem value="">
-                      <em>Selecciona transporte</em>
+                      <em>Seleccionar</em>
                     </MenuItem>
                     <MenuItem value="FCL">FCL</MenuItem>
                     <MenuItem value="LCL">LCL</MenuItem>
@@ -149,7 +153,7 @@ export default function Modal({ open, handleClose }) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={1}>
+              <Grid item xs={2}>
                 <TextField
                   label="ID"
                   variant="outlined"
@@ -159,7 +163,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <TextField
                   label="Referencia"
                   variant="outlined"
@@ -169,7 +173,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={3}>
+              <Grid item xs={2}>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="estadolabel">Estado</InputLabel>
                   <Select
@@ -177,9 +181,10 @@ export default function Modal({ open, handleClose }) {
                     name="estado"
                     value={state.estado}
                     onChange={handleChange}
+                    label="Estado"
                   >
                     <MenuItem value="">
-                      <em>Selecciona estado</em>
+                      <em>Seleccionar</em>
                     </MenuItem>
                     <MenuItem value="Activo">Activo</MenuItem>
                     <MenuItem value="Terminado">Terminado</MenuItem>
@@ -188,7 +193,7 @@ export default function Modal({ open, handleClose }) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={1}>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="incotermlabel">Incoterm</InputLabel>
                   <Select
@@ -196,9 +201,10 @@ export default function Modal({ open, handleClose }) {
                     name="incoterm"
                     value={state.incoterm}
                     onChange={handleChange}
+                    label="Incoterm"
                   >
                     <MenuItem value="">
-                      <em>Selecciona Incoterm</em>
+                      <em>Seleccionar</em>
                     </MenuItem>
                     <MenuItem value="EXW">EXW</MenuItem>
                     <MenuItem value="FCA">FCA</MenuItem>
@@ -215,7 +221,7 @@ export default function Modal({ open, handleClose }) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   label="Exportador"
                   variant="outlined"
@@ -225,7 +231,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   label="Importador"
                   variant="outlined"
@@ -235,7 +241,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   label="Embarcador"
                   variant="outlined"
@@ -245,7 +251,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   label="Agencia aduana"
                   variant="outlined"
@@ -255,38 +261,116 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="tipoDocumentolabel">
-                    Tipo documento
-                  </InputLabel>
-                  <Select
-                    labelId="tipoDocumentolabel"
-                    name="tipoDocumento"
-                    value={state.tipoDocumento}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Selecciona tipo documento</em>
-                    </MenuItem>
-                    <MenuItem value="MBL">MBL</MenuItem>
-                    <MenuItem value="HBL">HBL</MenuItem>
-                    <MenuItem value="NBL">NBL</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
+              {(state.transporte === "LCL" || state.transporte === "FCL") && (
+                <>
+                  {state.tipo === "exportacion" && (
+                    <Grid item xs={2}>
+                      <TextField
+                        label="Número de Reserva"
+                        variant="outlined"
+                        name="reserva"
+                        onChange={handleChange}
+                        className={classes.formControl}
+                      />
+                    </Grid>
+                  )}
+                </>
+              )}
 
-              <Grid item xs={2}>
-                <TextField
-                  label="#Documento"
-                  variant="outlined"
-                  name="documento"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
+              {state.transporte === "LCL" && (
+                <>
+                  <Grid item xs={2}>
+                    <FormControl
+                      variant="outlined"
+                      className={classes.formControl}
+                    >
+                      <InputLabel id="tipoDocumentolabel">
+                        Tipo de documento
+                      </InputLabel>
+                      <Select
+                        labelId="tipoDocumentolabel"
+                        name="tipoDocumento"
+                        value={state.tipoDocumento}
+                        onChange={handleChange}
+                        label="Tipo de documento"
+                      >
+                        <MenuItem value="">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        <MenuItem value="MBL">MBL</MenuItem>
+                        <MenuItem value="HBL">HBL</MenuItem>
+                        <MenuItem value="NBL">NBL</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
 
-              <Grid item xs={2}>
+                  <Grid item xs={2}>
+                    <TextField
+                      label="Número de Documento"
+                      variant="outlined"
+                      name="documento"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
+                </>
+              )}
+
+              {state.transporte === "FCL" && (
+                <>
+                  <Grid item xs={3}>
+                    <TextField
+                      label="Depósito de Contenedores"
+                      variant="outlined"
+                      name="deposito_contenedores"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
+
+                  <Grid item xs={3}>
+                    <FormControl
+                      variant="outlined"
+                      className={classes.formControl}
+                    >
+                      <InputLabel id="contTipolabel">Tipo</InputLabel>
+                      <Select
+                        labelId="contTipolabel"
+                        name="cont_tipo"
+                        value={state.cont_tipo}
+                        onChange={handleChange}
+                        label="Tipo"
+                      >
+                        <MenuItem value="">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        <MenuItem value="0">Sin container</MenuItem>
+                        <MenuItem value="1">20’ Flat Rack</MenuItem>
+                        <MenuItem value="2">20’ Open Top</MenuItem>
+                        <MenuItem value="3">20’ Standard</MenuItem>
+                        <MenuItem value="4">40’ Flat Rack</MenuItem>
+                        <MenuItem value="5">40’ High Cube</MenuItem>
+                        <MenuItem value="6">40’ NOR</MenuItem>
+                        <MenuItem value="7">40’ Open Top</MenuItem>
+                        <MenuItem value="8">40’ Reefer</MenuItem>
+                        <MenuItem value="9">40’ Standard</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item xs={3}>
+                    <TextField
+                      label="Sello"
+                      variant="outlined"
+                      name="sello"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
+                </>
+              )}
+
+              <Grid item xs={3}>
                 <TextField
                   label="Motonave"
                   variant="outlined"
@@ -306,7 +390,7 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={3}>
                 <TextField
                   label="Naviera"
                   variant="outlined"
@@ -316,60 +400,64 @@ export default function Modal({ open, handleClose }) {
                 />
               </Grid>
 
-              <Grid item xs={2}>
-                <TextField
-                  label="Almacen portuario"
-                  variant="outlined"
-                  name="almacen"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
+              {state.transporte === "LCL" && (
+                <>
+                  <Grid item xs={3}>
+                    <TextField
+                      label="Almacen extraportuario"
+                      variant="outlined"
+                      name="almacen"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
 
-              <Grid item xs={2}>
-                <TextField
-                  label="#Contenedor"
-                  variant="outlined"
-                  name="contenedor"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
+                  <Grid item xs={2}>
+                    <TextField
+                      label="Número de Contenedor"
+                      variant="outlined"
+                      name="contenedor"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
 
-              <Grid item xs={2}>
-                <TextField
-                  label="Cant bultos"
-                  variant="outlined"
-                  name="bultos"
-                  type="number"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
+                  <Grid item xs={2}>
+                    <TextField
+                      label="Cantidad de bultos"
+                      variant="outlined"
+                      name="bultos"
+                      type="number"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
 
-              <Grid item xs={2}>
-                <TextField
-                  label="Peso (kg)"
-                  variant="outlined"
-                  name="peso"
-                  type="number"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
+                  <Grid item xs={1}>
+                    <TextField
+                      label="Peso (kg)"
+                      variant="outlined"
+                      name="peso"
+                      type="number"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
 
-              <Grid item xs={2}>
-                <TextField
-                  label="Volumen (m³)"
-                  variant="outlined"
-                  name="volumen"
-                  type="number"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
+                  <Grid item xs={1}>
+                    <TextField
+                      label="Volumen (m³)"
+                      variant="outlined"
+                      name="volumen"
+                      type="number"
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
+                </>
+              )}
 
-              <Grid item xs={2}>
+              <Grid item xs={1.5}>
                 <TextField
                   label="ETD"
                   variant="outlined"
@@ -383,6 +471,7 @@ export default function Modal({ open, handleClose }) {
                   className={classes.formControl}
                 />
               </Grid>
+
               <Grid item xs={2}>
                 <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="puertoETDlabel">Puerto embarque</InputLabel>
@@ -402,7 +491,7 @@ export default function Modal({ open, handleClose }) {
                 </FormControl>
               </Grid>
 
-              <Grid item xs={2}>
+              <Grid item xs={1.5}>
                 <TextField
                   label="ETA"
                   variant="outlined"
@@ -422,7 +511,7 @@ export default function Modal({ open, handleClose }) {
                   <InputLabel id="puertoETAlabel">Puerto destino</InputLabel>
                   <Select
                     labelId="puertoETAlabel"
-                    name="tipoDocumento"
+                    name="puertoETA"
                     value={state.puertoETA}
                     onChange={handleChange}
                   >
@@ -459,16 +548,16 @@ export default function Modal({ open, handleClose }) {
 
               {state.transbordo === true && (
                 <Grid container spacing={3}>
-                  <Grid item xs={4}>
+                  <Grid item xs>
                     <FormControl
                       variant="outlined"
                       className={classes.formControl}
                     >
-                      <InputLabel id="puertoTransboroLabel">
+                      <InputLabel id="puertoTransbordoLabel">
                         Puerto transbordo
                       </InputLabel>
                       <Select
-                        labelId="puertoTransboroLabel"
+                        labelId="puertoTransbordoLabel"
                         name="puertoTransbordo"
                         value={state.puertoTransbordo}
                         onChange={handleChange}
@@ -483,7 +572,7 @@ export default function Modal({ open, handleClose }) {
                     </FormControl>
                   </Grid>
 
-                  <Grid item xs={4}>
+                  <Grid item xs>
                     <TextField
                       label="Nave transbordo"
                       variant="outlined"
@@ -493,7 +582,7 @@ export default function Modal({ open, handleClose }) {
                     />
                   </Grid>
 
-                  <Grid item xs={4}>
+                  <Grid item xs>
                     <TextField
                       label="Fecha transbordo"
                       type="date"
@@ -510,7 +599,7 @@ export default function Modal({ open, handleClose }) {
             </Grid>
 
             <Grid container spacing={4} className={classes.sumSeccion}>
-              <Grid item xs={4}>
+              <Grid item>
                 <TextField
                   label="Nombre mercancia"
                   variant="outlined"
@@ -519,7 +608,7 @@ export default function Modal({ open, handleClose }) {
                   className={classes.formControl}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs>
                 <TextField
                   label="Valor (USD)"
                   variant="outlined"
@@ -529,7 +618,7 @@ export default function Modal({ open, handleClose }) {
                   className={classes.formControl}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs>
                 <TextField
                   label="Valor Flete (USD)"
                   variant="outlined"
@@ -539,7 +628,7 @@ export default function Modal({ open, handleClose }) {
                   className={classes.formControl}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs>
                 <TextField
                   label="Valor seguro (USD)"
                   variant="outlined"
@@ -549,7 +638,7 @@ export default function Modal({ open, handleClose }) {
                   className={classes.formControl}
                 />
               </Grid>
-              <Grid item xs={2}>
+              <Grid item xs>
                 Total: {state.valorTotal}
               </Grid>
             </Grid>
