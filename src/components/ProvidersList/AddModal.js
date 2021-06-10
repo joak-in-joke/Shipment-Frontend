@@ -11,24 +11,15 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function AddModal({ open, handleClose, createProvider }) {
+export default function AddModal({
+  open,
+  handleClose,
+  createProvider,
+  data,
+  handleChange,
+}) {
   const classes = useStyles();
-  const [data, setData] = useState({
-    nombre: "",
-    pais: "",
-    rut: "",
-    direccion: "",
-    email: "",
-    nombre_contacto: "",
-    cargo_contacto: "",
-    telefono_contacto: "",
-    email_contacto: "",
-    banco_cuenta: "",
-    numero_cuenta: "",
-    tipo_cuenta: "",
-    nombre_cuenta: "",
-    email_cuenta: "",
-  });
+
   return (
     <DialogCustom
       open={open}
@@ -45,7 +36,7 @@ export default function AddModal({ open, handleClose, createProvider }) {
                 variant="outlined"
                 name="proveedor"
                 value={data.nombre}
-                //onChange={handleChange}
+                onChange={handleChange}
                 className={classes.formControl}
               />
             </Grid>

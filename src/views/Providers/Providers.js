@@ -20,6 +20,29 @@ export default function TableList() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [providers, setProviders] = useState(null);
+  const [data, setData] = useState({
+    nombre: "",
+    pais: "",
+    rut: "",
+    direccion: "",
+    email: "",
+    nombre_contacto: "",
+    cargo_contacto: "",
+    telefono_contacto: "",
+    email_contacto: "",
+    banco_cuenta: "",
+    numero_cuenta: "",
+    tipo_cuenta: "",
+    nombre_cuenta: "",
+    email_cuenta: "",
+  });
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   useEffect(() => {
     getProviders();
@@ -50,9 +73,9 @@ export default function TableList() {
 
   const createProvider = (id) => {
     API.post(`provider/add`, {
-      nombre: "nombre",
-      pais: "pais",
-      rut: 22222,
+      nombre: data.nombre,
+      pais: data.pais,
+      rut: data.rut,
       direccion: "dirr",
 
       email: "email",
@@ -120,6 +143,9 @@ export default function TableList() {
         open={open}
         handleClose={handleModal}
         createProvider={createProvider}
+        data={data}
+        setData={setData}
+        handleChange={handleChange}
       />
     </GridContainer>
   );
