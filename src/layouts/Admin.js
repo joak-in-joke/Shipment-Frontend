@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "context/AuthProvider";
 // creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
+// import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,7 +19,7 @@ import bgImage from "assets/img/sidebar-emprendedores.jpg";
 import logo from "assets/img/logo.jpg";
 import AccessView from "components/Access/Access";
 
-let ps;
+// let ps;
 
 const switchRoutes = (
   <Switch>
@@ -53,7 +53,7 @@ export default function Admin({ ...rest }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   /* const handleImageClick = image => {
     setImage(image);
-  }; 
+  };
   const handleColorClick = color => {
     setColor(color);
   };
@@ -71,11 +71,11 @@ export default function Admin({ ...rest }) {
   const getRoute = () => {
     return window.location.pathname !== "/admin/maps";
   };
-  const resizeFunction = () => {
-    if (window.innerWidth >= 960) {
-      setMobileOpen(false);
-    }
-  };
+  // const resizeFunction = () => {
+  //   if (window.innerWidth >= 960) {
+  //     setMobileOpen(false);
+  //   }
+  // };
   // initialize and destroy the PerfectScrollbar plugin
   /*React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {

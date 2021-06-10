@@ -1,6 +1,5 @@
 import axios from "axios";
 // export const address = "localhost";
-// export const port = "4000";
 export const address = "104.210.210.2";
 export const port = "4000";
 

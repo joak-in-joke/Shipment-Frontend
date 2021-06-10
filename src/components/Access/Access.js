@@ -75,7 +75,7 @@ export const AccessView = () => {
               {...field}
               className={classes.input}
               id="password"
-              label="constraseña"
+              label="contraseña"
               variant="outlined"
               type="password"
               error={errors.password ? true : null}

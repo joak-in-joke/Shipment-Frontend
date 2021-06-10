@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -55,8 +56,9 @@ const useStyles = makeStyles(styles);
 export default function ShipmentDetail() {
   const classes = useStyles();
   const history = useHistory();
-  console.log(history);
   const [value, setValue] = React.useState(0);
+  const params = new URLSearchParams(useLocation().search);
+  const id = params.get("id");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -84,13 +86,13 @@ export default function ShipmentDetail() {
             </CardHeader>
             <CardBody>
               <TabPanel value={value} index={0}>
-                <ShipmentDetails />
+                <ShipmentDetails id={id} />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                <FilesView />
+                <FilesView id={id} />
               </TabPanel>
               <TabPanel value={value} index={2}>
-                <TimelineView />
+                <TimelineView id={id} />
               </TabPanel>
             </CardBody>
             <CardFooter>
