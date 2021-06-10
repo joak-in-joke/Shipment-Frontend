@@ -9,15 +9,13 @@ import Done from "@material-ui/icons/Done";
 import DoubleArrow from "@material-ui/icons/DoubleArrow";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
-import BugReport from "@material-ui/icons/BugReport";
 // import Code from "@material-ui/icons/Code";
 // import Cloud from "@material-ui/icons/Cloud";
 // core components
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import Table from "components/Table/Table.js";
-import Tasks from "components/Tasks/Tasks.js";
-import CustomTabs from "components/CustomTabs/CustomTabs.js";
+import Table from "components/Table/Table";
+
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
@@ -43,15 +41,34 @@ const useStyles = makeStyles(styles);
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [missions, setMissions] = useState(null);
+  const [missions, setMissions] = useState([]);
+  const [users, setUsers] = useState([]);
   // const [website, setWebsite] = useState({})
 
   useEffect(() => {
-    API.get(`misiones`).then((res) => {
-      setMissions(res.data.allMisiones);
+    API.get(`mision`, {}).then((res) => {
+      console.log(res.data);
+      setMissions(res.data);
+    });
+
+    API.get("user", {}).then((res) => {
+      console.log(res.data);
+      setUsers(res.data);
     });
   }, []);
-
+  console.log(users);
+  const toArray = (user) => {
+    let usuario = [];
+    user.map(({ id_usuario, nombre, apellido, telefono }) =>
+      usuario.push([id_usuario, nombre, apellido, telefono])
+    );
+    return usuario;
+  };
+  const toParse = (misiones) => {
+    let updated = [];
+    misiones.map(({ id, contenido }) => updated.push([id, contenido]));
+    return updated;
+  };
   const handleClose = () => {
     setOpen(!open);
   };
@@ -181,36 +198,31 @@ export default function Dashboard() {
 
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
-          {missions && (
-            <CustomTabs
-              title="Notas:"
-              headerColor="bussiness2"
-              tabs={[
-                {
-                  tabName: "Misiones",
-                  tabIcon: BugReport,
-                  tabContent: (
-                    <Tasks
-                      checkedIndexes={[0, 3]}
-                      tasksIndexes={[0, 1, 2, 3]}
-                      tasks={missions}
-                    />
-                  ),
-                },
-                // {
-                //   tabName: "Comentarios",
-                //   tabIcon: Code,
-                //   tabContent: (
-                //     <Tasks
-                //       checkedIndexes={[0]}
-                //       tasksIndexes={[0, 1]}
-                //       tasks={bugs}
-                //     />
-                //   ),
-                // },
-              ]}
-            />
-          )}
+          <Card>
+            <CardHeader color="bussiness2">
+              <div className={classes.informationSecc}>
+                <h4 className={classes.cardTitleWhite}>Misiones</h4>
+                <p className={classes.cardCategoryWhite}>
+                  Agenda nuevas misiones o tareas al equipo.
+                </p>
+              </div>
+              <Button
+                className={classes.addButton}
+                color="bussiness"
+                onClick={handleClose}
+              >
+                {/* Se le entrega a onClick la funcion handleClose para que al presionar me cambie el estado de open */}
+                Añadir
+              </Button>
+            </CardHeader>
+            <CardBody>
+              <Table
+                tableHeaderColor="bussiness"
+                tableHead={["ID", "Mision"]}
+                tableData={toParse(missions)}
+              />
+            </CardBody>
+          </Card>
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
           <Card>
@@ -233,11 +245,8 @@ export default function Dashboard() {
             <CardBody>
               <Table
                 tableHeaderColor="bussiness"
-                tableHead={["ID", "Nombre", "Telefono"]}
-                tableData={[
-                  ["1", "Moira Barriga", "+56232323"],
-                  ["2", "Vicente Lara", "+56232323"],
-                ]}
+                tableHead={["ID", "Nombre", "Apellido", "telefono"]}
+                tableData={toArray(users)}
               />
             </CardBody>
           </Card>

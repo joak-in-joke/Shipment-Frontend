@@ -26,6 +26,11 @@ const DialogCustom = ({
   onSubmit,
 }) => {
   const classes = useStyles();
+
+  // const handleClickEliminar = () => {
+  //   setOpen(false);
+  // };
+
   return (
     <Dialog
       open={open}
@@ -49,6 +54,7 @@ const DialogCustom = ({
           Cancelar
         </Button>
         <Button
+          open={open}
           onClick={onSubmit}
           className={classes.addButton}
           color="bussiness"

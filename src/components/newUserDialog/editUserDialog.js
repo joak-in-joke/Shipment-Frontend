@@ -35,15 +35,31 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function Modal({ open, handleClose }) {
+export default function Modal({ open, handleClose, id }) {
   const classes = useStyles();
   const [state, setState] = useState({});
-
+  console.log(id);
   const handleChange = (event) => {
     setState({
       ...state,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const onEdit = () => {
+    // state = {
+    //   nombre: "",
+    //   apellido: "",
+    //   rut: null,
+    //   email: "",
+    //   telefono: null,s
+    //   cargo: "",
+    //   contraseña: "",
+    //   direccion: "",
+    //   nacionalidad: "",
+    //   comuna: "",
+    // };
+    console.log("cualquier wea");
   };
 
   useEffect(() => {
@@ -61,9 +77,10 @@ export default function Modal({ open, handleClose }) {
       <DialogCustom
         open={open}
         handleClose={handleClose}
-        title="Crear nueva cuenta"
+        title="Editar Cuenta"
         maxWidth={true}
         buttonSubmit="Editar"
+        onSubmit={onEdit}
         content={
           <>
             <Grid container className={classes.line} spacing={2}>

@@ -23,8 +23,10 @@ export default function CustomTable(props) {
   const { tableHead, tableData, tableHeaderColor } = props;
   const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
+  const [id, setId] = useState(null);
+  const handleClose = (e = null) => {
     setOpen(!open);
+    setId(e);
   };
   return (
     <div className={classes.tableResponsive}>
@@ -67,7 +69,7 @@ export default function CustomTable(props) {
                     <IconButton
                       aria-label="Edit"
                       className={classes.tableActionButton}
-                      onClick={handleClose}
+                      onClick={() => handleClose(prop[0])}
                     >
                       <Edit
                         className={
@@ -100,7 +102,7 @@ export default function CustomTable(props) {
         </TableBody>
       </Table>
 
-      <Dialog open={open} handleClose={handleClose} />
+      <Dialog open={open} handleClose={handleClose} id={id} />
     </div>
   );
 }
