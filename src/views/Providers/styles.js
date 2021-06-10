@@ -1,3 +1,4 @@
+import { makeStyles } from "@material-ui/core/styles";
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -32,13 +33,11 @@ const styles = {
   },
   cardHeader: {
     display: "flex",
-    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  formControl: {
-    width: "100%",
-  },
 };
 
-export default styles;
+const useStyles = makeStyles(styles);
+
+export default useStyles;

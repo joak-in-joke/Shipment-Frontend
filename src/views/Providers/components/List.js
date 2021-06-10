@@ -15,7 +15,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AlignItemsList({ providers, deleteProvider }) {
+export default function AlignItemsList({
+  providers,
+  deleteProvider,
+  getProviders,
+}) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -43,29 +47,37 @@ export default function AlignItemsList({ providers, deleteProvider }) {
               email,
               cuenta_contacto,
               contacto_proveedor,
-            }) => (
-              <>
-                <ItemList
-                  id={id}
-                  nombre={nombre}
-                  pais={pais}
-                  direccion={direccion}
-                  rut={rut}
-                  email={email}
-                  nombre_contacto={contacto_proveedor[0].nombre}
-                  cargo={contacto_proveedor[0].cargo}
-                  telefono={contacto_proveedor[0].telefono}
-                  email_contacto={contacto_proveedor[0].email}
-                  banco={cuenta_contacto[0].banco}
-                  cuenta={cuenta_contacto[0].n_cuenta}
-                  tipo_cuenta={cuenta_contacto[0].tipo_cuenta}
-                  nombre_cuenta={cuenta_contacto[0].nombre_empresa}
-                  email_cuenta={cuenta_contacto[0].email}
-                  deleteProvider={deleteProvider}
-                />
-                <Divider variant="inset" component="li" />
-              </>
-            )
+            }) => {
+              const data = {
+                nombre: nombre,
+                pais: pais,
+                rut: rut,
+                direccion: direccion,
+                email: email,
+                telefono: contacto_proveedor[0].telefono,
+                nombre_contacto: contacto_proveedor[0].nombre,
+                cargo_contacto: contacto_proveedor[0].cargo,
+                telefono_contacto: contacto_proveedor[0].telefono,
+                email_contacto: contacto_proveedor[0].email,
+                banco_cuenta: cuenta_contacto[0].banco,
+                numero_cuenta: cuenta_contacto[0].n_cuenta,
+                tipo_cuenta: cuenta_contacto[0].tipo_cuenta,
+                nombre_cuenta: cuenta_contacto[0].nombre_empresa,
+                email_cuenta: cuenta_contacto[0].email,
+                rut_cuenta: cuenta_contacto[0].n_cuenta,
+              };
+              return (
+                <>
+                  <ItemList
+                    id={id}
+                    info={data}
+                    deleteProvider={deleteProvider}
+                    getProviders={getProviders}
+                  />
+                  <Divider variant="inset" component="li" />
+                </>
+              );
+            }
           )}
         </List>
 

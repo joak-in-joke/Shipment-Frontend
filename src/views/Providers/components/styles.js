@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     color: "#f44336",
     boxShadow: "none",
   },
+  formControl: {
+    width: "100%",
+  },
 }));
 
 export default useStyles;
