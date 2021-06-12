@@ -15,6 +15,7 @@ import AccessTime from "@material-ui/icons/AccessTime";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table";
+import TableMision from "components/Table/TableMision";
 
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -23,6 +24,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import Button from "components/CustomButtons/Button.js";
 import Dialog from "components/newUserDialog/newUserDialog";
+import Modal from "components/newMisionDialog/newMisionModal";
 
 // import { bugs, website, server } from "variables/general.js";
 // import { bugs, website } from "variables/general.js";
@@ -41,9 +43,27 @@ const useStyles = makeStyles(styles);
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [estado, setEstado] = useState(false);
   const [missions, setMissions] = useState([]);
+  const [misiones, setMisiones] = useState([]);
   const [users, setUsers] = useState([]);
+  const [state, setState] = useState({
+    contenido: "",
+  });
   // const [website, setWebsite] = useState({})
+  const [data, setData] = useState({
+    tipo: "",
+    nombre: "",
+    apellido: "",
+    rut: null,
+    dv: "",
+    email: "",
+    estado: "",
+    cargo: "",
+    asesor: "",
+    telefono: "",
+    pass: "",
+  });
 
   useEffect(() => {
     API.get(`mision`, {}).then((res) => {
@@ -56,7 +76,18 @@ export default function Dashboard() {
       setUsers(res.data);
     });
   }, []);
-  console.log(users);
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const handleChange2 = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.value,
+    });
+  };
   const toArray = (user) => {
     let usuario = [];
     user.map(({ id_usuario, nombre, apellido, telefono }) =>
@@ -72,6 +103,78 @@ export default function Dashboard() {
   const handleClose = () => {
     setOpen(!open);
   };
+  const handleClose2 = () => {
+    setEstado(!estado);
+  };
+  const getUsers = () => {
+    API.get(`user`, {}).then(({ data: { users, resultado } }) => {
+      if (users) {
+        setUsers(users);
+        console.log(users);
+      }
+    });
+  };
+  const getMisiones = () => {
+    API.get(`mision`, {}).then(({ data: { misiones, resultado } }) => {
+      if (misiones) {
+        setMisiones(misiones);
+        console.log(misiones);
+      }
+    });
+  };
+  const createUser = () => {
+    API.post(`user/add`, {
+      tipo: data.tipo,
+      nombre: data.nombre,
+      apellido: data.apellido,
+      rut: data.rut,
+      dv: data.dv,
+      mail: data.email,
+      cargo: data.cargo,
+      asesor: data.asesor,
+      telefono: data.telefono,
+      pass: data.pass,
+    })
+      .then(({ data: { resultado } }) => {
+        if (resultado) {
+          getUsers();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(users);
+  };
+
+  const createMision = () => {
+    API.post(`mision/add`, {
+      contenido: state.contenido,
+    })
+      .then(({ state: { resultado } }) => {
+        if (resultado) {
+          getMisiones();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(misiones);
+  };
+
+  // const deleteUser = (id) => {
+  //   API.post(`provider/delete`, {
+  //     id: id,
+  //   })
+  //     .then(({ data: { resultado } }) => {
+  //       if (resultado) {
+  //         getUsers();
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
   return (
     <div>
       <GridContainer>
@@ -209,14 +312,14 @@ export default function Dashboard() {
               <Button
                 className={classes.addButton}
                 color="bussiness"
-                onClick={handleClose}
+                onClick={handleClose2}
               >
-                {/* Se le entrega a onClick la funcion handleClose para que al presionar me cambie el estado de open */}
+                {/* Se le entrega a onClick la funcion handleClose para que al presionar me cambie el estado de estado */}
                 Añadir
               </Button>
             </CardHeader>
             <CardBody>
-              <Table
+              <TableMision
                 tableHeaderColor="bussiness"
                 tableHead={["ID", "Mision"]}
                 tableData={toParse(missions)}
@@ -252,8 +355,24 @@ export default function Dashboard() {
           </Card>
         </GridItem>
       </GridContainer>
-
-      <Dialog open={open} handleClose={handleClose} />
+      {/* modal para crear usuarios */}
+      <Dialog
+        open={open}
+        handleClose={handleClose}
+        createUser={createUser}
+        handleChange={handleChange}
+        data={data}
+        setData={setData}
+      />
+      {/* modal para crear misiones */}
+      <Modal
+        open={estado}
+        handleClose={handleClose2}
+        createMision={createMision}
+        handleChange2={handleChange2}
+        state={state}
+        setState={setState}
+      />
     </div>
   );
 }
