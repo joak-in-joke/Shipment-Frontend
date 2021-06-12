@@ -75,7 +75,7 @@ export default function RTL({ ...rest }) {
     }
   };
   // initialize and destroy the PerfectScrollbar plugin
-  React.useEffect(() => {
+ /* React.useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       ps = new PerfectScrollbar(mainPanel.current, {
         suppressScrollX: true,
@@ -89,7 +89,7 @@ export default function RTL({ ...rest }) {
       if (navigator.platform.indexOf("Win") > -1) {
         ps.destroy();
       }
-      window.removeEventListener("resize", resizeFunction);
+      window.removeEventListener("resize", resizeFunction);*/
     };
   }, [mainPanel]);
   return (

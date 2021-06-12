@@ -25,7 +25,7 @@ export default function AddModal({
       open={open}
       handleClose={handleClose}
       title="Añadir nuevo proveedor"
-      maxWidth={false}
+      maxWidth="lg"
       onSubmit={createProvider}
       content={
         <React.Fragment>
