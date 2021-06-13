@@ -48,9 +48,9 @@ const IndexUsers = () => {
   };
 
   const getUsers = () => {
-    API.get("users", {}).then(({ data: { respuesta, alldatauser } }) => {
-      if (respuesta) {
-        setUsers(alldatauser);
+    API.get("users", {}).then(({ data: { resultado, users } }) => {
+      if (resultado) {
+        setUsers(users);
         setIsLoading(false);
       }
     });

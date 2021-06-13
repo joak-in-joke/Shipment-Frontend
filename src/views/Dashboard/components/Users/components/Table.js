@@ -55,26 +55,26 @@ export default function CustomTable(props) {
   const handleClose = (e = null) => {
     setOpen(!open);
     setId(e);
-    API.get(`users/${e}`, {}).then(({ data: { respuesta, message } }) => {
+    API.get(`users/${e}`, {}).then(({ data: { respuesta, data } }) => {
       if (respuesta) {
         setData({
-          tipo: message.tipo,
-          nombre: message.nombre,
-          apellido: message.apellido,
-          rut: message.rut,
-          dv: message.dv,
-          email: message.mail,
-          estado: message.estado,
-          cargo: message.cargo,
-          asesor: message.asesor,
-          telefono: message.telefono,
-          pass: message.pass,
+          tipo: data.tipo,
+          nombre: data.nombre,
+          apellido: data.apellido,
+          rut: data.rut,
+          dv: data.dv,
+          email: data.mail,
+          estado: data.estado,
+          cargo: data.cargo,
+          asesor: data.asesor,
+          telefono: data.telefono,
+          pass: data.pass,
         });
         setPermission({
-          finanzas: message.permUser.perm_finanza,
-          misiones: message.permUser.perm_misiones,
-          superuser: message.permUser.perm_superuser,
-          admin: message.permUser.perm_admin,
+          finanzas: data.permUser.perm_finanza,
+          misiones: data.permUser.perm_misiones,
+          superuser: data.permUser.perm_superuser,
+          admin: data.permUser.perm_admin,
         });
         setOpen(!open);
       }
