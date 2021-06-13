@@ -11,15 +11,10 @@ import {
   Switch,
   Paper,
   Divider,
-  Box,
 } from "@material-ui/core";
 // core components
 import DialogCustom from "components/Dialog/Dialog";
-import Autocomplete, {
-  createFilterOptions,
-} from "@material-ui/lab/Autocomplete";
-
-const filter = createFilterOptions();
+import Button from "components/CustomButtons/Button.js";
 
 const styles = {
   line: {},
@@ -52,6 +47,15 @@ const styles = {
     marginTop: "100px",
     paddingBottom: "10px",
   },
+  addButton: {
+    backgroundColor: "#26FFB5",
+    color: "#000000",
+    width: "100%",
+  },
+  deleteButton: {
+    color: "#000000",
+    width: "100%",
+  },
 };
 
 const useStyles = makeStyles(styles);
@@ -74,16 +78,51 @@ export default function Modal({ open, handleClose }) {
     incoterm: "",
     exportador: "",
     importador: "",
-    embarcador: "",
+    operador: "",
     agencia: "",
+    reserva: "",
+    depositoContenedores: "",
+    contTipo: "",
+    sello: "",
+    motonave: "",
+    viaje: "",
+    naviera: "",
+    almacen: "",
+    contenedor: "",
+    bultos: 0,
+    peso: 0,
+    volumen: 0,
+    eta: date,
+    puertoETA: "",
+    etd: date, //revisar esto
+    puertoETD: "",
+    destino: "",
     tipoDocumento: "",
     documento: "",
-    nombreMercancia: "",
+    puertoTrasbordo: "",
+    naveTrasbordo: "",
+    fechaTrasbordo: date,
+    valorTotal: 0,
+  });
+
+  const blankMercancia = {
+    nombre: "",
     valor: 0,
     valorFlete: 0,
     valorSeguro: 0,
-    valorTotal: 0,
-  });
+  };
+
+  const [mercancia, setMercancia] = useState([{ ...blankMercancia }]);
+
+  const addMercancia = () => {
+    setMercancia([...mercancia, { ...blankMercancia }]);
+  };
+
+  const deleteMercancia = (id) => {
+    const listaNueva = mercancia.filter((item) => item.id !== id);
+
+    setMercancia(listaNueva);
+  };
 
   const handleChange = (event) => {
     setState({
@@ -185,6 +224,7 @@ export default function Modal({ open, handleClose }) {
                   label="ID"
                   variant="outlined"
                   name="id"
+                  value={state.id}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -195,6 +235,7 @@ export default function Modal({ open, handleClose }) {
                   label="Referencia"
                   variant="outlined"
                   name="referencia"
+                  value={state.referencia}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -259,6 +300,7 @@ export default function Modal({ open, handleClose }) {
                   label="Exportador"
                   variant="outlined"
                   name="exportador"
+                  value={state.exportador}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -269,6 +311,7 @@ export default function Modal({ open, handleClose }) {
                   label="Importador"
                   variant="outlined"
                   name="importador"
+                  value={state.importador}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -276,9 +319,10 @@ export default function Modal({ open, handleClose }) {
 
               <Grid item xs>
                 <TextField
-                  label="Embarcador"
+                  label="Operador Logístico"
                   variant="outlined"
-                  name="embarcador"
+                  name="operador"
+                  valor={state.operador}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -289,6 +333,7 @@ export default function Modal({ open, handleClose }) {
                   label="Agencia aduana"
                   variant="outlined"
                   name="agencia"
+                  value={state.agencia}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -303,6 +348,7 @@ export default function Modal({ open, handleClose }) {
                       label="Número de Reserva"
                       variant="outlined"
                       name="reserva"
+                      value={state.reserva}
                       onChange={handleChange}
                       className={classes.formControl}
                     />
@@ -341,6 +387,7 @@ export default function Modal({ open, handleClose }) {
                         label="Número de Documento"
                         variant="outlined"
                         name="documento"
+                        value={state.documento}
                         onChange={handleChange}
                         className={classes.formControl}
                       />
@@ -354,7 +401,8 @@ export default function Modal({ open, handleClose }) {
                       <TextField
                         label="Depósito de Contenedores"
                         variant="outlined"
-                        name="deposito_contenedores"
+                        name="depositoContenedores"
+                        value={state.depositoContenedores}
                         onChange={handleChange}
                         className={classes.formControl}
                       />
@@ -368,8 +416,8 @@ export default function Modal({ open, handleClose }) {
                         <InputLabel id="contTipolabel">Tipo</InputLabel>
                         <Select
                           labelId="contTipolabel"
-                          name="cont_tipo"
-                          value={state.cont_tipo}
+                          name="contTipo"
+                          value={state.contTipo}
                           onChange={handleChange}
                           label="Tipo"
                         >
@@ -395,6 +443,7 @@ export default function Modal({ open, handleClose }) {
                         label="Sello"
                         variant="outlined"
                         name="sello"
+                        value={state.sello}
                         onChange={handleChange}
                         className={classes.formControl}
                       />
@@ -410,6 +459,7 @@ export default function Modal({ open, handleClose }) {
                   label="Motonave"
                   variant="outlined"
                   name="motonave"
+                  value={state.motonave}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -420,6 +470,7 @@ export default function Modal({ open, handleClose }) {
                   label="Viaje"
                   variant="outlined"
                   name="viaje"
+                  value={state.viaje}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -430,6 +481,7 @@ export default function Modal({ open, handleClose }) {
                   label="Naviera"
                   variant="outlined"
                   name="naviera"
+                  value={state.naviera}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -442,6 +494,7 @@ export default function Modal({ open, handleClose }) {
                       label="Almacen extraportuario"
                       variant="outlined"
                       name="almacen"
+                      value={state.almacen}
                       onChange={handleChange}
                       className={classes.formControl}
                     />
@@ -458,6 +511,7 @@ export default function Modal({ open, handleClose }) {
                       label="Número de Contenedor"
                       variant="outlined"
                       name="contenedor"
+                      value={state.contenedor}
                       onChange={handleChange}
                       className={classes.formControl}
                     />
@@ -469,6 +523,7 @@ export default function Modal({ open, handleClose }) {
                       variant="outlined"
                       name="bultos"
                       type="number"
+                      value={state.bultos}
                       onChange={handleChange}
                       className={classes.formControl}
                     />
@@ -480,6 +535,7 @@ export default function Modal({ open, handleClose }) {
                       variant="outlined"
                       name="peso"
                       type="number"
+                      value={state.peso}
                       onChange={handleChange}
                       className={classes.formControl}
                     />
@@ -491,6 +547,7 @@ export default function Modal({ open, handleClose }) {
                       variant="outlined"
                       name="volumen"
                       type="number"
+                      value={state.volumen}
                       onChange={handleChange}
                       className={classes.formControl}
                     />
@@ -511,6 +568,7 @@ export default function Modal({ open, handleClose }) {
                   variant="outlined"
                   name="etd"
                   type="date"
+                  value={state.etd}
                   defaultValue={date}
                   InputLabelProps={{
                     shrink: true,
@@ -521,22 +579,14 @@ export default function Modal({ open, handleClose }) {
               </Grid>
 
               <Grid item xs>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="puertoETDlabel">Puerto embarque</InputLabel>
-                  <Select
-                    labelId="puertoETDlabel"
-                    name="tipoDocumento"
-                    value={state.puertoETD}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Selecciona puerto ETD</em>
-                    </MenuItem>
-                    <MenuItem value="MBL">aaa</MenuItem>
-                    <MenuItem value="HBL">bbb</MenuItem>
-                    <MenuItem value="NBL">ccc</MenuItem>
-                  </Select>
-                </FormControl>
+                <TextField
+                  label="Puerto de embarque"
+                  variant="outlined"
+                  name="puertoETD"
+                  value={state.puertoETD}
+                  onChange={handleChange}
+                  className={classes.formControl}
+                />
               </Grid>
 
               <Grid item xs>
@@ -545,6 +595,7 @@ export default function Modal({ open, handleClose }) {
                   variant="outlined"
                   name="eta"
                   type="date"
+                  value={state.eta}
                   defaultValue={date}
                   InputLabelProps={{
                     shrink: true,
@@ -555,22 +606,14 @@ export default function Modal({ open, handleClose }) {
               </Grid>
 
               <Grid item xs>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="puertoETAlabel">Puerto destino</InputLabel>
-                  <Select
-                    labelId="puertoETAlabel"
-                    name="puertoETA"
-                    value={state.puertoETA}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Selecciona puerto ETA</em>
-                    </MenuItem>
-                    <MenuItem value="MBL">aaa</MenuItem>
-                    <MenuItem value="HBL">bbb</MenuItem>
-                    <MenuItem value="NBL">ccc</MenuItem>
-                  </Select>
-                </FormControl>
+                <TextField
+                  label="Puerto de destino"
+                  variant="outlined"
+                  name="puertoETA"
+                  value={state.puertoETA}
+                  onChange={handleChange}
+                  className={classes.formControl}
+                />
               </Grid>
 
               <Grid item xs>
@@ -578,6 +621,7 @@ export default function Modal({ open, handleClose }) {
                   label="Lugar destino"
                   variant="outlined"
                   name="destino"
+                  value={state.destino}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -585,47 +629,24 @@ export default function Modal({ open, handleClose }) {
             </Grid>
             <Grid container className={classes.line} spacing={2}>
               <Grid item xs={1} className={classes.checkboxArea}>
-                Transbordo
+                Trasbordo
                 <Switch
-                  checked={state.transbordo}
+                  checked={state.trasbordo}
                   onChange={handleChangeCheckbox}
                   color="primary"
-                  name="transbordo"
+                  name="trasbordo"
                   inputProps={{ "aria-label": "primary checkbox" }}
                 />
               </Grid>
 
-              {state.transbordo === true && (
+              {state.trasbordo === true && (
                 <>
                   <Grid item xs>
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}
-                    >
-                      <InputLabel id="puertoTransbordoLabel">
-                        Puerto transbordo
-                      </InputLabel>
-                      <Select
-                        labelId="puertoTransbordoLabel"
-                        name="puertoTransbordo"
-                        value={state.puertoTransbordo}
-                        onChange={handleChange}
-                      >
-                        <MenuItem value="">
-                          <em>Selecciona puerto Transbordo</em>
-                        </MenuItem>
-                        <MenuItem value="MBL">aaa</MenuItem>
-                        <MenuItem value="HBL">bbb</MenuItem>
-                        <MenuItem value="NBL">ccc</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-
-                  <Grid item xs>
                     <TextField
-                      label="Nave transbordo"
+                      label="Puerto de trasbordo"
                       variant="outlined"
-                      name="naveTransbordo"
+                      name="puertoTrasbordo"
+                      value={state.puertoTrasbordo}
                       onChange={handleChange}
                       className={classes.formControl}
                     />
@@ -633,9 +654,21 @@ export default function Modal({ open, handleClose }) {
 
                   <Grid item xs>
                     <TextField
-                      label="Fecha transbordo"
+                      label="Nave trasbordo"
+                      variant="outlined"
+                      name="naveTrasbordo"
+                      value={state.naveTrasbordo}
+                      onChange={handleChange}
+                      className={classes.formControl}
+                    />
+                  </Grid>
+
+                  <Grid item xs>
+                    <TextField
+                      label="Fecha trasbordo"
                       type="date"
                       variant="outlined"
+                      value={state.fechaTrasbordo}
                       defaultValue={date}
                       InputLabelProps={{
                         shrink: true,
@@ -651,54 +684,97 @@ export default function Modal({ open, handleClose }) {
               <Grid item xs={12}>
                 <Divider />
               </Grid>
-
+            </Grid>
+            <Grid container className={classes.line} spacing={2}>
               <Grid item xs={12}>
                 Detalle de producto
               </Grid>
             </Grid>
-            <Grid container spacing={2} className={classes.line}>
-              <Grid item xs={4}>
-                <TextField
-                  label="Nombre mercancia"
-                  variant="outlined"
-                  name="nombreMercancia"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
-              <Grid item xs>
-                <TextField
-                  label="Valor (USD)"
-                  variant="outlined"
-                  name="valor"
-                  type="number"
-                  onChange={onChangeNumericInput}
-                  className={classes.formControl}
-                />
-              </Grid>
-              <Grid item xs>
-                <TextField
-                  label="Valor Flete (USD)"
-                  variant="outlined"
-                  name="valorFlete"
-                  type="number"
-                  onChange={onChangeNumericInput}
-                  className={classes.formControl}
-                />
-              </Grid>
-              <Grid item xs>
-                <TextField
-                  label="Valor seguro (USD)"
-                  variant="outlined"
-                  name="valorSeguro"
-                  type="number"
-                  onChange={onChangeNumericInput}
-                  className={classes.formControl}
-                />
-              </Grid>
+            {mercancia.map((val, idx) => {
+              const mercanciaId = `nombre-${idx}`;
+              const valorId = `valor-${idx}`;
+              const valorFleteId = `valorFlete-${idx}`;
+              const valorSeguroId = `valorSeguro-${idx}`;
+              return (
+                <>
+                  <Grid
+                    container
+                    spacing={2}
+                    className={classes.line}
+                    id={`mercancia-${idx}`}
+                  >
+                    <Grid item xs={4}>
+                      <TextField
+                        label="Nombre mercancia"
+                        variant="outlined"
+                        name={mercanciaId}
+                        //value={state.mercancias.nombreMercancia}
+                        onChange={handleChange}
+                        className={classes.formControl}
+                      />
+                    </Grid>
+                    <Grid item xs>
+                      <TextField
+                        label="Valor (USD)"
+                        variant="outlined"
+                        name={valorId}
+                        type="number"
+                        //valor={state.valor}
+                        onChange={onChangeNumericInput}
+                        className={classes.formControl}
+                      />
+                    </Grid>
+                    <Grid item xs>
+                      <TextField
+                        label="Valor Flete (USD)"
+                        variant="outlined"
+                        name={valorFleteId}
+                        type="number"
+                        //value={state.valorFlete}
+                        onChange={onChangeNumericInput}
+                        className={classes.formControl}
+                      />
+                    </Grid>
+                    <Grid item xs>
+                      <TextField
+                        label="Valor seguro (USD)"
+                        variant="outlined"
+                        name={valorSeguroId}
+                        type="number"
+                        //value={state.valorSeguro}
+                        onChange={onChangeNumericInput}
+                        className={classes.formControl}
+                      />
+                    </Grid>
+                    <Grid item xs>
+                      {!mercancia[idx + 1] && (
+                        <Button
+                          onClick={() => addMercancia()}
+                          className={classes.addButton}
+                          color="bussiness"
+                        >
+                          Agregar Mercancia
+                        </Button>
+                      )}
+                      {mercancia[idx + 1] && (
+                        <Button
+                          onClick={() => deleteMercancia(idx + 1)}
+                          color="bussiness"
+                          className={classes.deleteButton}
+                        >
+                          Eliminar Mercancia
+                        </Button>
+                      )}
+                    </Grid>
+                  </Grid>
+                </>
+              );
+            })}
+
+            <Grid container spacing={2} direction="column">
               <Grid item xs>
                 <Paper variant="outlined" className={classes.headerBox}>
-                  Total: {state.valorTotal}
+                  Valor CIF: {state.valorTotal}
                 </Paper>
               </Grid>
             </Grid>
@@ -708,5 +784,3 @@ export default function Modal({ open, handleClose }) {
     </>
   );
 }
-
-const puertos = [{ nombre: "Hola" }, { nombre: "Hola2" }, { nombre: "Hola3" }];
