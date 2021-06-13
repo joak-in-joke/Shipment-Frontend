@@ -12,35 +12,60 @@ import {
   AccordionSummary,
   AccordionDetails,
 } from "@material-ui/core";
+import API from "variables/api.js";
 import { ExpandMore, Edit, Close } from "@material-ui/icons";
 import DialogCustom from "components/Dialog/Dialog.js";
 import EditModal from "./EditModal";
 import useStyles from "./styles";
 
-const ItemList = ({
-  id,
-  nombre,
-  pais,
-  direccion,
-  rut,
-  email,
-  nombre_contacto,
-  cargo,
-  telefono,
-  email_contacto,
-  banco,
-  cuenta,
-  tipo_cuenta,
-  nombre_cuenta,
-  email_cuenta,
-  deleteProvider,
-}) => {
+const ItemList = ({ id, info, deleteProvider, getProviders }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [eliminar, setEliminar] = useState(false);
+  const [data, setData] = useState(info);
 
   const handleClickOpen = () => {
     setOpen(!open);
+  };
+
+  const editProvider = () => {
+    API.post(`provider/edit`, {
+      id,
+      nombre: data.nombre,
+      pais: data.pais,
+      rut: data.rut,
+      direccion: data.direccion,
+
+      email: data.email,
+      telefono: data.telefono,
+
+      nombre_proveedor: data.nombre_contacto,
+      cargo: data.cargo_contacto,
+      correo: data.email_contacto,
+      fono: data.telefono_contacto,
+
+      n_cuenta: data.numero_cuenta,
+      buzon: data.email_cuenta,
+      rutt: data.rut,
+      banco: data.banco_cuenta,
+      tipo_cuenta: data.tipo_cuenta,
+    })
+      .then(({ data: { resultado } }) => {
+        if (resultado) {
+          getProviders();
+          setOpen(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleClickEliminar = () => {
@@ -51,13 +76,13 @@ const ItemList = ({
     <React.Fragment>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt={nombre} src="/static/images/avatar/1.jpg" />
+          <Avatar alt={data.nombre} src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
           primary={
             <React.Fragment>
               <Typography className={classes.textProvider}>
-                {nombre}&nbsp;
+                {data.nombre}&nbsp;
                 <Tooltip
                   id="tooltip-top"
                   title="Editar"
@@ -119,16 +144,16 @@ const ItemList = ({
                   <Grid container spacing={3}>
                     <Grid item xs>
                       <Typography className={classes.text}>
-                        País: {pais}
+                        País: {data.pais}
                       </Typography>
                       <Typography className={classes.text}>
-                        Dirección: {direccion}
+                        Dirección: {data.direccion}
                       </Typography>
                       <Typography className={classes.text}>
-                        RUT: {rut}
+                        RUT: {data.rut}
                       </Typography>
                       <Typography className={classes.text}>
-                        Email: {email}
+                        Email: {data.email}
                       </Typography>
                     </Grid>
                     <Grid item xs className={classes.rightBox}>
@@ -137,16 +162,16 @@ const ItemList = ({
                       </Typography>
                       <Grid>
                         <Typography className={classes.text}>
-                          Nombre: {nombre_contacto}
+                          Nombre: {data.nombre_contacto}
                         </Typography>
                         <Typography className={classes.text}>
-                          Cargo: {cargo}
+                          Cargo: {data.cargo_contacto}
                         </Typography>
                         <Typography className={classes.text}>
-                          Teléfono: {telefono}
+                          Teléfono: {data.telefono_contacto}
                         </Typography>
                         <Typography className={classes.text}>
-                          Email: {email_contacto}
+                          Email: {data.email_contacto}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -171,19 +196,19 @@ const ItemList = ({
                 </AccordionSummary>
                 <AccordionDetails className={classes.inline}>
                   <Typography className={classes.text}>
-                    Banco: {banco}
+                    Banco: {data.banco_cuenta}
                   </Typography>
                   <Typography className={classes.text}>
-                    Número de Cuenta: {cuenta}
+                    Número de Cuenta: {data.numero_cuenta}
                   </Typography>
                   <Typography className={classes.text}>
-                    Tipo de Cuenta: {tipo_cuenta}
+                    Tipo de Cuenta: {data.tipo_cuenta}
                   </Typography>
                   <Typography className={classes.text}>
-                    Nombre: {nombre_cuenta}
+                    Nombre: {data.nombre_cuenta}
                   </Typography>
                   <Typography className={classes.text}>
-                    Correo: {email_cuenta}
+                    Correo: {data.email_cuenta}
                   </Typography>
                 </AccordionDetails>
               </Accordion>
@@ -193,20 +218,9 @@ const ItemList = ({
         <EditModal
           open={open}
           handleClose={handleClickOpen}
-          nombre={nombre}
-          pais={pais}
-          direccion={direccion}
-          rut={rut}
-          email={email}
-          nombre_contacto={nombre_contacto}
-          cargo={cargo}
-          telefono={telefono}
-          email_contacto={email_contacto}
-          banco={banco}
-          cuenta={cuenta}
-          tipo_cuenta={tipo_cuenta}
-          nombre_cuenta={nombre_cuenta}
-          email_cuenta={email_cuenta}
+          data={data}
+          handleChange={handleChange}
+          editProvider={editProvider}
         />
         <DialogCustom
           open={eliminar}

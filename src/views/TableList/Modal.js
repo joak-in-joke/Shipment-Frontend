@@ -131,8 +131,6 @@ export default function Modal({ open, handleClose }) {
     });
   };
 
-  const [value, setValue] = useState(null);
-
   const onChangeNumericInput = (e) => {
     const re = /^[0-9\b]+$/;
 

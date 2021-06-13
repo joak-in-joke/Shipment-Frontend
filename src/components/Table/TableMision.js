@@ -11,39 +11,24 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import { Typography } from "@material-ui/core";
 // @material-ui/icons
-import Edit from "@material-ui/icons/Edit";
 import Close from "@material-ui/icons/Close";
-
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
-import Dialog from "components/newUserDialog/editUserDialog";
+import Dialog from "components/Dialog/Dialog.js";
 
-import DialogCustom from "components/Dialog/Dialog.js";
-
-import API from "variables/api.js";
 const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
   const classes = useStyles();
   const { tableHead, tableData, tableHeaderColor } = props;
-  const [open, setOpen] = useState(false);
+  const [eliminar, setEliminar] = useState(false);
 
   const [id, setId] = useState(null);
-  const handleClose = (e = null) => {
-    setOpen(!open);
-    setId(e);
-  };
 
-  const deleteUser = (id) => {
-    API.post(`user/delete`, {
-      id: id,
-    })
-      .then(({ data: { respuesta } }) => {})
-      .catch((error) => {
-        console.log(error);
-      });
+  const deleteMision = (id) => {
+    props.deleteMission(id);
+    setEliminar(!eliminar);
   };
-  const [eliminar, setEliminar] = useState(false);
 
   const handleClickEliminar = (e = null) => {
     setEliminar(!eliminar);
@@ -83,24 +68,6 @@ export default function CustomTable(props) {
                 })}
                 <TableCell className={classes.tableCell} key={key}>
                   <Tooltip
-                    id="tooltip-top"
-                    title="Editar"
-                    placement="top"
-                    classes={{ tooltip: classes.tooltip }}
-                  >
-                    <IconButton
-                      aria-label="Edit"
-                      className={classes.tableActionButton}
-                      onClick={() => handleClose(prop[0])}
-                    >
-                      <Edit
-                        className={
-                          classes.tableActionButtonIcon + " " + classes.edit
-                        }
-                      />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip
                     id="tooltip-top-start"
                     title="Eliminar"
                     placement="top"
@@ -125,18 +92,17 @@ export default function CustomTable(props) {
         </TableBody>
       </Table>
 
-      <Dialog open={open} handleClose={handleClose} id={id} />
-      <DialogCustom
+      <Dialog
         open={eliminar}
         handleClose={handleClickEliminar}
-        title="Eliminar Usuario"
+        title="Eliminar Mision"
         buttonSubmit="Eliminar"
         maxWidth={false}
         id={id}
-        onSubmit={() => deleteUser(id)}
+        onSubmit={() => deleteMision(id)}
         content={
           <Typography>
-            ¿Estás seguro de que quieres eliminar a este Usuario?
+            ¿Estás seguro de que quieres eliminar a esta misión?
           </Typography>
         }
       />

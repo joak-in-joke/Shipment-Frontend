@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { AuthContext } from "context/AuthProvider";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,34 +17,110 @@ import Close from "@material-ui/icons/Close";
 
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
-import Dialog from "components/newUserDialog/editUserDialog";
+import DialogEdit from "./DialogUsers";
 
-import DialogCustom from "components/Dialog/Dialog.js";
+import DialogDelete from "components/Dialog/Dialog.js";
 
 import API from "variables/api.js";
 const useStyles = makeStyles(styles);
 
 export default function CustomTable(props) {
   const classes = useStyles();
+  const { userData } = useContext(AuthContext);
   const { tableHead, tableData, tableHeaderColor } = props;
   const [open, setOpen] = useState(false);
-
   const [id, setId] = useState(null);
+  const [eliminar, setEliminar] = useState(false);
+  const [data, setData] = useState({
+    tipo: "",
+    nombre: "",
+    apellido: "",
+    rut: null,
+    dv: "",
+    email: "",
+    estado: "",
+    cargo: "",
+    asesor: "",
+    telefono: "",
+    pass: "",
+  });
+  const [permission, setPermission] = useState({
+    finanzas: false,
+    misiones: false,
+    superuser: false,
+    admin: false,
+    embarques: false,
+  });
+
   const handleClose = (e = null) => {
     setOpen(!open);
     setId(e);
+    API.get(`users/${e}`, {}).then(({ data: { respuesta, message } }) => {
+      if (respuesta) {
+        setData({
+          tipo: message.tipo,
+          nombre: message.nombre,
+          apellido: message.apellido,
+          rut: message.rut,
+          dv: message.dv,
+          email: message.mail,
+          estado: message.estado,
+          cargo: message.cargo,
+          asesor: message.asesor,
+          telefono: message.telefono,
+          pass: message.pass,
+        });
+        setPermission({
+          finanzas: message.permUser.perm_finanza,
+          misiones: message.permUser.perm_misiones,
+          superuser: message.permUser.perm_superuser,
+          admin: message.permUser.perm_admin,
+        });
+        setOpen(!open);
+      }
+    });
   };
 
   const deleteUser = (id) => {
-    API.post(`user/delete`, {
+    API.post(`users/delete`, {
       id: id,
     })
-      .then(({ data: { respuesta } }) => {})
+      .then(() => {
+        props.getUsers();
+        setEliminar(false);
+      })
       .catch((error) => {
         console.log(error);
       });
   };
-  const [eliminar, setEliminar] = useState(false);
+
+  const editUser = () => {
+    console.log(id);
+    API.post(`users/update`, {
+      id: id,
+      tipo: data.tipo,
+      nombre: data.nombre,
+      apellido: data.apellido,
+      rut: data.rut,
+      dv: data.dv,
+      mail: data.email,
+      cargo: data.cargo,
+      asesor: data.asesor,
+      telefono: data.telefono,
+      pass: data.pass,
+      permission: permission,
+    }).then(() => {
+      props.getUsers();
+      setOpen(false);
+    });
+  };
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleClickEliminar = (e = null) => {
     setEliminar(!eliminar);
@@ -100,33 +177,44 @@ export default function CustomTable(props) {
                       />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip
-                    id="tooltip-top-start"
-                    title="Eliminar"
-                    placement="top"
-                    classes={{ tooltip: classes.tooltip }}
-                  >
-                    <IconButton
-                      aria-label="Close"
-                      className={classes.tableActionButton}
-                      onClick={() => handleClickEliminar(prop[0])}
+                  {userData.id !== prop[0] && (
+                    <Tooltip
+                      id="tooltip-top-start"
+                      title="Eliminar"
+                      placement="top"
+                      classes={{ tooltip: classes.tooltip }}
                     >
-                      <Close
-                        className={
-                          classes.tableActionButtonIcon + " " + classes.close
-                        }
-                      />
-                    </IconButton>
-                  </Tooltip>
+                      <IconButton
+                        aria-label="Close"
+                        className={classes.tableActionButton}
+                        onClick={() => handleClickEliminar(prop[0])}
+                      >
+                        <Close
+                          className={
+                            classes.tableActionButtonIcon + " " + classes.close
+                          }
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  )}
                 </TableCell>
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
-
-      <Dialog open={open} handleClose={handleClose} id={id} />
-      <DialogCustom
+      <DialogEdit
+        open={open}
+        handleClose={handleClose}
+        handleChange={handleChange}
+        id={id}
+        createUser={editUser}
+        setData={setData}
+        data={data}
+        state={permission}
+        setState={setPermission}
+      />
+      <DialogDelete
         open={eliminar}
         handleClose={handleClickEliminar}
         title="Eliminar Usuario"

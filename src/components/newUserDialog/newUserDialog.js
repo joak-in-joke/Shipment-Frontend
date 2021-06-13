@@ -1,14 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Select,
-  MenuItem,
-  Grid,
-  TextField,
-  InputLabel,
-  FormControl,
-} from "@material-ui/core";
+import { Grid, TextField } from "@material-ui/core";
 // core components
 import DialogCustom from "components/Dialog/Dialog";
 
@@ -35,26 +28,14 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function Modal({ open, handleClose }) {
+export default function Modal({
+  open,
+  handleClose,
+  createUser,
+  data,
+  handleChange,
+}) {
   const classes = useStyles();
-  const [state, setState] = useState({});
-
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  useEffect(() => {
-    setState({
-      ...state,
-      valorTotal:
-        parseInt(state.valor) +
-        parseInt(state.valorFlete) +
-        parseInt(state.valorSeguro),
-    }); // eslint-disable-next-line
-  }, [state.valor, state.valorFlete, state.valorSeguro]);
 
   return (
     <>
@@ -63,6 +44,7 @@ export default function Modal({ open, handleClose }) {
         handleClose={handleClose}
         title="Crear nueva cuenta"
         maxWidth={true}
+        onSubmit={createUser}
         content={
           <>
             <Grid container className={classes.line} spacing={2}>
@@ -70,7 +52,8 @@ export default function Modal({ open, handleClose }) {
                 <TextField
                   label="Nombre"
                   variant="outlined"
-                  name="name"
+                  name="nombre"
+                  value={data.nombre}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -79,7 +62,18 @@ export default function Modal({ open, handleClose }) {
                 <TextField
                   label="Apellido"
                   variant="outlined"
-                  name="lastname"
+                  name="apellido"
+                  value={data.apellido}
+                  onChange={handleChange}
+                  className={classes.formControl}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Tipo"
+                  variant="outlined"
+                  name="tipo"
+                  value={data.tipo}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -90,6 +84,17 @@ export default function Modal({ open, handleClose }) {
                   label="Rut"
                   variant="outlined"
                   name="rut"
+                  value={data.rut}
+                  onChange={handleChange}
+                  className={classes.formControl}
+                />
+              </Grid>
+              <Grid item xs={1}>
+                <TextField
+                  label="DV"
+                  variant="outlined"
+                  name="dv"
+                  value={data.dv}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -100,26 +105,37 @@ export default function Modal({ open, handleClose }) {
                   label="Correo"
                   variant="outlined"
                   name="email"
+                  value={data.email}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
               </Grid>
-
-              <Grid item xs={4}>
-                <TextField
-                  label="Teléfono"
-                  variant="outlined"
-                  name="phone"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
-
               <Grid item xs={2}>
                 <TextField
                   label="Cargo"
                   variant="outlined"
                   name="cargo"
+                  value={data.cargo}
+                  onChange={handleChange}
+                  className={classes.formControl}
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  label="Asesor"
+                  variant="outlined"
+                  name="asesor"
+                  value={data.asesor}
+                  onChange={handleChange}
+                  className={classes.formControl}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <TextField
+                  label="Teléfono"
+                  variant="outlined"
+                  name="telefono"
+                  value={data.telefono}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
@@ -129,70 +145,12 @@ export default function Modal({ open, handleClose }) {
                 <TextField
                   label="Contraseña"
                   variant="outlined"
-                  name="password"
+                  type="password"
+                  name="pass"
+                  value={data.pass}
                   onChange={handleChange}
                   className={classes.formControl}
                 />
-              </Grid>
-
-              <Grid item xs={5}>
-                <TextField
-                  label="Confirmar Contraseña"
-                  variant="outlined"
-                  name="confirmPassword"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  label="Dirección"
-                  variant="outlined"
-                  name="address"
-                  onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="countryLabel">Nacionalidad</InputLabel>
-                  <Select
-                    labelId="countryLabel"
-                    name="country"
-                    value={state.transporte}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Selecciona nacionalidad</em>
-                    </MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aa</MenuItem>
-                    <MenuItem value="cccc">bb</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={3}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="comuneLabel">Comuna</InputLabel>
-                  <Select
-                    labelId="comuneLabel"
-                    name="comune"
-                    value={state.transporte}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Selecciona comuna</em>
-                    </MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aa</MenuItem>
-                    <MenuItem value="cccc">bb</MenuItem>
-                  </Select>
-                </FormControl>
               </Grid>
             </Grid>
           </>
