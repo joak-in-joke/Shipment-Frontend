@@ -35,7 +35,7 @@ export default function Modal({
   handleClose,
   createMision,
   state,
-  handleChange2,
+  handleChange,
 }) {
   const classes = useStyles();
 
@@ -55,71 +55,11 @@ export default function Modal({
                   label="Mision"
                   variant="outlined"
                   name="contenido"
-                  value={state.contenido}
-                  onChange={handleChange2}
+                  value={state}
+                  onChange={handleChange}
                   className={classes.formControl}
                 />
               </Grid>
-
-              {/* <Grid item xs={5}>
-                <TextField
-                  label="Confirmar Contraseña"
-                  variant="outlined"
-                  name="confirmPassword"
-                  // onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  label="Dirección"
-                  variant="outlined"
-                  name="address"
-                 // onChange={handleChange}
-                  className={classes.formControl}
-                />
-              </Grid>
-
-              <Grid item xs={3}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="countryLabel">Nacionalidad</InputLabel>
-                  <Select
-                    labelId="countryLabel"
-                    name="country"
-                   // value={state.transporte}
-                    //onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Selecciona nacionalidad</em>
-                    </MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aa</MenuItem>
-                    <MenuItem value="cccc">bb</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={3}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="comuneLabel">Comuna</InputLabel>
-                  <Select
-                    labelId="comuneLabel"
-                    name="comune"
-                    //value={state.transporte}
-                    //onChange={handleChange}
-                  >
-                    <MenuItem value="">
-                      <em>Selecciona comuna</em>
-                    </MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aaa</MenuItem>
-                    <MenuItem value="asd">aa</MenuItem>
-                    <MenuItem value="cccc">bb</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid> */}
             </Grid>
           </>
         }

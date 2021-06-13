@@ -11,15 +11,9 @@ import {
   Switch,
   Paper,
   Divider,
-  Box,
 } from "@material-ui/core";
 // core components
 import DialogCustom from "components/Dialog/Dialog";
-import Autocomplete, {
-  createFilterOptions,
-} from "@material-ui/lab/Autocomplete";
-
-const filter = createFilterOptions();
 
 const styles = {
   line: {},
@@ -91,8 +85,6 @@ export default function Modal({ open, handleClose }) {
       [event.target.name]: event.target.value,
     });
   };
-
-  const [value, setValue] = useState(null);
 
   const onChangeNumericInput = (e) => {
     const re = /^[0-9\b]+$/;
@@ -708,5 +700,3 @@ export default function Modal({ open, handleClose }) {
     </>
   );
 }
-
-const puertos = [{ nombre: "Hola" }, { nombre: "Hola2" }, { nombre: "Hola3" }];

@@ -31,7 +31,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function Modal({ open, handleClose, id, nombre }) {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const classes = useStyles();
 
   const [data, setData] = useState({
@@ -53,14 +53,14 @@ export default function Modal({ open, handleClose, id, nombre }) {
       [event.target.name]: event.target.value,
     });
   };
-  const getUsers = () => {
-    API.get(`user`, {}).then(({ data: { users, resultado } }) => {
-      if (users) {
-        setUsers(users);
-      }
-    });
-    console.log(users);
-  };
+  // const getUsers = () => {
+  //   API.get(`user`, {}).then(({ data: { users, resultado } }) => {
+  //     if (users) {
+  //       setUsers(users);
+  //     }
+  //   });
+  //   console.log(users);
+  // };
 
   const editUser = () => {
     console.log(id);
@@ -85,7 +85,7 @@ export default function Modal({ open, handleClose, id, nombre }) {
       .catch((error) => {
         console.log(error);
       });
-    console.log(users);
+    //console.log(users);
   };
 
   // useEffect(() => {

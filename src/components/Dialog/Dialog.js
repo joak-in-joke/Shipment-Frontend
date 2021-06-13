@@ -28,10 +28,6 @@ const DialogCustom = ({
 }) => {
   const classes = useStyles();
 
-  // const handleClickEliminar = () => {
-  //   setOpen(false);
-  // };
-
   return (
     <Dialog
       open={open}

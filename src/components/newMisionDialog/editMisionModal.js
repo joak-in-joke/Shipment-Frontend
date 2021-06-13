@@ -31,7 +31,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 export default function Modal({ open, handleClose, id, nombre }) {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
   const classes = useStyles();
 
   const [state, setState] = useState({
@@ -43,14 +43,6 @@ export default function Modal({ open, handleClose, id, nombre }) {
       [event.target.name]: event.target.value,
     });
   };
-  //   const getMisiones = () => {
-  //     API.get(`user`, {}).then(({ data: { users, resultado } }) => {
-  //       if (users) {
-  //         setUsers(users);
-  //       }
-  //     });
-  //     console.log(users);
-  //   };
 
   const editUser = () => {
     console.log(id);
@@ -66,18 +58,7 @@ export default function Modal({ open, handleClose, id, nombre }) {
       .catch((error) => {
         console.log(error);
       });
-    console.log(users);
   };
-
-  // useEffect(() => {
-  //   setState({
-  //     ...state,
-  //     valorTotal:
-  //       parseInt(state.valor) +
-  //       parseInt(state.valorFlete) +
-  //       parseInt(state.valorSeguro),
-  //   }); // eslint-disable-next-line
-  // }, [state.valor, state.valorFlete, state.valorSeguro]);
 
   return (
     <>

@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
 // core components
 import Button from "components/CustomButtons/Button.js";
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
-import List from "components/ProvidersList/List";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import AddModal from "components/ProvidersList/AddModal";
+import AddModal from "./components/AddModal";
+import List from "./components/List";
 import API from "variables/api.js";
-import styles from "./styles";
-
-const useStyles = makeStyles(styles);
+import useStyles from "./styles";
 
 export default function TableList() {
   const classes = useStyles();
@@ -26,6 +23,7 @@ export default function TableList() {
     rut: "",
     direccion: "",
     email: "",
+    telefono: "",
     nombre_contacto: "",
     cargo_contacto: "",
     telefono_contacto: "",
@@ -35,7 +33,40 @@ export default function TableList() {
     tipo_cuenta: "",
     nombre_cuenta: "",
     email_cuenta: "",
+    rut_cuenta: "",
   });
+
+  const createProvider = () => {
+    API.post(`provider/add`, {
+      nombre: data.nombre,
+      pais: data.pais,
+      rut: data.rut,
+      direccion: data.direccion,
+
+      email: data.email,
+      telefono: data.telefono,
+
+      nombre_proveedor: data.nombre_contacto,
+      cargo: data.cargo_contacto,
+      correo: data.email_contacto,
+      fono: data.telefono_contacto,
+
+      n_cuenta: data.numero_cuenta,
+      buzon: data.email_cuenta,
+      rutt: data.rut,
+      banco: data.banco_cuenta,
+      tipo_cuenta: data.tipo_cuenta,
+    })
+      .then(({ data: { resultado } }) => {
+        if (resultado) {
+          getProviders();
+          setOpen(false);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const handleChange = (event) => {
     setData({
@@ -60,37 +91,6 @@ export default function TableList() {
   const deleteProvider = (id) => {
     API.post(`provider/delete`, {
       id: id,
-    })
-      .then(({ data: { resultado } }) => {
-        if (resultado) {
-          getProviders();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const createProvider = (id) => {
-    API.post(`provider/add`, {
-      nombre: data.nombre,
-      pais: data.pais,
-      rut: data.rut,
-      direccion: "dirr",
-
-      email: "email",
-      telefono: 3232323,
-
-      nombre_proveedor: "nombre proveeodr",
-      cargo: "cargo",
-      correo: "correo",
-      fono: 23234234,
-
-      n_cuenta: 2323,
-      buzon: "buzon",
-      rutt: 232323,
-      banco: "banco",
-      tipo_cuenta: "tipo",
     })
       .then(({ data: { resultado } }) => {
         if (resultado) {
@@ -134,6 +134,7 @@ export default function TableList() {
               providers={providers}
               deleteProvider={deleteProvider}
               createProvider={createProvider}
+              getProviders={getProviders}
             />
           </CardBody>
         </Card>
