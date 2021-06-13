@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -23,6 +23,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import IndexUsers from "./components/Users/IndexUsers";
 import IndexMissions from "./components/Misions/IndexMissions";
+import API from "variables/api.js";
 
 import {
   dailySalesChart,
@@ -36,6 +37,25 @@ const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
   const classes = useStyles();
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    API.get(`shipment/state`, {}).then(({ data: { resultado, data } }) => {
+      if (resultado) {
+        console.log(data);
+        setData({
+          active: data.Activos,
+          onBoard: data.Abordos,
+          finished: data.Finalizados,
+          coming: data.Llegadas,
+        });
+        setIsLoading(false);
+      }
+    });
+  }, []);
+
+  if (isLoading) return null;
 
   return (
     <div>
@@ -48,7 +68,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Embarques</p>
               <h3 className={classes.cardTitle}>
-                5 <small>en origen</small>
+                {data.active} <small>en origen</small>
               </h3>
             </CardHeader>
             <CardFooter stats />
@@ -62,7 +82,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Embarques</p>
               <h3 className={classes.cardTitle}>
-                4 <small>abordo</small>
+                {data.onboard} <small>abordo</small>
               </h3>
             </CardHeader>
             <CardFooter stats />
@@ -76,7 +96,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Embarques</p>
               <h3 className={classes.cardTitle}>
-                6 <small>en llegada</small>
+                {data.coming} <small>en llegada</small>
               </h3>
             </CardHeader>
             <CardFooter stats />
@@ -90,7 +110,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Embarques</p>
               <h3 className={classes.cardTitle}>
-                6 <small>finalizado</small>
+                {data.finished} <small>finalizado</small>
               </h3>
             </CardHeader>
             <CardFooter stats />

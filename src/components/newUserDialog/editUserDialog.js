@@ -62,32 +62,6 @@ export default function Modal({ open, handleClose, id, nombre }) {
   //   console.log(users);
   // };
 
-  const editUser = () => {
-    console.log(id);
-    API.post(`user/put`, {
-      id: id,
-      tipo: data.tipo,
-      nombre: data.nombre,
-      apellido: data.apellido,
-      rut: data.rut,
-      dv: data.dv,
-      mail: data.email,
-      cargo: data.cargo,
-      asesor: data.asesor,
-      telefono: data.telefono,
-      pass: data.pass,
-    })
-      .then(({ data: { resultado } }) => {
-        if (resultado) {
-          console.log(data);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    //console.log(users);
-  };
-
   // useEffect(() => {
   //   setState({
   //     ...state,
