@@ -21,6 +21,7 @@ const AuthProvider = (props) => {
           setErrorSignIn(true);
           return;
         }
+        console.log(res.data);
         setUserData(res.data.usuario);
         setToken(res.data.token);
         setLoggedIn(true);

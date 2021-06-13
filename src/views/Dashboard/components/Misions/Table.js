@@ -16,8 +16,7 @@ import Close from "@material-ui/icons/Close";
 
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
-import Dialog from "components/newUserDialog/editUserDialog";
-
+import Dialog from "components/newMisionDialog/editMisionModal";
 import DialogCustom from "components/Dialog/Dialog.js";
 
 import API from "variables/api.js";
@@ -34,11 +33,11 @@ export default function CustomTable(props) {
     setId(e);
   };
 
-  const deleteUser = (id) => {
-    API.post(`user/delete`, {
+  const deleteMision = (id) => {
+    API.post(`mision/delete`, {
       id: id,
     })
-      .then(({ data: { respuesta } }) => {})
+      .then(({ state: { respuesta } }) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -129,14 +128,14 @@ export default function CustomTable(props) {
       <DialogCustom
         open={eliminar}
         handleClose={handleClickEliminar}
-        title="Eliminar Usuario"
+        title="Eliminar Mision"
         buttonSubmit="Eliminar"
         maxWidth={false}
         id={id}
-        onSubmit={() => deleteUser(id)}
+        onSubmit={() => deleteMision(id)}
         content={
           <Typography>
-            ¿Estás seguro de que quieres eliminar a este Usuario?
+            ¿Estás seguro de que quieres eliminar a esta misión?
           </Typography>
         }
       />

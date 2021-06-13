@@ -91,6 +91,27 @@ const dashboardStyle = {
     transform: "translateY(-50%)",
     marginLeft: "20px",
   },
+  line: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  formControl: {
+    width: "100%",
+  },
+  checkboxArea: {
+    display: "flex",
+    alignItems: "center",
+    justfiyContent: "center",
+  },
+  sumSeccion: {
+    display: "flex",
+    justfiyContent: "center",
+    alignItems: "center",
+    padding: "2px",
+    marginTop: "25px",
+    borderRadius: "4px",
+    border: "1px solid #000000",
+  },
 };
 
 export default dashboardStyle;

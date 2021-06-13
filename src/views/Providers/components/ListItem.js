@@ -29,7 +29,7 @@ const ItemList = ({ id, info, deleteProvider, getProviders }) => {
   };
 
   const editProvider = () => {
-    API.post(`provider/add`, {
+    API.post(`provider/edit`, {
       id,
       nombre: data.nombre,
       pais: data.pais,
