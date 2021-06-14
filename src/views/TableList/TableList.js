@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Add from "@material-ui/icons/Add";
@@ -12,7 +13,6 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 
 import { dataHeader } from "./dataExample";
-import Modal from "./Modal";
 import API from "variables/api.js";
 
 const styles = {
@@ -59,7 +59,7 @@ const useStyles = makeStyles(styles);
 
 export default function TableList() {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const history = useHistory();
   const [shipmentList, setShipmentList] = useState({});
 
   useEffect(() => {
@@ -68,12 +68,8 @@ export default function TableList() {
     });
   }, []);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleClickAddShipment = () => {
+    history.push(`/admin/table/newshipment`);
   };
 
   return (
@@ -92,7 +88,7 @@ export default function TableList() {
                 className={classes.addButton}
                 startIcon={<Add />}
                 color="bussiness"
-                onClick={handleClickOpen}
+                onClick={handleClickAddShipment}
               >
                 Añadir
               </Button>
@@ -109,8 +105,6 @@ export default function TableList() {
           </CardBody>
         </Card>
       </GridItem>
-
-      <Modal open={open} handleClose={handleClose} />
     </GridContainer>
   );
 }
