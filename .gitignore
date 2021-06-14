@@ -33,3 +33,4 @@ yarn-error.log*
 # vercel
 .vercel
 src/variables/api.js
+src/variables/api.js
