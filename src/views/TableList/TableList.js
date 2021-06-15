@@ -99,7 +99,7 @@ export default function TableList() {
             </div>
           </CardHeader>
           <CardBody>
-            {shipmentList.length > 1 && (
+            {shipmentList.length > 0 && (
               <Table
                 tableHeaderColor="bussiness"
                 dataHeader={dataHeader}
