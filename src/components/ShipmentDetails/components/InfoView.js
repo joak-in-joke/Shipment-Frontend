@@ -154,7 +154,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
         </Grid>
       </Grid>
 
-      {shipmentData.transbordo && (
+      {/* {shipmentData.transbordo && (
         <Grid className={classes.sectionBox}>
           <p>Transbordo</p>
           <Grid container spacing={3}>
@@ -184,7 +184,7 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
             </Grid>
           </Grid>
         </Grid>
-      )}
+      )} */}
 
       <Grid className={classes.sectionBox}>
         <p>{shipmentData.medio_transporte}</p>
@@ -244,18 +244,18 @@ export const InfoView = ({ shipmentData, handleShipmentData }) => {
             <Grid item xs={3}>
               <Paper.Text
                 title="puerto destino"
-                item="puerto_destino"
+                item="puertodestino"
                 nested="data_transporte"
-                content={shipmentData.data_transporte.puerto_destino}
+                content={shipmentData.data_transporte.puertodestino}
                 handleShipmentData={handleShipmentData}
               />
             </Grid>
             <Grid item xs={3}>
               <Paper.Text
                 title="destino"
-                item="lugar_destino"
+                item="lugardestino"
                 nested="data_transporte"
-                content={shipmentData.data_transporte.lugar_destino}
+                content={shipmentData.data_transporte.lugardestino}
                 handleShipmentData={handleShipmentData}
               />
             </Grid>

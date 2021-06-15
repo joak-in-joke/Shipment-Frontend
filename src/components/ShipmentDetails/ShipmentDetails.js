@@ -19,7 +19,7 @@ export default function ShipmentDetails({ id }) {
         if (resultado) {
           data.etd = parseDate(data.etd);
           data.eta = parseDate(data.eta);
-          data.fecha_transb = parseDate(data.fecha_transb);
+          //data.fecha_transb = parseDate(data.fecha_transb);
           setShipmentData(data);
         }
         setIsLoading(false);
