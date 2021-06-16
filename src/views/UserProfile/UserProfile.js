@@ -1,13 +1,9 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "context/AuthProvider";
 import { Grid } from "@material-ui/core";
-import clsx from "clsx";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import DialogCustom from "components/Dialog/Dialog.js";
@@ -15,20 +11,8 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-import {
-  FormControl,
-  MenuItem,
-  TextField,
-  InputLabel,
-  IconButton,
-  InputAdornment,
-  Input,
-  Typography,
-  Divider,
-} from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 
 import avatar from "assets/img/logos/logo.jpeg";
 
@@ -107,33 +91,33 @@ export default function UserProfile() {
     confirmNewPassword: "",
   });
 
-  const [id, setId] = useState(null);
+  //const [id, setId] = useState(null);
   const [editar, setEditar] = useState(false);
   const [cambiar, setCambiar] = useState(false);
   const handleClickEditar = (e = null) => {
     setEditar(!editar);
-    setId(e);
+    //setId(e);
   };
 
   const handleClickCambiar = (e = null) => {
     setCambiar(!cambiar);
-    setId(e);
+    //setId(e);
   };
 
-  const updateProfile = () => {
-    API.post(`users/update`, {
-      nombre: values.nombre,
-      apellido: values.apellido,
-      rut: values.rut,
-      dv: values.dv,
-      mail: values.email,
-      cargo: values.cargo,
-      asesor: values.asesor,
-      telefono: values.telefono,
-    }).then(() => {
-      getUsers();
-    });
-  };
+  // const updateProfile = () => {
+  //   API.post(`users/update`, {
+  //     nombre: values.nombre,
+  //     apellido: values.apellido,
+  //     rut: values.rut,
+  //     dv: values.dv,
+  //     mail: values.email,
+  //     cargo: values.cargo,
+  //     asesor: values.asesor,
+  //     telefono: values.telefono,
+  //   }).then(() => {
+  //     getUsers();
+  //   });
+  // };
 
   return (
     <div className={classes.container}>
