@@ -10,7 +10,7 @@ import {
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller } from "react-hook-form";
 
-const GeneralSection = ({ control }) => {
+const GeneralSection = ({ control, errors }) => {
   const classes = useStyles();
   return (
     <Grid className={classes.rootSection}>
@@ -28,6 +28,7 @@ const GeneralSection = ({ control }) => {
                   label="Tipo de operación"
                   value={value}
                   onChange={onChange}
+                  error={errors.tipo}
                 >
                   <MenuItem value="">
                     <em>Seleccionar</em>
@@ -39,6 +40,7 @@ const GeneralSection = ({ control }) => {
                 </Select>
               </FormControl>
             )}
+            rules={{ required: true }}
           />
         </Grid>
 
@@ -54,6 +56,7 @@ const GeneralSection = ({ control }) => {
                   label="Tipo de transporte"
                   value={value}
                   onChange={onChange}
+                  error={errors.transporte}
                 >
                   <MenuItem value="">
                     <em>Seleccionar</em>
@@ -65,6 +68,7 @@ const GeneralSection = ({ control }) => {
                 </Select>
               </FormControl>
             )}
+            rules={{ required: true }}
           />
         </Grid>
 
@@ -78,9 +82,12 @@ const GeneralSection = ({ control }) => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                type="number"
+                error={errors.id}
                 className={classes.formControl}
               />
             )}
+            rules={{ required: true }}
           />
         </Grid>
 
@@ -93,10 +100,12 @@ const GeneralSection = ({ control }) => {
                 label="Referencia"
                 variant="outlined"
                 value={value}
+                error={errors.referencia}
                 className={classes.formControl}
                 onChange={onChange}
               />
             )}
+            rules={{ required: true }}
           />
         </Grid>
 
