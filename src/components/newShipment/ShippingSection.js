@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Select,
   MenuItem,
@@ -10,9 +10,26 @@ import {
 } from "@material-ui/core";
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller } from "react-hook-form";
+import API from "variables/api.js";
 
 const ShippingSection = ({ control, transportWatch, tipeWatch }) => {
   const classes = useStyles();
+  const [providers, setProviders] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getProviders = () => {
+    API.get(`provider/all`).then(({ data: { resultado, getprovider } }) => {
+      if (resultado) {
+        setProviders(getprovider);
+        setIsLoading(false);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getProviders();
+  }, []);
+
   return (
     <Grid className={classes.rootSection}>
       Datos de envío
@@ -33,7 +50,13 @@ const ShippingSection = ({ control, transportWatch, tipeWatch }) => {
                   <MenuItem value="">
                     <em>Seleccionar</em>
                   </MenuItem>
-                  <MenuItem value="agregar">Agregar Exportadores</MenuItem>
+                  {isLoading
+                    ? null
+                    : providers.map(({ id, nombre }) => (
+                        <MenuItem key={id} value={nombre}>
+                          {nombre}
+                        </MenuItem>
+                      ))}
                 </Select>
               </FormControl>
             )}
@@ -56,7 +79,13 @@ const ShippingSection = ({ control, transportWatch, tipeWatch }) => {
                   <MenuItem value="">
                     <em>Seleccionar</em>
                   </MenuItem>
-                  <MenuItem value="agregar">Agregar Exportadores</MenuItem>
+                  {isLoading
+                    ? null
+                    : providers.map(({ id, nombre }) => (
+                        <MenuItem key={id} value={nombre}>
+                          {nombre}
+                        </MenuItem>
+                      ))}
                 </Select>
               </FormControl>
             )}

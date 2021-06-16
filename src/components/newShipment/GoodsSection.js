@@ -4,7 +4,7 @@ import { Grid, IconButton, InputAdornment, TextField } from "@material-ui/core";
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Add, Delete } from "@material-ui/icons";
 
-const GoodsSection = ({ control, calculateCif, goodsWatch }) => {
+const GoodsSection = ({ control, valueCIF, goodsWatch }) => {
   const classes = useStyles();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -118,7 +118,7 @@ const GoodsSection = ({ control, calculateCif, goodsWatch }) => {
           </Grid>
         ))}
         <Grid item xs={12} className={classes.totalSection}>
-          Valor CIF: {calculateCif()}
+          Valor CIF: {valueCIF}
         </Grid>
       </Grid>
     </Grid>
