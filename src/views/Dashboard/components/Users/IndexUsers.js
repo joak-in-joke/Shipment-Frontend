@@ -6,7 +6,10 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Button from "components/CustomButtons/Button.js";
 import Dialog from "./components/DialogUsers";
+import editDialog from "./components/EditDialog";
 import Table from "./components/Table";
+
+import md5 from "md5";
 
 import styles from "assets/jss/material-dashboard-react/views/dashboardStyle.js";
 
@@ -24,7 +27,7 @@ const IndexUsers = () => {
     apellido: "",
     rut: null,
     dv: "",
-    email: "",
+    mail: "",
     estado: "",
     cargo: "",
     asesor: "",
@@ -60,18 +63,18 @@ const IndexUsers = () => {
     getUsers();
   }, []);
 
-  const createUser = () => {
+  const createUser = async () => {
     API.post(`users/add`, {
       tipo: data.tipo,
       nombre: data.nombre,
       apellido: data.apellido,
       rut: data.rut,
       dv: data.dv,
-      mail: data.email,
+      mail: data.mail,
       cargo: data.cargo,
       asesor: data.asesor,
       telefono: data.telefono,
-      pass: data.pass,
+      pass: md5(data.pass),
       permission: permission,
     }).then(() => {
       getUsers();

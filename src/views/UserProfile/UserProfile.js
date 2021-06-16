@@ -19,7 +19,6 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 import {
-  FormControl,
   MenuItem,
   TextField,
   InputLabel,

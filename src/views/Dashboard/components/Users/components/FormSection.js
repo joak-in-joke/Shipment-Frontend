@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+
 import {
   Grid,
   TextField,
@@ -47,8 +48,8 @@ const FormSection = ({ handleChange, data }) => {
         <TextField
           label="Correo"
           variant="outlined"
-          name="email"
-          value={data.email}
+          name="mail"
+          value={data.mail}
           onChange={handleChange}
           className={classes.formControl}
         />

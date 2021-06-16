@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "context/AuthProvider";
 import PropTypes from "prop-types";
+
+import md5 from "md5";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -18,7 +20,7 @@ import Close from "@material-ui/icons/Close";
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
 import DialogEdit from "./DialogUsers";
-
+import EditDialog from "./EditDialog";
 import DialogDelete from "components/Dialog/Dialog.js";
 
 import API from "variables/api.js";
@@ -103,11 +105,11 @@ export default function CustomTable(props) {
       apellido: data.apellido,
       rut: data.rut,
       dv: data.dv,
-      mail: data.email,
+      mail: data.mail,
       cargo: data.cargo,
       asesor: data.asesor,
       telefono: data.telefono,
-      pass: data.pass,
+      pass: md5(data.pass),
       permission: permission,
     }).then(() => {
       props.getUsers();
@@ -203,12 +205,12 @@ export default function CustomTable(props) {
           })}
         </TableBody>
       </Table>
-      <DialogEdit
+      <EditDialog
         open={open}
         handleClose={handleClose}
         handleChange={handleChange}
         id={id}
-        createUser={editUser}
+        editUser={editUser}
         setData={setData}
         data={data}
         state={permission}
