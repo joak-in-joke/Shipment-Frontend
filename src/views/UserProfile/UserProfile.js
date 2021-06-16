@@ -72,7 +72,6 @@ const useStyles = makeStyles(styles);
 export default function UserProfile() {
   const classes = useStyles();
   const { userData } = useContext(AuthContext);
-  console.log(userData);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
