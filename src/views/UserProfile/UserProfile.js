@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "context/AuthProvider";
 import { Grid } from "@material-ui/core";
+import API from "variables/api.js";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -71,6 +72,9 @@ const useStyles = makeStyles(styles);
 export default function UserProfile() {
   const classes = useStyles();
   const { userData } = useContext(AuthContext);
+  const rutus = 123456782;
+
+  console.log(() => digitoVerificador(rutus));
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
@@ -89,12 +93,16 @@ export default function UserProfile() {
     confirmNewPassword: "",
   });
 
+  function digitoVerificador(rut) {
+    const dig = rut.slice(rut.length - 1, rut.length);
+    console.log(dig);
+  }
+
   //const [id, setId] = useState(null);
   const [editar, setEditar] = useState(false);
   const [cambiar, setCambiar] = useState(false);
   const handleClickEditar = (e = null) => {
     setEditar(!editar);
-    //setId(e);
   };
 
   const handleClickCambiar = (e = null) => {
