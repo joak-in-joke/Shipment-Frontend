@@ -31,7 +31,7 @@ const useStyles = makeStyles((styles) => ({
     boxShadow: "none",
   },
   sectionBox: {
-    border: "3px solid #333333",
+    border: "3px solid #004DE6",
     borderRadius: "14px",
     paddingLeft: "20px",
     paddingRight: "20px",
