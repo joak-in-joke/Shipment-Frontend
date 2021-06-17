@@ -82,7 +82,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Embarques</p>
               <h3 className={classes.cardTitle}>
-                {data.onboard} <small>abordo</small>
+                {data.onBoard} <small>abordo</small>
               </h3>
             </CardHeader>
             <CardFooter stats />

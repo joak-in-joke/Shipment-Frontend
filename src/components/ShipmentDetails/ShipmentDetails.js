@@ -17,8 +17,8 @@ export default function ShipmentDetails({ id }) {
     API.get(`shipment/${id}`, {})
       .then(({ data: { resultado, data } }) => {
         if (resultado) {
-          data.etd = parseDate(data.etd);
-          data.eta = parseDate(data.eta);
+          if (data.etd) data.etd = parseDate(data.etd);
+          if (data.eta) data.eta = parseDate(data.eta);
           //data.fecha_transb = parseDate(data.fecha_transb);
           setShipmentData(data);
         }

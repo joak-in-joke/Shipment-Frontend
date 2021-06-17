@@ -1,13 +1,9 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "context/AuthProvider";
-
-import clsx from "clsx";
+import { Grid } from "@material-ui/core";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import DialogCustom from "components/Dialog/Dialog.js";
@@ -15,6 +11,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
@@ -28,11 +25,32 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import { TextField, Typography } from "@material-ui/core";
+
 import avatar from "assets/img/logos/logo.jpeg";
 
 const styles = {
   container: {
-    left: "20%",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex",
+  },
+  Kewea: {
+    color: "#000000",
+  },
+  perfil: {
+    width: "50%",
+    "@media (max-width: 1200px)": {
+      width: "100%",
+    },
+  },
+  line: {
+    //display: "grid",
+    //width: "100%",
+  },
+  formText: {
+    paddingTop: "10px",
+    paddingBottom: "10px",
   },
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
@@ -55,27 +73,12 @@ const styles = {
     color: "#FFFFFF",
   },
   avatarImage: {
-    position: "center",
+    position: "absolute",
     right: "5%",
     top: "0%",
     paddingbottom: "10%",
   },
 };
-
-const currencies = [
-  {
-    value: "1",
-    label: "Admin",
-  },
-  {
-    value: "2",
-    label: "SuperUser",
-  },
-  {
-    value: "3",
-    label: "User",
-  },
-];
 
 const useStyles = makeStyles(styles);
 
@@ -83,263 +86,241 @@ export default function UserProfile() {
   const classes = useStyles();
   const { userData } = useContext(AuthContext);
   console.log(userData);
-  //const [currency, setCurrency] = useState("User");
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
-  // const handleChange = (event) => {
-  //   setCurrency(event.target.value);
-  // };
 
-  const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword });
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
   const [values, setValues] = React.useState({
     nombre: "",
     apellido: "",
     rut: null,
-    email: "",
+    mail: "",
     telefono: "",
-    estado: "",
     cargo: "",
     asesor: "",
-    amount: "",
-    password: "",
-    password2: "",
-    showPassword: false,
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
   });
 
-  const [id, setId] = useState(null);
+  //const [id, setId] = useState(null);
   const [editar, setEditar] = useState(false);
+  const [cambiar, setCambiar] = useState(false);
   const handleClickEditar = (e = null) => {
     setEditar(!editar);
-    setId(e);
+    //setId(e);
   };
 
+  const handleClickCambiar = (e = null) => {
+    setCambiar(!cambiar);
+    //setId(e);
+  };
+
+  // const updateProfile = () => {
+  //   API.post(`users/update`, {
+  //     nombre: values.nombre,
+  //     apellido: values.apellido,
+  //     rut: values.rut,
+  //     dv: values.dv,
+  //     mail: values.email,
+  //     cargo: values.cargo,
+  //     asesor: values.asesor,
+  //     telefono: values.telefono,
+  //   }).then(() => {
+  //     getUsers();
+  //   });
+  // };
+
   return (
-    <div>
-      <GridContainer className={classes.container}>
-        <GridItem xs={10} sm={10} md={10}>
-          <Card>
-            <CardHeader color="bussiness">
-              <CardAvatar profile className={classes.avatarImage}>
-                <a
-                  href="#emprendedoreschilelogo"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <img src={avatar} alt="..." />
-                </a>
-              </CardAvatar>
-              <h4 className={classes.cardTitleWhite}>
-                Nombre: {userData.nombre} {userData.apellido}
-              </h4>
-              <p className={classes.cardCategoryWhite}>RUT: {userData.rut} </p>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Nombre"
-                    id="nombre"
-                    name="nombre"
-                    defaultValue={userData.nombre}
-                    value={values.nombre}
-                    onChange={handleChange("nombre")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Apellido"
-                    id="apellido"
-                    name="apellido"
-                    defaultValue={userData.apellido}
-                    value={values.apellido}
-                    onChange={handleChange("apellido")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={2}>
-                  <CustomInput
-                    labelText="Rut"
-                    id="rut"
-                    name="rut"
-                    defaultValue={userData.rut}
-                    value={values.rut}
-                    onChange={handleChange("rut")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email"
-                    id="email"
-                    name="email"
-                    value={values.email}
-                    onChange={handleChange("email")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Telefono"
-                    id="phone"
-                    name="phone"
-                    value={values.phone}
-                    onChange={handleChange("phone")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Estado"
-                    id="estado"
-                    name="estado"
-                    value={values.estado}
-                    onChange={handleChange("estado")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Cargo"
-                    id="cargo"
-                    name="cargo"
-                    value={values.cargo}
-                    onChange={handleChange("cargo")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Asesor"
-                    id="asesor"
-                    name="asesor"
-                    value={values.asesor}
-                    onChange={handleChange("asesor")}
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
-                </GridItem>
-                <GridItem item xs={12} sm={12} md={4}>
-                  <TextField
-                    id="standard-select-currency"
-                    select
-                    labelText="tipo Usuario"
-                    //value={currency}
-                    onChange={handleChange}
-                    helperText="Selecciona un tipo"
-                  >
-                    {currencies.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </GridItem>
-
-                <GridItem xs={12} sm={12} md={12}>
-                  <div className="div"></div>
-                </GridItem>
-
-                <GridItem
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  className={clsx(classes.margin, classes.textField)}
-                >
-                  <InputLabel htmlFor="standard-adornment-password">
-                    Contraseña
-                  </InputLabel>
-                  <Input
-                    id="standard-adornment-password"
-                    type={values.showPassword ? "text" : "password"}
-                    value={values.password}
-                    name={"password"}
-                    onChange={handleChange("password")}
-                  />
-                </GridItem>
-                <GridItem
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  className={clsx(classes.margin, classes.textField)}
-                >
-                  <InputLabel htmlFor="standard-adornment-password">
-                    Repite Contraseña
-                  </InputLabel>
-                  <Input
-                    id="standard-adornment-password"
-                    type={values.showPassword ? "text" : "password"}
-                    value={values.password2}
-                    name={"password2"}
-                    onChange={handleChange("password2")}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                        >
-                          {values.showPassword ? (
-                            <Visibility />
-                          ) : (
-                            <VisibilityOff />
-                          )}
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-            <CardFooter>
-              <Button
-                className={classes.Button}
-                color="bussiness"
-                onClick={() => handleClickEditar()}
-                //habria que crear una consulta para obtener el id del usuario que esta en la base de datos
-                //se me ocurre que lo mejor es guardarlo en el Signin
-              >
-                Editar perfil
-              </Button>
-            </CardFooter>
-          </Card>
-        </GridItem>
-      </GridContainer>
+    <div className={classes.container}>
+      <Card className={classes.perfil}>
+        <CardHeader color="bussiness">
+          <CardAvatar profile className={classes.avatarImage}>
+            <a
+              href="#emprendedoreschilelogo"
+              onClick={(e) => e.preventDefault()}
+            >
+              <img src={avatar} alt="..." />
+            </a>
+          </CardAvatar>
+          <h4 className={classes.cardTitleWhite}>
+            Nombre: {userData.nombre} {userData.apellido}
+          </h4>
+          <p className={classes.cardCategoryWhite}>RUT: {userData.rut} </p>
+        </CardHeader>
+        <CardBody>
+          <Grid container className={classes.formText} spacing={2}>
+            <Grid item xs>
+              <TextField
+                label="Nombre"
+                variant="outlined"
+                name="nombre"
+                defaultValue={userData.nombre}
+                onChange={handleChange("nombre")}
+                fullWidth="true"
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                label="Apellido"
+                variant="outlined"
+                name="apellido"
+                defaultValue={userData.apellido}
+                onChange={handleChange("apellido")}
+                fullWidth="true"
+              />
+            </Grid>
+          </Grid>
+          <Grid container className={classes.formText} spacing={2}>
+            <Grid item xs>
+              <TextField
+                label="Rut"
+                variant="outlined"
+                name="rut"
+                defaultValue={userData.rut}
+                onChange={handleChange("rut")}
+                fullWidth="true"
+              />
+            </Grid>
+          </Grid>
+          <Grid container className={classes.formText} spacing={2}>
+            <Grid item xs>
+              <TextField
+                label="Email"
+                variant="outlined"
+                name="mail"
+                defaultValue={userData.mail}
+                onChange={handleChange("mail")}
+                fullWidth="true"
+              />
+            </Grid>
+          </Grid>
+          <Grid container className={classes.formText} spacing={2}>
+            <Grid item xs>
+              <TextField
+                label="Teléfono"
+                variant="outlined"
+                name="telefono"
+                defaultValue={userData.telefono}
+                onChange={handleChange("telefono")}
+                fullWidth="true"
+              />
+            </Grid>
+          </Grid>
+          <Grid container className={classes.formText} spacing={2}>
+            <Grid item xs>
+              <TextField
+                label="Cargo"
+                variant="outlined"
+                name="cargo"
+                defaultValue={userData.cargo}
+                onChange={handleChange("cargo")}
+                fullWidth="true"
+              />
+            </Grid>
+          </Grid>
+          <Grid container className={classes.formText} spacing={2}>
+            <Grid item xs>
+              <TextField
+                label="Asesor"
+                variant="outlined"
+                name="asesor"
+                defaultValue={userData.asesor}
+                onChange={handleChange("asesor")}
+                fullWidth="true"
+              />
+            </Grid>
+          </Grid>
+          <Button
+            className={classes.Button}
+            color="bussiness"
+            onClick={() => handleClickEditar()}
+            //habria que crear una consulta para obtener el id del usuario que esta en la base de datos
+            //se me ocurre que lo mejor es guardarlo en el Signin
+          >
+            Editar perfil
+          </Button>
+          <Grid container spacing={2}>
+            <Grid item xs>
+              <TextField
+                id="outlined-old-password-input"
+                label="Contraseña actual"
+                className={classes.textField}
+                type="password"
+                margin="normal"
+                name="actual-password"
+                variant="outlined"
+                fullWidth="true"
+                value={values.password}
+                onChange={handleChange("password")}
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                id="outlined-new-password-input"
+                label="Contraseña nueva"
+                className={classes.textField}
+                type="password"
+                margin="normal"
+                name="newPassword"
+                variant="outlined"
+                fullWidth="true"
+                autoComplete="new-password"
+                onChange={handleChange("newPassword")}
+              />
+            </Grid>
+            <Grid item xs>
+              <TextField
+                label="Reintroducir contraseña nueva"
+                className={classes.textField}
+                type="password"
+                margin="normal"
+                name="confirmNewPassword"
+                variant="outlined"
+                fullWidth="true"
+                autoComplete="new-password"
+                //onChange={handleChange("password")}
+              />
+            </Grid>
+          </Grid>
+          <Button
+            className={classes.Button}
+            color="bussiness"
+            onClick={() => handleClickCambiar()}
+            //habria que crear una consulta para obtener el id del usuario que esta en la base de datos
+            //se me ocurre que lo mejor es guardarlo en el Signin
+          >
+            Cambiar contraseña
+          </Button>
+        </CardBody>
+        <CardFooter></CardFooter>
+      </Card>
 
       <DialogCustom
         open={editar}
         handleClose={handleClickEditar}
         title="Editar Usuario"
         buttonSubmit="Editar"
-        maxWidth={false}
+        maxWidth="sm"
         onSubmit={console.log("eliminatres")}
         content={
           <Typography>
             ¿Estás seguro de que quieres editar tus datos de usuario?
+          </Typography>
+        }
+      />
+
+      <DialogCustom
+        open={cambiar}
+        handleClose={handleClickCambiar}
+        title="Cambiar tu Contraseña"
+        buttonSubmit="Cambiar"
+        maxWidth="sm"
+        onSubmit={console.log("cambiatres")}
+        content={
+          <Typography>
+            ¿Estás seguro de que quieres cambiar tu contraseña?
           </Typography>
         }
       />
