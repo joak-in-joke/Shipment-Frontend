@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import API from "variables/api.js";
-import md5 from "md5";
+//import md5 from "md5";
 export const AuthContext = React.createContext();
 
 const AuthProvider = (props) => {
@@ -95,6 +95,8 @@ const AuthProvider = (props) => {
         SignIn,
         setIsLoading,
         setUserData,
+        SignUp,
+        errorSignUp,
       }}
     >
       <>{props.children}</>
