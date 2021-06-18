@@ -19,7 +19,7 @@ import Close from "@material-ui/icons/Close";
 
 // core components
 import styles from "assets/jss/material-dashboard-react/components/tableStyle.js";
-import DialogEdit from "./DialogUsers";
+
 import EditDialog from "./EditDialog";
 import DialogDelete from "components/Dialog/Dialog.js";
 

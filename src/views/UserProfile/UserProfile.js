@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "context/AuthProvider";
 import { Grid } from "@material-ui/core";
-import API from "variables/api.js";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -12,8 +11,12 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
-import { TextField, Typography } from "@material-ui/core";
 
+import API from "variables/api.js";
+// import Visibility from "@material-ui/icons/Visibility";
+// import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
+import { TextField, Typography } from "@material-ui/core";
 
 import avatar from "assets/img/logos/logo.jpeg";
 
@@ -72,59 +75,71 @@ const useStyles = makeStyles(styles);
 
 export default function UserProfile() {
   const classes = useStyles();
-  const { userData } = useContext(AuthContext);
-  const rutus = 123456782;
-
-  console.log(() => digitoVerificador(rutus));
+  const { userData, setUserData } = useContext(AuthContext);
 
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
   const [values, setValues] = React.useState({
-    nombre: "",
-    apellido: "",
-    rut: null,
-    mail: "",
-    telefono: "",
-    cargo: "",
-    asesor: "",
-    oldPassword: "",
+    nombre: userData.nombre,
+    apellido: userData.apellido,
+    rut: userData.rut,
+    dv: userData.dv,
+    mail: userData.mail,
+    telefono: userData.telefono,
+    cargo: userData.cargo,
+    asesor: userData.asesor,
+    password: "",
     newPassword: "",
-    confirmNewPassword: "",
   });
+  console.log(values);
 
-  function digitoVerificador(rut) {
-    const dig = rut.slice(rut.length - 1, rut.length);
-    console.log(dig);
-  }
-
-  //const [id, setId] = useState(null);
+  // const [id, setId] = useState(null);
   const [editar, setEditar] = useState(false);
   const [cambiar, setCambiar] = useState(false);
   const handleClickEditar = (e = null) => {
     setEditar(!editar);
+    //setId(e);
   };
 
   const handleClickCambiar = (e = null) => {
     setCambiar(!cambiar);
-    //setId(e);
+    //  setId(e);
   };
 
-  // const updateProfile = () => {
-  //   API.post(`users/update`, {
-  //     nombre: values.nombre,
-  //     apellido: values.apellido,
-  //     rut: values.rut,
-  //     dv: values.dv,
-  //     mail: values.email,
-  //     cargo: values.cargo,
-  //     asesor: values.asesor,
-  //     telefono: values.telefono,
-  //   }).then(() => {
-  //     getUsers();
-  //   });
-  // };
+  const updateProfile = () => {
+    console.log(values);
+    const payload = {
+      id: userData.id,
+      nombre: values.nombre,
+      apellido: values.apellido,
+      rut: values.rut,
+      dv: values.dv,
+      mail: values.email,
+      cargo: values.cargo,
+      asesor: values.asesor,
+      telefono: values.telefono,
+    };
+    API.post(`users/update`, payload).then(() => {
+      setUserData(payload);
+      setEditar(!editar);
+
+      //getUsers();
+      console.log(values);
+    });
+  };
+
+  const updatePassword = () => {
+    API.post(`users/updatepassword`, {
+      id: userData.id,
+      password: values.password,
+      newPassword: values.newPassword,
+    }).then(() => {
+      setCambiar(!cambiar);
+      console.log("bien esho");
+    });
+  };
 
   return (
     <div className={classes.container}>
@@ -167,7 +182,7 @@ export default function UserProfile() {
             </Grid>
           </Grid>
           <Grid container className={classes.formText} spacing={2}>
-            <Grid item xs>
+            <Grid item xs={10}>
               <TextField
                 label="Rut"
                 variant="outlined"
@@ -177,7 +192,18 @@ export default function UserProfile() {
                 fullWidth="true"
               />
             </Grid>
+            <Grid item xs={2} spacing={2}>
+              <TextField
+                label="DV"
+                variant="outlined"
+                name="dv"
+                defaultValue={userData.dv}
+                onChange={handleChange("dv")}
+                fullWidth="true"
+              />
+            </Grid>
           </Grid>
+
           <Grid container className={classes.formText} spacing={2}>
             <Grid item xs>
               <TextField
@@ -230,6 +256,7 @@ export default function UserProfile() {
             className={classes.Button}
             color="bussiness"
             onClick={() => handleClickEditar()}
+
             //habria que crear una consulta para obtener el id del usuario que esta en la base de datos
             //se me ocurre que lo mejor es guardarlo en el Signin
           >
@@ -243,7 +270,7 @@ export default function UserProfile() {
                 className={classes.textField}
                 type="password"
                 margin="normal"
-                name="actual-password"
+                name="password"
                 variant="outlined"
                 fullWidth="true"
                 value={values.password}
@@ -264,7 +291,7 @@ export default function UserProfile() {
                 onChange={handleChange("newPassword")}
               />
             </Grid>
-            <Grid item xs>
+            {/* <Grid item xs>
               <TextField
                 label="Reintroducir contraseña nueva"
                 className={classes.textField}
@@ -276,14 +303,12 @@ export default function UserProfile() {
                 autoComplete="new-password"
                 //onChange={handleChange("password")}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             className={classes.Button}
             color="bussiness"
             onClick={() => handleClickCambiar()}
-            //habria que crear una consulta para obtener el id del usuario que esta en la base de datos
-            //se me ocurre que lo mejor es guardarlo en el Signin
           >
             Cambiar contraseña
           </Button>
@@ -297,7 +322,7 @@ export default function UserProfile() {
         title="Editar Usuario"
         buttonSubmit="Editar"
         maxWidth="sm"
-        onSubmit={console.log("eliminatres")}
+        onSubmit={updateProfile}
         content={
           <Typography>
             ¿Estás seguro de que quieres editar tus datos de usuario?
@@ -311,7 +336,7 @@ export default function UserProfile() {
         title="Cambiar tu Contraseña"
         buttonSubmit="Cambiar"
         maxWidth="sm"
-        onSubmit={console.log("cambiatres")}
+        onSubmit={updatePassword}
         content={
           <Typography>
             ¿Estás seguro de que quieres cambiar tu contraseña?
