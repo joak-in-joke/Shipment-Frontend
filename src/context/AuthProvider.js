@@ -94,6 +94,7 @@ const AuthProvider = (props) => {
         logOut,
         SignIn,
         setIsLoading,
+        setUserData,
       }}
     >
       <>{props.children}</>

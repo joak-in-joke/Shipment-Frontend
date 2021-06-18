@@ -6,7 +6,6 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import Button from "components/CustomButtons/Button.js";
 import Dialog from "./components/DialogUsers";
-import editDialog from "./components/EditDialog";
 import Table from "./components/Table";
 
 import md5 from "md5";
