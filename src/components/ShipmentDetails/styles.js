@@ -55,6 +55,11 @@ const useStyles = makeStyles((styles) => ({
     fontSize: "10px",
     color: "red",
   },
+  //infoView
+  containerGoods: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 export const formatDate = (date) => {

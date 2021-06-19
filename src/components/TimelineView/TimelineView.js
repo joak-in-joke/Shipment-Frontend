@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext, useCallback } from "react";
 import { AuthContext } from "context/AuthProvider";
 import API from "variables/api.js";
 import { Grid } from "@material-ui/core";
-import { formatDateX } from "variables/functions";
 import TimelineCustom from "./components/Timeline.js";
 import useStyles from "./styles.js";
 import AddComentaryForm from "./components/AddComentaryForm";
@@ -23,7 +22,7 @@ export default function TimelineView({ id }) {
   const [finishValue, setFinishValue] = useState({
     date: "2017-05-24",
   });
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [confirmDialog, setConfirmDialog] = useState(false);
   const classes = useStyles();
@@ -33,7 +32,7 @@ export default function TimelineView({ id }) {
       .then(({ data: { resultado, data } }) => {
         if (resultado) {
           setTimelineData(data);
-          if (data.estado === "Activo") setIsActive(true);
+          if (data.estado === "finalizado") setIsActive(false);
         }
         setIsLoading(false);
       })
@@ -52,7 +51,7 @@ export default function TimelineView({ id }) {
       id_usuario: idData,
       contenido: newComentaryValues.content,
       titulo: newComentaryValues.title,
-      fecha: formatDateX(newComentaryValues.date),
+      fecha: newComentaryValues.date,
     })
       .then(({ data: { resultado } }) => {
         fetchTimeline();

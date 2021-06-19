@@ -1,11 +1,13 @@
 import React from "react";
 import { Grid, IconButton, Switch, TextField } from "@material-ui/core";
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
-import { Controller, useFieldArray } from "react-hook-form";
+import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { Add, Delete } from "@material-ui/icons";
 
-const TransbordSection = ({ control, transbordWatch }) => {
+const TransbordSection = () => {
   const classes = useStyles();
+  const { control, watch } = useFormContext();
+  const transbordWatch = watch("transbordo", false);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "transbordos",
@@ -26,7 +28,9 @@ const TransbordSection = ({ control, transbordWatch }) => {
         <>
           <IconButton
             aria-label="add"
-            onClick={() => append()}
+            onClick={() =>
+              append({ puertoName: "", naveId: 0, fecha: "8/06/2021" })
+            }
             color="primary"
             size="small"
           >
@@ -43,9 +47,10 @@ const TransbordSection = ({ control, transbordWatch }) => {
                 <Controller
                   control={control}
                   name={`transbordos.${index}.puertoName`}
-                  render={({ field }) => (
+                  render={({ field: { onChange, value } }) => (
                     <TextField
-                      {...field}
+                      onChange={onChange}
+                      value={value}
                       label="Puerto de trasbordo"
                       variant="outlined"
                       className={classes.formControl}
@@ -57,10 +62,11 @@ const TransbordSection = ({ control, transbordWatch }) => {
                 <Controller
                   control={control}
                   name={`transbordos.${index}.naveId`}
-                  render={({ field }) => (
+                  render={({ field: { onChange, value } }) => (
                     <TextField
-                      {...field}
-                      label="Valor"
+                      onChange={onChange}
+                      value={value}
+                      label="naveID"
                       variant="outlined"
                       type="number"
                       className={classes.formControl}
@@ -72,9 +78,10 @@ const TransbordSection = ({ control, transbordWatch }) => {
                 <Controller
                   control={control}
                   name={`transbordos.${index}.date`}
-                  render={({ field }) => (
+                  render={({ field: { onChange, value } }) => (
                     <TextField
-                      {...field}
+                      onChange={onChange}
+                      value={value}
                       label="Fecha trasbordo"
                       variant="outlined"
                       type="date"
