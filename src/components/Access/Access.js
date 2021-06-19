@@ -57,7 +57,8 @@ export const AccessView = () => {
               {...field}
               className={classes.input}
               id="user"
-              label="usuario"
+              label="Email"
+              type="email"
               variant="outlined"
               error={errors.user ? true : null}
             />
@@ -75,7 +76,7 @@ export const AccessView = () => {
               {...field}
               className={classes.input}
               id="password"
-              label="contraseña"
+              label="Contraseña"
               variant="outlined"
               type="password"
               error={errors.password ? true : null}
