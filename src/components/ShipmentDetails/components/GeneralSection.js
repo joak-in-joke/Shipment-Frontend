@@ -10,12 +10,12 @@ import {
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller, useFormContext } from "react-hook-form";
 
-const GeneralSection = () => {
+const GeneralSection = ({ isDisabled = true }) => {
   const classes = useStyles();
   const {
     control,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext(); // retrieve all hook methods
   return (
     <Grid className={classes.rootSection}>
       Información general
@@ -24,19 +24,17 @@ const GeneralSection = () => {
           <Controller
             control={control}
             name="tipo"
-            render={({ field: { onChange, value } }) => (
+            defaultValue="importacion"
+            render={({ field }) => (
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="tipoLabel">Tipo de operación</InputLabel>
                 <Select
+                  {...field}
                   labelId="tipoLabel"
                   label="Tipo de operación"
-                  value={value}
-                  onChange={onChange}
+                  disabled={isDisabled ? true : false}
                   error={errors.tipo}
                 >
-                  <MenuItem value="">
-                    <em>Seleccionar</em>
-                  </MenuItem>
                   <MenuItem value="importacion">Importación</MenuItem>
                   <MenuItem value="exportacion">Exportación</MenuItem>
                   <MenuItem value="triangulacion">Triangulación</MenuItem>
@@ -58,13 +56,11 @@ const GeneralSection = () => {
                 <Select
                   labelId="opLabel"
                   label="Tipo de transporte"
-                  value={value}
+                  disabled={isDisabled && true}
                   onChange={onChange}
+                  value={value}
                   error={errors.transporte}
                 >
-                  <MenuItem value="">
-                    <em>Seleccionar</em>
-                  </MenuItem>
                   <MenuItem value="FCL">FCL</MenuItem>
                   <MenuItem value="LCL">LCL</MenuItem>
                   {/* <MenuItem value="aereo">aéreo</MenuItem>
@@ -86,6 +82,7 @@ const GeneralSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                disabled={isDisabled && true}
                 type="number"
                 error={errors.id}
                 className={classes.formControl}
@@ -107,6 +104,7 @@ const GeneralSection = () => {
                 error={errors.referencia}
                 className={classes.formControl}
                 onChange={onChange}
+                disabled={isDisabled && true}
               />
             )}
             rules={{ required: true }}
@@ -117,6 +115,7 @@ const GeneralSection = () => {
           <Controller
             control={control}
             name="estado"
+            defaultValue
             render={({ field: { onChange, value } }) => (
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="estado">Estado</InputLabel>
@@ -125,12 +124,11 @@ const GeneralSection = () => {
                   label="Estado"
                   value={value}
                   onChange={onChange}
+                  disabled={isDisabled && true}
+                  defaultValue
                 >
-                  <MenuItem value="">
-                    <em>Seleccionar</em>
-                  </MenuItem>
                   <MenuItem value="origen">En Origen</MenuItem>
-                  <MenuItem value="avordo">Abordo</MenuItem>
+                  <MenuItem value="abordo">Abordo</MenuItem>
                   <MenuItem value="llegada">Llegada</MenuItem>
                   <MenuItem value="finalizado">Finalizado</MenuItem>
                 </Select>{" "}
@@ -143,6 +141,7 @@ const GeneralSection = () => {
           <Controller
             control={control}
             name="incoterm"
+            defaultValue
             render={({ field: { onChange, value } }) => (
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="Incoterm">Incoterm</InputLabel>
@@ -151,10 +150,9 @@ const GeneralSection = () => {
                   label="Incoterm"
                   value={value}
                   onChange={onChange}
+                  disabled={isDisabled && true}
+                  defaultValue
                 >
-                  <MenuItem value="">
-                    <em>Seleccionar</em>
-                  </MenuItem>
                   <MenuItem value="EXW">EXW</MenuItem>
                   <MenuItem value="FCA">FCA</MenuItem>
                   <MenuItem value="FAS">FAS</MenuItem>
