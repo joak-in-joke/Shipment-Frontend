@@ -14,7 +14,6 @@ import {
   DoneAll,
 } from "@material-ui/icons";
 import { Paper, Typography } from "@material-ui/core";
-import { formatDateZ } from "variables/functions";
 import useStyles from "../styles";
 
 export default function TimelineCustom({ timelineData, fetchTimeline }) {
@@ -38,7 +37,7 @@ export default function TimelineCustom({ timelineData, fetchTimeline }) {
       <TimelineItem>
         <TimelineOppositeContent>
           <Typography variant="body2" color="textSecondary">
-            {formatDateZ(etd)}
+            {etd}
           </Typography>
         </TimelineOppositeContent>
         <TimelineSeparator>
@@ -61,7 +60,7 @@ export default function TimelineCustom({ timelineData, fetchTimeline }) {
         <TimelineItem>
           <TimelineOppositeContent>
             <Typography variant="body2" color="textSecondary">
-              {formatDateZ(comentary.creado)}
+              {comentary.creado}
             </Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>

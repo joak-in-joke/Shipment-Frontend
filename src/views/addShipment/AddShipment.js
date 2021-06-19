@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { Grid } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
 // core components
@@ -22,49 +22,20 @@ import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 const Index = () => {
   const classes = useStyles();
   const history = useHistory();
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const [valueCIF, setValueCIF] = useState(0);
-  const [modal, setModal] = useState(false);
+  const formMethod = useForm({
+    defaultValues: {
+      cif: 0,
+    },
+  });
+  const { handleSubmit, watch, getValues } = formMethod;
   const transportWatch = watch("transporte");
   const tipeWatch = watch("tipo");
-  const transbordWatch = watch("transbordo", false);
-  const goodsWatch = watch("mercancias");
-
-  const calculateCif = () => {
-    if (goodsWatch) {
-      let total = 0;
-      goodsWatch.map((field) => {
-        if (!field.value || !field.secure || !field.flete) return 0;
-        total =
-          parseInt(total) +
-          parseInt(field.value) +
-          parseInt(field.secure) +
-          parseInt(field.flete);
-        setValueCIF(total);
-        return total;
-      });
-      if (total === isNaN) return 0;
-      setValueCIF(total);
-    } else {
-      setValueCIF(0);
-    }
-  };
-
-  useEffect(() => {
-    calculateCif();
-    // eslint-disable-next-line
-  }, [goodsWatch]);
+  const [modal, setModal] = useState(false);
 
   const createShipment = (data) => {
     API.post(`shipment/create`, data)
-      .then(({ data: { respuesta, payload } }) => {
+      .then(({ data: { respuesta } }) => {
         if (respuesta) {
-          console.log("CREADO CORRECTAMENTEEEEEEEE", payload);
           setModal(true);
         } else console.log("Ocurrio un error :(");
       })
@@ -74,6 +45,7 @@ const Index = () => {
   };
 
   const onSubmit = (data) => {
+    console.log(data);
     const transbordos = data.transbordos.map((item) => {
       const parse = {
         puerto_transb: item.puertoName,
@@ -112,7 +84,7 @@ const Index = () => {
       viaje: data.viaje,
       naviera: data.naviera,
       reserva: data.reserva,
-      valor_cif: valueCIF,
+      valor_cif: getValues("cif"),
 
       ...(data.transporte === "LCL"
         ? {
@@ -144,40 +116,35 @@ const Index = () => {
         <h4 className={classes.cardTitleWhite}>Añadir nuevo embarque</h4>
       </CardHeader>
       <CardBody>
-        <form onSubmit={handleSubmit((data) => onSubmit(data))}>
-          <GeneralSection control={control} errors={errors} />
-          <ShippingSection
-            control={control}
-            transportWatch={transportWatch}
-            tipeWatch={tipeWatch}
-          />
+        <FormProvider {...formMethod}>
+          <form onSubmit={handleSubmit((data) => onSubmit(data))}>
+            <GeneralSection />
+            <ShippingSection />
 
-          <Grid container spacing={0}>
-            <Grid item xs={7} className={classes.containerGoods}>
-              <TransbordSection
-                control={control}
-                transbordWatch={transbordWatch}
-              />
+            <Grid container spacing={0}>
+              <Grid item xs={7} className={classes.containerGoods}>
+                <TransbordSection />
+              </Grid>
+              <Grid item xs={5} className={classes.containerGoods}>
+                <DateSection />
+              </Grid>
             </Grid>
-            <Grid item xs={5} className={classes.containerGoods}>
-              <DateSection control={control} transbordWatch={transbordWatch} />
+            <Grid className={classes.containerGoods}>
+              <GoodsSection />
             </Grid>
-          </Grid>
-          <Grid className={classes.containerGoods}>
-            <GoodsSection control={control} valueCIF={valueCIF} />
-          </Grid>
 
-          <Grid className={classes.buttonContainer}>
-            <Button
-              className={classes.addButton}
-              startIcon={<Add />}
-              color="bussiness"
-              type="submit"
-            >
-              Crear
-            </Button>
-          </Grid>
-        </form>
+            <Grid className={classes.buttonContainer}>
+              <Button
+                className={classes.addButton}
+                startIcon={<Add />}
+                color="bussiness"
+                type="submit"
+              >
+                Crear
+              </Button>
+            </Grid>
+          </form>
+        </FormProvider>
       </CardBody>
 
       <Dialog

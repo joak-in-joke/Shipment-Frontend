@@ -12,7 +12,7 @@ import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller, useFormContext } from "react-hook-form";
 import API from "variables/api.js";
 
-const ShippingSection = () => {
+const ShippingSection = ({ isDisabled = true }) => {
   const classes = useStyles();
   const { control, watch } = useFormContext();
   const transportWatch = watch("transporte");
@@ -41,6 +41,7 @@ const ShippingSection = () => {
           <Controller
             control={control}
             name="exportador"
+            defaultValue
             render={({ field: { onChange, value } }) => (
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="exportadorLabel">Exportador</InputLabel>
@@ -48,7 +49,9 @@ const ShippingSection = () => {
                   labelId="exportadorLabel"
                   value={value}
                   onChange={onChange}
+                  disabled={isDisabled && true}
                   label="Exportador"
+                  defaultValue
                 >
                   <MenuItem value="">
                     <em>Seleccionar</em>
@@ -70,6 +73,7 @@ const ShippingSection = () => {
           <Controller
             control={control}
             name="importador"
+            defaultValue
             render={({ field: { onChange, value } }) => (
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel id="importadorLabel">Importador</InputLabel>
@@ -77,7 +81,9 @@ const ShippingSection = () => {
                   labelId="importadorLabel"
                   value={value}
                   onChange={onChange}
+                  disabled={isDisabled && true}
                   label="Importador"
+                  defaultValue
                 >
                   <MenuItem value="">
                     <em>Seleccionar</em>
@@ -105,6 +111,7 @@ const ShippingSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                disabled={isDisabled && true}
                 className={classes.formControl}
               />
             )}
@@ -122,6 +129,7 @@ const ShippingSection = () => {
                 value={value}
                 className={classes.formControl}
                 onChange={onChange}
+                disabled={isDisabled && true}
               />
             )}
           />
@@ -129,7 +137,7 @@ const ShippingSection = () => {
 
         {(transportWatch === "LCL" || transportWatch === "FCL") && (
           <>
-            {tipeWatch === "exportacion" && (
+            {tipeWatch === "Exportacion" && (
               <Grid item xs={2}>
                 <Controller
                   control={control}
@@ -141,6 +149,7 @@ const ShippingSection = () => {
                       value={value}
                       className={classes.formControl}
                       onChange={onChange}
+                      disabled={isDisabled && true}
                     />
                   )}
                 />
@@ -153,6 +162,7 @@ const ShippingSection = () => {
                   <Controller
                     control={control}
                     name="tipoDocumento"
+                    defaultValue
                     render={({ field: { onChange, value } }) => (
                       <FormControl
                         variant="outlined"
@@ -165,7 +175,9 @@ const ShippingSection = () => {
                           labelId="tipoDocumentolabel"
                           value={value}
                           onChange={onChange}
+                          disabled={isDisabled && true}
                           label="Tipo de documento"
+                          defaultValue
                         >
                           <MenuItem value="">
                             <em>Seleccionar</em>
@@ -190,6 +202,7 @@ const ShippingSection = () => {
                         value={value}
                         className={classes.formControl}
                         onChange={onChange}
+                        disabled={isDisabled && true}
                       />
                     )}
                   />
@@ -210,6 +223,7 @@ const ShippingSection = () => {
                         value={value}
                         className={classes.formControl}
                         onChange={onChange}
+                        disabled={isDisabled && true}
                       />
                     )}
                   />
@@ -219,6 +233,7 @@ const ShippingSection = () => {
                   <Controller
                     control={control}
                     name="contTipo"
+                    defaultValue
                     render={({ field: { onChange, value } }) => (
                       <FormControl
                         variant="outlined"
@@ -229,7 +244,9 @@ const ShippingSection = () => {
                           labelId="contTipolabel"
                           value={value}
                           onChange={onChange}
+                          disabled={isDisabled && true}
                           label="Tipo"
+                          defaultValue
                         >
                           <MenuItem value="">
                             <em>Seleccionar</em>
@@ -261,6 +278,7 @@ const ShippingSection = () => {
                         value={value}
                         className={classes.formControl}
                         onChange={onChange}
+                        disabled={isDisabled && true}
                       />
                     )}
                   />
@@ -281,6 +299,7 @@ const ShippingSection = () => {
                 value={value}
                 className={classes.formControl}
                 onChange={onChange}
+                disabled={isDisabled && true}
               />
             )}
           />
@@ -297,6 +316,7 @@ const ShippingSection = () => {
                 value={value}
                 className={classes.formControl}
                 onChange={onChange}
+                disabled={isDisabled && true}
               />
             )}
           />
@@ -313,6 +333,7 @@ const ShippingSection = () => {
                 value={value}
                 className={classes.formControl}
                 onChange={onChange}
+                disabled={isDisabled && true}
               />
             )}
           />
@@ -330,6 +351,7 @@ const ShippingSection = () => {
                   value={value}
                   className={classes.formControl}
                   onChange={onChange}
+                  disabled={isDisabled && true}
                 />
               )}
             />
@@ -349,6 +371,7 @@ const ShippingSection = () => {
                     value={value}
                     className={classes.formControl}
                     onChange={onChange}
+                    disabled={isDisabled && true}
                   />
                 )}
               />
@@ -366,6 +389,7 @@ const ShippingSection = () => {
                     value={value}
                     className={classes.formControl}
                     onChange={onChange}
+                    disabled={isDisabled && true}
                   />
                 )}
               />
@@ -383,6 +407,7 @@ const ShippingSection = () => {
                     value={value}
                     className={classes.formControl}
                     onChange={onChange}
+                    disabled={isDisabled && true}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">kg</InputAdornment>
@@ -405,6 +430,7 @@ const ShippingSection = () => {
                     value={value}
                     className={classes.formControl}
                     onChange={onChange}
+                    disabled={isDisabled && true}
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">m³</InputAdornment>

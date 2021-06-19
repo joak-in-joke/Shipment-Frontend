@@ -3,7 +3,7 @@ import { Grid, TextField } from "@material-ui/core";
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller, useFormContext } from "react-hook-form";
 
-const DateSection = () => {
+const DateSection = ({ isDisabled = true }) => {
   const classes = useStyles();
   const { control } = useFormContext();
   return (
@@ -21,6 +21,7 @@ const DateSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                disabled={isDisabled && true}
                 className={classes.formControl}
                 InputLabelProps={{
                   shrink: true,
@@ -40,6 +41,7 @@ const DateSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                disabled={isDisabled && true}
                 className={classes.formControl}
               />
             )}
@@ -57,6 +59,7 @@ const DateSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                disabled={isDisabled && true}
                 className={classes.formControl}
                 InputLabelProps={{
                   shrink: true,
@@ -76,6 +79,7 @@ const DateSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                disabled={isDisabled && true}
                 className={classes.formControl}
               />
             )}
@@ -92,6 +96,7 @@ const DateSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
+                disabled={isDisabled && true}
                 className={classes.formControl}
               />
             )}
