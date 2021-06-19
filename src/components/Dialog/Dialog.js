@@ -25,6 +25,8 @@ const DialogCustom = ({
   buttonSubmit = "Agregar",
   onSubmit,
   style,
+  type,
+  isSubmitting = false,
 }) => {
   const classes = useStyles();
 
@@ -57,6 +59,7 @@ const DialogCustom = ({
           onClick={onSubmit}
           className={classes.addButton}
           color="bussiness"
+          type={isSubmitting ? "submit" : "default"}
         >
           {buttonSubmit}
         </Button>

@@ -11,6 +11,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
+import { useForm, Controller } from "react-hook-form";
 
 import API from "variables/api.js";
 // import Visibility from "@material-ui/icons/Visibility";
@@ -76,12 +77,18 @@ const useStyles = makeStyles(styles);
 export default function UserProfile() {
   const classes = useStyles();
   const { userData, setUserData } = useContext(AuthContext);
+  const { control, handleSubmit } = useForm();
+  const {
+    control: controlPass,
+    handleSubmit: handleSubmitPass,
+    watch,
+  } = useForm();
 
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
-  };
+  // const handleChange = (prop) => (event) => {
+  //   setValues({ ...values, [prop]: event.target.value });
+  // };
 
-  const [values, setValues] = React.useState({
+  const [values, setValues] = useState({
     nombre: userData.nombre,
     apellido: userData.apellido,
     rut: userData.rut,
@@ -93,7 +100,6 @@ export default function UserProfile() {
     password: "",
     newPassword: "",
   });
-  console.log(values);
 
   // const [id, setId] = useState(null);
   const [editar, setEditar] = useState(false);
@@ -109,7 +115,6 @@ export default function UserProfile() {
   };
 
   const updateProfile = () => {
-    console.log(values);
     const payload = {
       id: userData.id,
       nombre: values.nombre,
@@ -124,8 +129,6 @@ export default function UserProfile() {
     API.post(`users/update`, payload).then(() => {
       setUserData(payload);
       setEditar(!editar);
-
-      //getUsers();
       console.log(values);
     });
   };
@@ -141,6 +144,19 @@ export default function UserProfile() {
     });
   };
 
+  const onSubmit = (data) => {
+    setValues(data);
+    setEditar(!editar);
+  };
+
+  const onSubmitPassword = (data) => {
+    setCambiar(!cambiar);
+    setValues({
+      ...values,
+      password: data.password,
+      newPassword: data.newPassword,
+    });
+  };
   return (
     <div className={classes.container}>
       <Card className={classes.perfil}>
@@ -159,190 +175,338 @@ export default function UserProfile() {
           <p className={classes.cardCategoryWhite}>RUT: {userData.rut} </p>
         </CardHeader>
         <CardBody>
-          <Grid container className={classes.formText} spacing={2}>
-            <Grid item xs>
-              <TextField
-                label="Nombre"
-                variant="outlined"
-                name="nombre"
-                defaultValue={userData.nombre}
-                onChange={handleChange("nombre")}
-                fullWidth="true"
-              />
+          <form key={1} onSubmit={handleSubmit(onSubmit)}>
+            <Grid container className={classes.formText} spacing={2}>
+              <Grid item xs>
+                <Controller
+                  name="nombre"
+                  control={control}
+                  defaultValue={userData.nombre}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Nombre"
+                      variant="outlined"
+                      defaultValue={userData.nombre}
+                      value={value}
+                      onChange={onChange}
+                      type="text"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Nombre requerido" }}
+                />
+              </Grid>
+              <Grid item xs>
+                <Controller
+                  name="apellido"
+                  defaultValue={userData.apellido}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Apellido"
+                      variant="outlined"
+                      defaultValue={userData.apellido}
+                      value={value}
+                      onChange={onChange}
+                      type="text"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Apellido requerido" }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <TextField
-                label="Apellido"
-                variant="outlined"
-                name="apellido"
-                defaultValue={userData.apellido}
-                onChange={handleChange("apellido")}
-                fullWidth="true"
-              />
+            <Grid container className={classes.formText} spacing={2}>
+              <Grid item xs={10}>
+                <Controller
+                  name="rut"
+                  defaultValue={userData.rut}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Rut"
+                      variant="outlined"
+                      defaultValue={userData.rut}
+                      value={value}
+                      onChange={onChange}
+                      type="text"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Rut requerido" }}
+                />
+              </Grid>
+              <Grid item xs={2} spacing={2}>
+                <Controller
+                  name="dv"
+                  defaultValue={userData.dv}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="DV"
+                      variant="outlined"
+                      defaultValue={userData.dv}
+                      value={value}
+                      onChange={onChange}
+                      type="text"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "DV requerido" }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container className={classes.formText} spacing={2}>
-            <Grid item xs={10}>
-              <TextField
-                label="Rut"
-                variant="outlined"
-                name="rut"
-                defaultValue={userData.rut}
-                onChange={handleChange("rut")}
-                fullWidth="true"
-              />
-            </Grid>
-            <Grid item xs={2} spacing={2}>
-              <TextField
-                label="DV"
-                variant="outlined"
-                name="dv"
-                defaultValue={userData.dv}
-                onChange={handleChange("dv")}
-                fullWidth="true"
-              />
-            </Grid>
-          </Grid>
 
-          <Grid container className={classes.formText} spacing={2}>
-            <Grid item xs>
-              <TextField
-                label="Email"
-                variant="outlined"
-                name="mail"
-                defaultValue={userData.mail}
-                onChange={handleChange("mail")}
-                fullWidth="true"
-              />
+            <Grid container className={classes.formText} spacing={2}>
+              <Grid item xs>
+                <Controller
+                  name="mail"
+                  defaultValue={userData.mail}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      defaultValue={userData.mail}
+                      value={value}
+                      onChange={onChange}
+                      type="text"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Email requerido" }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container className={classes.formText} spacing={2}>
-            <Grid item xs>
-              <TextField
-                label="Teléfono"
-                variant="outlined"
-                name="telefono"
-                defaultValue={userData.telefono}
-                onChange={handleChange("telefono")}
-                fullWidth="true"
-              />
+            <Grid container className={classes.formText} spacing={2}>
+              <Grid item xs>
+                <Controller
+                  name="telefono"
+                  defaultValue={userData.telefono}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Teléfono"
+                      variant="outlined"
+                      defaultValue={userData.telefono}
+                      value={value}
+                      onChange={onChange}
+                      type="phone"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Teléfono requerido" }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container className={classes.formText} spacing={2}>
-            <Grid item xs>
-              <TextField
-                label="Cargo"
-                variant="outlined"
-                name="cargo"
-                defaultValue={userData.cargo}
-                onChange={handleChange("cargo")}
-                fullWidth="true"
-              />
+            <Grid container className={classes.formText} spacing={2}>
+              <Grid item xs>
+                <Controller
+                  name="cargo"
+                  defaultValue={userData.cargo}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Cargo"
+                      variant="outlined"
+                      defaultValue={userData.cargo}
+                      value={value}
+                      onChange={onChange}
+                      type="text"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Cargo requerido" }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container className={classes.formText} spacing={2}>
-            <Grid item xs>
-              <TextField
-                label="Asesor"
-                variant="outlined"
-                name="asesor"
-                defaultValue={userData.asesor}
-                onChange={handleChange("asesor")}
-                fullWidth="true"
-              />
+            <Grid container className={classes.formText} spacing={2}>
+              <Grid item xs>
+                <Controller
+                  name="asesor"
+                  defaultValue={userData.asesor}
+                  control={control}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Asesor"
+                      variant="outlined"
+                      defaultValue={userData.asesor}
+                      value={value}
+                      onChange={onChange}
+                      type="text"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Asesor requerido" }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-          <Button
-            className={classes.Button}
-            color="bussiness"
-            onClick={() => handleClickEditar()}
-
-            //habria que crear una consulta para obtener el id del usuario que esta en la base de datos
-            //se me ocurre que lo mejor es guardarlo en el Signin
-          >
-            Editar perfil
-          </Button>
-          <Grid container spacing={2}>
-            <Grid item xs>
-              <TextField
-                id="outlined-old-password-input"
-                label="Contraseña actual"
-                className={classes.textField}
-                type="password"
-                margin="normal"
-                name="password"
-                variant="outlined"
-                fullWidth="true"
-                value={values.password}
-                onChange={handleChange("password")}
-              />
+            <Button className={classes.Button} color="bussiness" type="submit">
+              Editar perfil
+            </Button>
+            <DialogCustom
+              open={editar}
+              handleClose={handleClickEditar}
+              title="Editar Usuario"
+              buttonSubmit="Editar"
+              maxWidth="sm"
+              isSubmitting={true}
+              onSubmit={() => updateProfile()}
+              //onSubmit={updateProfile}
+              content={
+                <Typography>
+                  ¿Estás seguro de que quieres editar tus datos de usuario?
+                </Typography>
+              }
+            />
+          </form>
+          <form key={2} onSubmit={handleSubmitPass(onSubmitPassword)}>
+            <Grid container spacing={2}>
+              <Grid item xs>
+                <Controller
+                  name="password"
+                  defaultValue=""
+                  control={controlPass}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Contraseña actual"
+                      variant="outlined"
+                      value={value}
+                      className={classes.textField}
+                      onChange={onChange}
+                      type="password"
+                      margin="normal"
+                      autoComplete="current-password"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Contraseña antigua requerida" }}
+                />
+              </Grid>
+              <Grid item xs>
+                <Controller
+                  name="newPassword"
+                  defaultValue=""
+                  control={controlPass}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Nueva contraseña"
+                      variant="outlined"
+                      value={value}
+                      className={classes.textField}
+                      onChange={onChange}
+                      type="password"
+                      margin="normal"
+                      autoComplete="new-password"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{ required: "Contraseña nueva requerida" }}
+                />
+              </Grid>
+              <Grid item xs>
+                <Controller
+                  name="reintroduceNewPassword"
+                  defaultValue=""
+                  control={controlPass}
+                  render={({
+                    field: { onChange, value },
+                    fieldState: { error },
+                  }) => (
+                    <TextField
+                      label="Reintroducir nueva contraseña"
+                      variant="outlined"
+                      className={classes.textField}
+                      onChange={onChange}
+                      type="password"
+                      margin="normal"
+                      value={value}
+                      autoComplete="new-password"
+                      error={!!error}
+                      helperText={error ? error.message : null}
+                      fullWidth="true"
+                    />
+                  )}
+                  rules={{
+                    required: "Contraseña nueva requerida",
+                    validate: (value) =>
+                      value === watch("newPassword") ||
+                      "Las contraseñas deben coincidir",
+                  }}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs>
-              <TextField
-                id="outlined-new-password-input"
-                label="Contraseña nueva"
-                className={classes.textField}
-                type="password"
-                margin="normal"
-                name="newPassword"
-                variant="outlined"
-                fullWidth="true"
-                autoComplete="new-password"
-                onChange={handleChange("newPassword")}
-              />
-            </Grid>
-            {/* <Grid item xs>
-              <TextField
-                label="Reintroducir contraseña nueva"
-                className={classes.textField}
-                type="password"
-                margin="normal"
-                name="confirmNewPassword"
-                variant="outlined"
-                fullWidth="true"
-                autoComplete="new-password"
-                //onChange={handleChange("password")}
-              />
-            </Grid> */}
-          </Grid>
-          <Button
-            className={classes.Button}
-            color="bussiness"
-            onClick={() => handleClickCambiar()}
-          >
-            Cambiar contraseña
-          </Button>
+            <Button className={classes.Button} color="bussiness" type="submit">
+              Cambiar contraseña
+            </Button>
+            <DialogCustom
+              open={cambiar}
+              handleClose={handleClickCambiar}
+              title="Cambiar tu Contraseña"
+              buttonSubmit="Cambiar"
+              maxWidth="sm"
+              isSubmitting={true}
+              onSubmit={() => updatePassword()}
+              content={
+                <Typography>
+                  ¿Estás seguro de que quieres cambiar tu contraseña?
+                </Typography>
+              }
+            />
+          </form>
         </CardBody>
         <CardFooter></CardFooter>
       </Card>
-
-      <DialogCustom
-        open={editar}
-        handleClose={handleClickEditar}
-        title="Editar Usuario"
-        buttonSubmit="Editar"
-        maxWidth="sm"
-        onSubmit={updateProfile}
-        content={
-          <Typography>
-            ¿Estás seguro de que quieres editar tus datos de usuario?
-          </Typography>
-        }
-      />
-
-      <DialogCustom
-        open={cambiar}
-        handleClose={handleClickCambiar}
-        title="Cambiar tu Contraseña"
-        buttonSubmit="Cambiar"
-        maxWidth="sm"
-        onSubmit={updatePassword}
-        content={
-          <Typography>
-            ¿Estás seguro de que quieres cambiar tu contraseña?
-          </Typography>
-        }
-      />
     </div>
   );
 }
