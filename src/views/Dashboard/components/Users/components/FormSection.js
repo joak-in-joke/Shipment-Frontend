@@ -117,7 +117,6 @@ const FormSection = ({ handleChange, data }) => {
           </MenuItem>
           <MenuItem value={1}>Empleado</MenuItem>
           <MenuItem value={2}>Cliente</MenuItem>
-          <MenuItem value={3}>Aweonao</MenuItem>
         </Select>
       </Grid>
 

@@ -76,7 +76,7 @@ const GeneralSection = () => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Controller
             control={control}
             name="id"
@@ -95,7 +95,7 @@ const GeneralSection = () => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Controller
             control={control}
             name="referencia"
@@ -113,7 +113,7 @@ const GeneralSection = () => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Controller
             control={control}
             name="estado"
@@ -130,7 +130,7 @@ const GeneralSection = () => {
                     <em>Seleccionar</em>
                   </MenuItem>
                   <MenuItem value="origen">En Origen</MenuItem>
-                  <MenuItem value="avordo">Abordo</MenuItem>
+                  <MenuItem value="avordo">A Bordo</MenuItem>
                   <MenuItem value="llegada">Llegada</MenuItem>
                   <MenuItem value="finalizado">Finalizado</MenuItem>
                 </Select>{" "}
@@ -139,7 +139,7 @@ const GeneralSection = () => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Controller
             control={control}
             name="incoterm"

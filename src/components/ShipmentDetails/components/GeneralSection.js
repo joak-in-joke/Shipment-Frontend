@@ -72,7 +72,7 @@ const GeneralSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Controller
             control={control}
             name="id"
@@ -92,7 +92,7 @@ const GeneralSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Controller
             control={control}
             name="referencia"
@@ -111,7 +111,7 @@ const GeneralSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Controller
             control={control}
             name="estado"
@@ -137,7 +137,7 @@ const GeneralSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={1}>
           <Controller
             control={control}
             name="incoterm"
