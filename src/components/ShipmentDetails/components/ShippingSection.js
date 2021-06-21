@@ -37,7 +37,7 @@ const ShippingSection = ({ isDisabled = true }) => {
     <Grid className={classes.rootSection}>
       Datos de envío
       <Grid container spacing={2}>
-        <Grid item xs={2}>
+        <Grid item xs>
           <Controller
             control={control}
             name="exportador"
@@ -69,7 +69,7 @@ const ShippingSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs>
           <Controller
             control={control}
             name="importador"
@@ -101,7 +101,7 @@ const ShippingSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs>
           <Controller
             control={control}
             name="operador"
@@ -118,7 +118,7 @@ const ShippingSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs>
           <Controller
             control={control}
             name="agencia"
@@ -134,17 +134,70 @@ const ShippingSection = ({ isDisabled = true }) => {
             )}
           />
         </Grid>
+      </Grid>
+      {(transportWatch === "LCL" || transportWatch === "FCL") && (
+        <Grid container spacing={2}>
+          {tipeWatch === "Exportacion" && (
+            <Grid item xs>
+              <Controller
+                control={control}
+                name="reserva"
+                render={({ field: { onChange, value } }) => (
+                  <TextField
+                    label="Número de reserva"
+                    variant="outlined"
+                    value={value}
+                    className={classes.formControl}
+                    onChange={onChange}
+                    disabled={isDisabled && true}
+                  />
+                )}
+              />
+            </Grid>
+          )}
 
-        {(transportWatch === "LCL" || transportWatch === "FCL") && (
-          <>
-            {tipeWatch === "Exportacion" && (
-              <Grid item xs={2}>
+          {transportWatch === "LCL" && (
+            <>
+              <Grid item xs>
                 <Controller
                   control={control}
-                  name="reserva"
+                  name="tipoDocumento"
+                  defaultValue
+                  render={({ field: { onChange, value } }) => (
+                    <FormControl
+                      variant="outlined"
+                      className={classes.formControl}
+                    >
+                      <InputLabel id="tipoDocumentolabel">
+                        Tipo de documento
+                      </InputLabel>
+                      <Select
+                        labelId="tipoDocumentolabel"
+                        value={value}
+                        onChange={onChange}
+                        disabled={isDisabled && true}
+                        label="Tipo de documento"
+                        defaultValue
+                      >
+                        <MenuItem value="">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        <MenuItem value="MBL">MBL</MenuItem>
+                        <MenuItem value="HBL">HBL</MenuItem>
+                        <MenuItem value="NBL">NBL</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={8}>
+                <Controller
+                  control={control}
+                  name="documento"
                   render={({ field: { onChange, value } }) => (
                     <TextField
-                      label="Número de reserva"
+                      label="Número de Documento"
                       variant="outlined"
                       value={value}
                       className={classes.formControl}
@@ -154,141 +207,88 @@ const ShippingSection = ({ isDisabled = true }) => {
                   )}
                 />
               </Grid>
-            )}
+            </>
+          )}
 
-            {transportWatch === "LCL" && (
-              <>
-                <Grid item xs={2}>
-                  <Controller
-                    control={control}
-                    name="tipoDocumento"
-                    defaultValue
-                    render={({ field: { onChange, value } }) => (
-                      <FormControl
-                        variant="outlined"
-                        className={classes.formControl}
+          {transportWatch === "FCL" && (
+            <>
+              <Grid item xs>
+                <Controller
+                  control={control}
+                  name="depositoContenedores"
+                  render={({ field: { onChange, value } }) => (
+                    <TextField
+                      label="Depósito de Contenedores"
+                      variant="outlined"
+                      value={value}
+                      className={classes.formControl}
+                      onChange={onChange}
+                      disabled={isDisabled && true}
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs>
+                <Controller
+                  control={control}
+                  name="contTipo"
+                  defaultValue
+                  render={({ field: { onChange, value } }) => (
+                    <FormControl
+                      variant="outlined"
+                      className={classes.formControl}
+                    >
+                      <InputLabel id="contTipolabel">Tipo</InputLabel>
+                      <Select
+                        labelId="contTipolabel"
+                        value={value}
+                        onChange={onChange}
+                        disabled={isDisabled && true}
+                        label="Tipo"
+                        defaultValue
                       >
-                        <InputLabel id="tipoDocumentolabel">
-                          Tipo de documento
-                        </InputLabel>
-                        <Select
-                          labelId="tipoDocumentolabel"
-                          value={value}
-                          onChange={onChange}
-                          disabled={isDisabled && true}
-                          label="Tipo de documento"
-                          defaultValue
-                        >
-                          <MenuItem value="">
-                            <em>Seleccionar</em>
-                          </MenuItem>
-                          <MenuItem value="MBL">MBL</MenuItem>
-                          <MenuItem value="HBL">HBL</MenuItem>
-                          <MenuItem value="NBL">NBL</MenuItem>
-                        </Select>
-                      </FormControl>
-                    )}
-                  />
-                </Grid>
+                        <MenuItem value="">
+                          <em>Seleccionar</em>
+                        </MenuItem>
+                        <MenuItem value="0">Sin container</MenuItem>
+                        <MenuItem value="1">20’ Flat Rack</MenuItem>
+                        <MenuItem value="2">20’ Open Top</MenuItem>
+                        <MenuItem value="3">20’ Standard</MenuItem>
+                        <MenuItem value="4">40’ Flat Rack</MenuItem>
+                        <MenuItem value="5">40’ High Cube</MenuItem>
+                        <MenuItem value="6">40’ NOR</MenuItem>
+                        <MenuItem value="7">40’ Open Top</MenuItem>
+                        <MenuItem value="8">40’ Reefer</MenuItem>
+                        <MenuItem value="9">40’ Standard</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+                />
+              </Grid>
 
-                <Grid item xs={6}>
-                  <Controller
-                    control={control}
-                    name="documento"
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        label="Número de Documento"
-                        variant="outlined"
-                        value={value}
-                        className={classes.formControl}
-                        onChange={onChange}
-                        disabled={isDisabled && true}
-                      />
-                    )}
-                  />
-                </Grid>
-              </>
-            )}
-
-            {transportWatch === "FCL" && (
-              <>
-                <Grid item xs={2}>
-                  <Controller
-                    control={control}
-                    name="depositoContenedores"
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        label="Depósito de Contenedores"
-                        variant="outlined"
-                        value={value}
-                        className={classes.formControl}
-                        onChange={onChange}
-                        disabled={isDisabled && true}
-                      />
-                    )}
-                  />
-                </Grid>
-
-                <Grid item xs={2}>
-                  <Controller
-                    control={control}
-                    name="contTipo"
-                    defaultValue
-                    render={({ field: { onChange, value } }) => (
-                      <FormControl
-                        variant="outlined"
-                        className={classes.formControl}
-                      >
-                        <InputLabel id="contTipolabel">Tipo</InputLabel>
-                        <Select
-                          labelId="contTipolabel"
-                          value={value}
-                          onChange={onChange}
-                          disabled={isDisabled && true}
-                          label="Tipo"
-                          defaultValue
-                        >
-                          <MenuItem value="">
-                            <em>Seleccionar</em>
-                          </MenuItem>
-                          <MenuItem value="0">Sin container</MenuItem>
-                          <MenuItem value="1">20’ Flat Rack</MenuItem>
-                          <MenuItem value="2">20’ Open Top</MenuItem>
-                          <MenuItem value="3">20’ Standard</MenuItem>
-                          <MenuItem value="4">40’ Flat Rack</MenuItem>
-                          <MenuItem value="5">40’ High Cube</MenuItem>
-                          <MenuItem value="6">40’ NOR</MenuItem>
-                          <MenuItem value="7">40’ Open Top</MenuItem>
-                          <MenuItem value="8">40’ Reefer</MenuItem>
-                          <MenuItem value="9">40’ Standard</MenuItem>
-                        </Select>
-                      </FormControl>
-                    )}
-                  />
-                </Grid>
-
-                <Grid item xs={2}>
-                  <Controller
-                    control={control}
-                    name="sello"
-                    render={({ field: { onChange, value } }) => (
-                      <TextField
-                        label="Sello"
-                        variant="outlined"
-                        value={value}
-                        className={classes.formControl}
-                        onChange={onChange}
-                        disabled={isDisabled && true}
-                      />
-                    )}
-                  />
-                </Grid>
-              </>
-            )}
-          </>
-        )}
-
-        <Grid item>
+              <Grid item xs>
+                <Controller
+                  control={control}
+                  name="sello"
+                  render={({ field: { onChange, value } }) => (
+                    <TextField
+                      label="Sello"
+                      variant="outlined"
+                      value={value}
+                      className={classes.formControl}
+                      onChange={onChange}
+                      disabled={isDisabled && true}
+                    />
+                  )}
+                />
+              </Grid>
+            </>
+          )}
+        </Grid>
+      )}
+      <Grid container spacing={2}>
+        <Grid item xs>
           <Controller
             control={control}
             name="motonave"
@@ -305,7 +305,7 @@ const ShippingSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item>
+        <Grid item xs>
           <Controller
             control={control}
             name="viaje"
@@ -322,7 +322,7 @@ const ShippingSection = ({ isDisabled = true }) => {
           />
         </Grid>
 
-        <Grid item>
+        <Grid item xs>
           <Controller
             control={control}
             name="naviera"
@@ -340,7 +340,7 @@ const ShippingSection = ({ isDisabled = true }) => {
         </Grid>
 
         {transportWatch === "LCL" && (
-          <Grid item xs={4}>
+          <Grid item xs>
             <Controller
               control={control}
               name="almacen"
@@ -357,8 +357,9 @@ const ShippingSection = ({ isDisabled = true }) => {
             />
           </Grid>
         )}
-
-        {transportWatch === "LCL" && (
+      </Grid>
+      {transportWatch === "LCL" && (
+        <Grid container spacing={2}>
           <>
             <Grid item xs={6}>
               <Controller
@@ -377,7 +378,7 @@ const ShippingSection = ({ isDisabled = true }) => {
               />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs>
               <Controller
                 control={control}
                 name="bultos"
@@ -395,7 +396,7 @@ const ShippingSection = ({ isDisabled = true }) => {
               />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs>
               <Controller
                 control={control}
                 name="peso"
@@ -418,7 +419,7 @@ const ShippingSection = ({ isDisabled = true }) => {
               />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs>
               <Controller
                 control={control}
                 name="volumen"
@@ -441,8 +442,8 @@ const ShippingSection = ({ isDisabled = true }) => {
               />
             </Grid>
           </>
-        )}
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 };
