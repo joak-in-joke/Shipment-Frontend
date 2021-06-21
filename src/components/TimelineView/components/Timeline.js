@@ -87,7 +87,7 @@ export default function TimelineCustom({ timelineData, fetchTimeline }) {
         </TimelineItem>
       ))}
 
-      {estado === "Finalizado" && (
+      {estado === "finalizado" && (
         <TimelineItem>
           <TimelineSeparator>
             <TimelineDot color="secondary">

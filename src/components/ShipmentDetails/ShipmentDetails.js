@@ -47,8 +47,8 @@ export default function ShipmentDetails({ id }) {
         id: shipmentData.n_operacion,
         tipo: shipmentData.tipo_operacion,
         transporte: shipmentData.medio_transporte,
-        eta: shipmentData.fecha_inicio,
-        etd: shipmentData.fecha_fin,
+        eta: shipmentData.eta,
+        etd: shipmentData.etd,
         estado: shipmentData.estado,
         referencia: shipmentData.referencia,
         incoterm: shipmentData.intercom,
@@ -57,7 +57,7 @@ export default function ShipmentDetails({ id }) {
         exportador: shipmentData.exportador,
         importador: shipmentData.importador,
         operador: shipmentData.embarcador,
-        agencia: shipmentData.agencia,
+        agencia: shipmentData.agencia_aduana,
         tipoDocumento: shipmentData.tipo_documento,
         documento: shipmentData.tipo_documento,
         motonave: shipmentData.motonave,
@@ -65,13 +65,14 @@ export default function ShipmentDetails({ id }) {
         naviera: shipmentData.viaje,
         reserva: shipmentData.reserva,
         depositoContenedores: shipmentData.deposito_contenedores,
-        conTipo: shipmentData.cont_tipo,
+        contTipo: shipmentData.cont_tipo,
         sello: shipmentData.sello,
-        contenedor: shipmentData.contenedor,
-        bultos: shipmentData.cant_bultos,
-        peso: shipmentData.peso,
-        volumen: shipmentData.volumen,
-        destino: shipmentData.lugar_destino,
+        contenedor: shipmentData.data_transporte.contenedor,
+        bultos: shipmentData.data_transporte.cant_bultos,
+        peso: shipmentData.data_transporte.peso,
+        volumen: shipmentData.data_transporte.volumen,
+        almacen: shipmentData.data_transporte.lugar_destino,
+        destino: shipmentData.lugardestino,
         mercancias: mercanciasParse,
         transbordos: transbordosParse,
         transbordo: shipmentData.trasbordos.length > 0 ? true : null,
@@ -83,6 +84,7 @@ export default function ShipmentDetails({ id }) {
     API.get(`shipment/${id}`, {})
       .then(({ data: { resultado, data } }) => {
         if (resultado) {
+          console.log(data);
           setShipmentData(data);
         }
         setIsLoading(false);
@@ -166,19 +168,15 @@ export default function ShipmentDetails({ id }) {
       naviera: data.naviera,
       reserva: data.reserva,
 
-      ...(data.transporte === "LCL"
-        ? {
-            deposito_contenedores: data.depositoContenedores,
-            cont_tipo: data.conTipo,
-            sello: data.sello,
-          }
-        : {
-            contenedor: data.contenedor,
-            cant_bultos: data.bultos,
-            peso: data.peso,
-            volumen: data.volumen,
-            lugar_destino: data.destino,
-          }),
+      deposito_contenedores: data.depositoContenedores,
+      cont_tipo: data.contTipo,
+      sello: data.sello,
+
+      contenedor: data.contenedor,
+      cant_bultos: data.bultos,
+      peso: data.peso,
+      volumen: data.volumen,
+      lugar_destino: data.almacen,
 
       mercancias: mercancias,
       trasbordos: transbordos,
@@ -223,6 +221,7 @@ export default function ShipmentDetails({ id }) {
         open={modal}
         title="Modificado"
         content={`Se ha modificado correctamente`}
+        submit={() => setModal(false)}
       />
       <Dialog
         open={deleteModal}
