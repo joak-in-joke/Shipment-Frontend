@@ -86,19 +86,15 @@ const Index = () => {
       reserva: data.reserva,
       valor_cif: getValues("cif"),
 
-      ...(data.transporte === "LCL"
-        ? {
-            deposito_contenedores: data.depositoContenedores,
-            cont_tipo: data.conTipo,
-            sello: data.sello,
-          }
-        : {
-            contenedor: data.contenedor,
-            cant_bultos: data.bultos,
-            peso: data.peso,
-            volumen: data.volumen,
-            lugar_destino: data.destino,
-          }),
+      deposito_contenedores: data.depositoContenedores,
+      cont_tipo: data.contTipo,
+      sello: data.sello,
+
+      contenedor: data.contenedor,
+      cant_bultos: data.bultos,
+      peso: data.peso,
+      volumen: data.volumen,
+      lugar_destino: data.almacen,
 
       mercancias: mercancias,
       trasbordos: transbordos,

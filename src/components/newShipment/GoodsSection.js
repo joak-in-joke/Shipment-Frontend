@@ -4,20 +4,24 @@ import { Grid, IconButton, InputAdornment, TextField } from "@material-ui/core";
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Add, Delete } from "@material-ui/icons";
 
-const GoodsSection = () => {
+const GoodsSectionRun = () => {
   const classes = useStyles();
   const [valueCIF, setValueCIF] = useState(0);
-  const { control, watch, setValue } = useFormContext();
-  const goodsWatch = watch("mercancias");
+  const { control, setValue, getValues } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "mercancias",
   });
 
+  useEffect(() => {
+    append({ name: "ejemplo", value: 0, secure: 0, flete: 0 });
+  }, [append]);
+
   const calculateCif = () => {
     if (fields) {
       let total = 0;
       fields.map((field) => {
+        if (!field.value || !field.secure || !field.flete) return 0;
         total =
           parseInt(total) +
           parseInt(field.value) +
@@ -25,8 +29,11 @@ const GoodsSection = () => {
           parseInt(field.flete);
         setValueCIF(total);
         setValue("cif", total);
-        return null;
+        return total;
       });
+      if (total === isNaN) return 0;
+      setValueCIF(total);
+      setValue("cif", total);
     } else {
       setValueCIF(0);
     }
@@ -35,7 +42,7 @@ const GoodsSection = () => {
   useEffect(() => {
     calculateCif();
     // eslint-disable-next-line
-  }, [goodsWatch]);
+  }, [fields]);
 
   return (
     <Grid container className={classes.rootSectionGoods} spacing={2}>
@@ -62,6 +69,7 @@ const GoodsSection = () => {
               <Controller
                 control={control}
                 name={`mercancias.${index}.name`}
+                defaultValue={getValues(`mercancias.${index}.name`)}
                 render={({ field: { onChange, value } }) => (
                   <TextField
                     onChange={onChange}
@@ -97,7 +105,7 @@ const GoodsSection = () => {
             <Grid item xs={3}>
               <Controller
                 control={control}
-                name={`mercancias.${index}].flete`}
+                name={`mercancias.${index}.flete`}
                 render={({ field: { onChange, value } }) => (
                   <TextField
                     onChange={onChange}
@@ -154,5 +162,7 @@ const GoodsSection = () => {
     </Grid>
   );
 };
+
+const GoodsSection = React.memo(GoodsSectionRun);
 
 export default GoodsSection;

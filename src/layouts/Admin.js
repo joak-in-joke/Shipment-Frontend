@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthContext } from "context/AuthProvider";
 // creates a beautiful scrollbar
@@ -42,7 +42,7 @@ const switchRoutes = (
 const useStyles = makeStyles(styles);
 
 export default function Admin({ ...rest }) {
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn, IsVerify, verifyToken } = useContext(AuthContext);
   // styles
   const classes = useStyles();
   // ref to help us initialize PerfectScrollbar on windows devices
@@ -51,6 +51,11 @@ export default function Admin({ ...rest }) {
   const [image] = React.useState(bgImage);
   const [color] = React.useState("blue");
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  useEffect(() => {
+    verifyToken();
+    // eslint-disable-next-line
+  }, []);
   /* const handleImageClick = image => {
     setImage(image);
   };
@@ -95,7 +100,9 @@ export default function Admin({ ...rest }) {
     };
   }, [mainPanel]);*/
 
-  if (!loggedIn) {
+  if (IsVerify) {
+    return <> cargando </>;
+  } else if (!loggedIn) {
     return <AccessView />;
   } else {
     return (

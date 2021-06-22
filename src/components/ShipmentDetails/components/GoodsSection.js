@@ -6,7 +6,7 @@ import { Add, Delete } from "@material-ui/icons";
 
 const GoodsSectionRun = ({ isDisabled = true }) => {
   const classes = useStyles();
-  const { control, getValues, setValue } = useFormContext(); // retrieve all hook methods
+  const { control, getValues, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "mercancias",

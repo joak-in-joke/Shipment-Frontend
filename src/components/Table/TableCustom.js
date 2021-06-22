@@ -1,34 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
+import {
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  TableSortLabel,
+  Toolbar,
+  Typography,
+  Checkbox,
+  IconButton,
+  Tooltip,
+  FormControlLabel,
+  Switch,
+  TextField,
+  // Select,
+  // InputLabel,
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-// import FilterListIcon from "@material-ui/icons/FilterList";
-import { TextField } from "@material-ui/core";
 
 const options = [
   { value: "id", label: "ID" },
-  { value: "status", label: "Status" },
+  { value: "status", label: "Estado" },
   { value: "referencia", label: "Referencia" },
-  { value: "ETD", label: "ETD" },
-  { value: "ETA", label: "ETA" },
+  { value: "etd", label: "ETD" },
+  { value: "eta", label: "ETA" },
+];
+
+const optionsStatus = [
+  { value: "origen", label: "Origen" },
+  { value: "abordo", label: "Abordo" },
+  { value: "llegada", label: "Llegada" },
+  { value: "finalizado", label: "Finalizado" },
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -142,25 +153,23 @@ const useToolbarStyles = makeStyles((theme) => ({
   title: {
     flex: "1 1 100%",
   },
-  headerList: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
   filterArea: {
     display: "flex",
     flexDirection: "row",
-    width: "350px",
+    width: "550px",
   },
   select: {
     width: "170px",
     marginRight: "10px",
   },
   inputForm: {
-    width: "150px",
+    width: "180px",
     height: "36px",
     backgroundColor: "#FFFFFF",
+  },
+  button: {
+    marginLeft: "10px",
+    height: "36px",
   },
   cssFocused: {},
   notchedOutline: {},
@@ -168,7 +177,15 @@ const useToolbarStyles = makeStyles((theme) => ({
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
+  const [filtro, setFiltro] = useState(null);
+  const [busqueda, setBusqueda] = useState(null);
   const { numSelected } = props;
+
+  const PressEnter = (e) => {
+    if (e.key === "Enter") {
+      props.filterTable(filtro, busqueda);
+    }
+  };
 
   return (
     <Toolbar
@@ -205,17 +222,62 @@ const EnhancedTableToolbar = (props) => {
           </Tooltip>
         </div>
       ) : (
-        <div className={classes.headerList}>
-          <div className={classes.filterArea}>
+        <div className={classes.filterArea}>
+          {/* <InputLabel htmlFor="filtroLabel">Filtro</InputLabel>
+           <Select
+            native
+            value={filtro}
+            onChange={() => setFiltro()}
+            label="filtroLabel"
+            placeholder="Selecciona filtro"
+            inputProps={{
+              name: "age",
+              id: "filtroLabel",
+            }}
+          >
+            <option aria-label="" value="" />
+            <option value="id">ID</option>
+            <option value="status">estado</option>
+            <option value="referencia">referencia</option>
+            <option value="eta">eta</option>
+            <option value="etd">etd</option>
+          </Select> */}
+          <Select
+            className={classes.select}
+            options={options}
+            placeholder="Selecciona filtro"
+            onChange={(e) => setFiltro(e.value)}
+          />
+          {filtro === "status" ? (
             <Select
               className={classes.select}
-              options={options}
-              placeholder="Selecciona filtro"
+              options={optionsStatus}
+              placeholder="Selecciona estado"
+              onChange={(e) => setBusqueda(e.value)}
+              onKeyUp={(e) => PressEnter(e)}
             />
+          ) : filtro === "eta" || filtro === "etd" ? (
             <TextField
-              name="filter"
+              placeholder="fecha"
+              variant="outlined"
+              onChange={(e) => setBusqueda(e.target.value)}
+              onKeyUp={(e) => PressEnter(e)}
+              size="small"
+              type="date"
+              InputProps={{
+                classes: {
+                  root: classes.inputForm,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+            />
+          ) : (
+            <TextField
               placeholder="filtrar"
               variant="outlined"
+              onChange={(e) => setBusqueda(e.target.value)}
+              onKeyUp={(e) => PressEnter(e)}
               size="small"
               InputProps={{
                 classes: {
@@ -225,7 +287,17 @@ const EnhancedTableToolbar = (props) => {
                 },
               }}
             />
-          </div>
+          )}
+
+          <Button
+            variant="contained"
+            className={classes.button}
+            size="small"
+            disableElevation
+            onClick={() => props.filterTable(filtro, busqueda)}
+          >
+            Filtrar
+          </Button>
         </div>
       )}
     </Toolbar>
@@ -336,6 +408,7 @@ export default function EnhancedTable(props) {
       <EnhancedTableToolbar
         numSelected={selected.length}
         dense={dense}
+        filterTable={props.filterTable}
         handleChangeDense={handleChangeDense}
       />
       <TableContainer>
