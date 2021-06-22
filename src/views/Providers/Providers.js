@@ -57,11 +57,9 @@ export default function TableList() {
       banco: data.banco_cuenta,
       tipo_cuenta: data.tipo_cuenta,
     })
-      .then(({ data: { resultado } }) => {
-        if (resultado) {
-          getProviders();
-          setOpen(false);
-        }
+      .then(() => {
+        getProviders();
+        setOpen(false);
       })
       .catch((error) => {
         console.log(error);

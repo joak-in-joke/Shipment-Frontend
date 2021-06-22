@@ -154,6 +154,7 @@ export default function ShipmentDetails({ id }) {
       etd: data.etd,
       referencia: data.referencia,
       intercom: data.incoterm,
+      estado: data.estado,
       puertoembarque: data.puertoETA,
       puertodestino: data.puertoETD,
       lugardestino: data.destino,

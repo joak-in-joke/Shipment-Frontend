@@ -126,7 +126,7 @@ const GeneralSection = ({ isDisabled = true }) => {
                   label="Estado"
                   value={value}
                   onChange={onChange}
-                  disabled={true}
+                  disabled={isDisabled && true}
                   defaultValue
                 >
                   <MenuItem value="origen">En Origen</MenuItem>
