@@ -38,8 +38,8 @@ const AuthProvider = (props) => {
     setErrorSignIn(false);
     API.post(`auth/signin`, {
       mail: email,
-      pass: md5(password),
-      //pass: password,
+      //pass: md5(password),
+      pass: password,
     })
       .then((res) => {
         setIsLoading(false);
