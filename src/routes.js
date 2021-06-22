@@ -26,7 +26,7 @@ import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableList from "views/TableList/TableList.js";
 import ShipmentDetail from "views/ShipmentDetail/ShipmentDetail.js";
-import AddShipment from "views/addShipment/AddShipment.js";
+import AddShipment from "views/AddShipment/AddShipment.js";
 import Providers from "views/Providers/Providers";
 /* import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";

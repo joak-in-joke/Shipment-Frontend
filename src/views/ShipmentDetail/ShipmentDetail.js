@@ -14,7 +14,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import TimelineView from "components/TimelineView/TimelineView.js";
 import ShipmentDetails from "components/ShipmentDetails/ShipmentDetails.js";
-import FilesView from "components/FilesView/FilesView.js";
+// import FilesView from "components/FilesView/FilesView.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -80,18 +80,18 @@ export default function ShipmentDetail() {
                 aria-label="Shipment Tabs"
               >
                 <StyledTab label="Datos" {...a11yProps(0)} />
-                <StyledTab label="Archivos" {...a11yProps(1)} />
-                <StyledTab label="Linea de tiempo" {...a11yProps(2)} />
+                {/* <StyledTab label="Archivos" {...a11yProps(1)} /> */}
+                <StyledTab label="Linea de tiempo" {...a11yProps(1)} />
               </StyledTabs>
             </CardHeader>
             <CardBody>
               <TabPanel value={value} index={0}>
                 <ShipmentDetails id={id} />
               </TabPanel>
-              <TabPanel value={value} index={1}>
+              {/* <TabPanel value={value} index={1}>
                 <FilesView id={id} />
-              </TabPanel>
-              <TabPanel value={value} index={2}>
+              </TabPanel> */}
+              <TabPanel value={value} index={1}>
                 <TimelineView id={id} />
               </TabPanel>
             </CardBody>

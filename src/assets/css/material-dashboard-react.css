@@ -22,8 +22,25 @@
 .ct-series-a .ct-point,
 .ct-series-a .ct-line,
 .ct-series-a .ct-bar,
+.ct-series-a .ct-slice-pie,
 .ct-series-a .ct-slice-donut {
   stroke: rgba(255, 255, 255, 0.8);
+}
+
+.ct-series-c .ct-area,
+.ct-series-c .ct-slice-donut-solid,
+.ct-series-c .ct-slice-pie {
+  fill: #26ffb5;
+}
+.ct-series-b .ct-area,
+.ct-series-b .ct-slice-donut-solid,
+.ct-series-b .ct-slice-pie {
+  fill: #33b8ff;
+}
+.ct-series-a .ct-area,
+.ct-series-a .ct-slice-donut-solid,
+.ct-series-a .ct-slice-pie {
+  fill: #23e5e8;
 }
 
 .ct-label.ct-horizontal.ct-end {
@@ -44,6 +61,7 @@
 }
 
 .ct-chart-line .ct-label,
+.ct-chart-pie .ct-label,
 .ct-chart-bar .ct-label {
   display: block;
   display: -webkit-box;
@@ -54,7 +72,7 @@
 }
 
 .ct-label {
-  fill: rgba(0, 0, 0, 0.4);
+  fill: #ffffff;
   line-height: 1;
 }
 html * {

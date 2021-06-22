@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { AuthContext } from "context/AuthProvider";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -38,6 +39,11 @@ export default function Dashboard() {
   const classes = useStyles();
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const {
+    userData: {
+      permisos: { perm_admin, perm_superuser, perm_misiones },
+    },
+  } = useContext(AuthContext);
 
   useEffect(() => {
     API.get(`shipment/state`, {}).then(({ data: { resultado, data } }) => {
@@ -143,7 +149,7 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> Actualizado hace 5 minutos
+                <AccessTime /> Actualizado en tiempo real
               </div>
             </CardFooter>
           </Card>
@@ -171,7 +177,7 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> Actualizado primer dia del mes
+                <AccessTime /> Actualizado en tiempo real
               </div>
             </CardFooter>
           </Card>
@@ -190,12 +196,14 @@ export default function Dashboard() {
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Valor de precio</h4>
-              <p className={classes.cardCategory}>Valor de precio empresa</p>
+              <h4 className={classes.cardTitle}>Valores acumulados en USD</h4>
+              <p className={classes.cardCategory}>
+                Porcentaje de gastos en las mercancias
+              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> Actualizado primer dia del mes
+                <AccessTime /> Actualizado en tiempo real
               </div>
             </CardFooter>
           </Card>
@@ -203,12 +211,16 @@ export default function Dashboard() {
       </GridContainer>
 
       <GridContainer>
-        <GridItem xs={12} sm={12} md={6}>
-          <IndexUsers />
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <IndexMissions />
-        </GridItem>
+        {(perm_admin || perm_superuser) && (
+          <GridItem xs={12} sm={12} md={6}>
+            <IndexUsers />
+          </GridItem>
+        )}
+        {perm_misiones && (
+          <GridItem xs={12} sm={12} md={6}>
+            <IndexMissions />
+          </GridItem>
+        )}
       </GridContainer>
     </div>
   );

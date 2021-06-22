@@ -161,25 +161,27 @@ export default function CustomTable(props) {
                   );
                 })}
                 <TableCell className={classes.tableCell} key={key}>
-                  <Tooltip
-                    id="tooltip-top"
-                    title="Editar"
-                    placement="top"
-                    classes={{ tooltip: classes.tooltip }}
-                  >
-                    <IconButton
-                      aria-label="Edit"
-                      className={classes.tableActionButton}
-                      onClick={() => handleClose(prop[0])}
+                  {userData.permisos.perm_admin && (
+                    <Tooltip
+                      id="tooltip-top"
+                      title="Editar"
+                      placement="top"
+                      classes={{ tooltip: classes.tooltip }}
                     >
-                      <Edit
-                        className={
-                          classes.tableActionButtonIcon + " " + classes.edit
-                        }
-                      />
-                    </IconButton>
-                  </Tooltip>
-                  {userData.id !== prop[0] && (
+                      <IconButton
+                        aria-label="Edit"
+                        className={classes.tableActionButton}
+                        onClick={() => handleClose(prop[0])}
+                      >
+                        <Edit
+                          className={
+                            classes.tableActionButtonIcon + " " + classes.edit
+                          }
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                  {userData.id !== prop[0] && userData.permisos.perm_admin && (
                     <Tooltip
                       id="tooltip-top-start"
                       title="Eliminar"

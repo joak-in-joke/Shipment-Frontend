@@ -175,7 +175,6 @@ const completedTasksChart = {
     chartPadding: 30,
     labelOffset: 30,
     labelDirection: "explode",
-    showLabel: true,
   },
 
   animation: {
