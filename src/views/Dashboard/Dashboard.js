@@ -4,14 +4,12 @@ import ChartistGraph from "react-chartist";
 // @material-ui/core
 import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
-import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import AccessTime from "@material-ui/icons/AccessTime";
 import {
   TripOrigin as Origin,
   FlightTakeoff as OnBoard,
   FlightLand as Coming,
   FiberManualRecord as Finished,
-  DateRangeTwoTone,
 } from "@material-ui/icons";
 // core components
 import GridItem from "components/Grid/GridItem.js";
@@ -50,23 +48,9 @@ export default function Dashboard() {
           onBoard: data.Abordos,
           finished: data.Finalizados,
           coming: data.Llegadas,
-          Anual: {
-            labels: [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "Mai",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ],
-            series: [data.anualGraph],
-          },
+          Anual: data.anualGraph,
+          Month: data.monthGraph,
+          Value: data.valueGraph,
         });
         setIsLoading(false);
       }
@@ -142,19 +126,19 @@ export default function Dashboard() {
             <CardHeader color="bussiness2">
               <ChartistGraph
                 className="ct-chart"
-                data={dailySalesChart.data}
+                data={{
+                  labels: dailySalesChart.data.labels,
+                  series: [data.Month],
+                }}
                 type="Line"
                 options={dailySalesChart.options}
                 listener={dailySalesChart.animation}
               />
             </CardHeader>
             <CardBody>
-              <h4 className={classes.cardTitle}>Embarques semanales</h4>
+              <h4 className={classes.cardTitle}>Embarques Mensuales</h4>
               <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <ArrowUpward className={classes.upArrowCardCategory} /> 55%
-                </span>{" "}
-                incremento en los embarques.
+                Embarques en origen de este Mes.
               </p>
             </CardBody>
             <CardFooter chart>
@@ -169,7 +153,10 @@ export default function Dashboard() {
             <CardHeader color="bussiness2">
               <ChartistGraph
                 className="ct-chart"
-                data={data.Anual}
+                data={{
+                  labels: emailsSubscriptionChart.data.labels,
+                  series: [data.Anual],
+                }}
                 type="Bar"
                 options={emailsSubscriptionChart.options}
                 responsiveOptions={emailsSubscriptionChart.responsiveOptions}
@@ -194,10 +181,12 @@ export default function Dashboard() {
             <CardHeader color="bussiness2">
               <ChartistGraph
                 className="ct-chart"
-                data={completedTasksChart.data}
-                type="Line"
+                data={{
+                  labels: completedTasksChart.data.labels,
+                  series: data.Value,
+                }}
+                type="Pie"
                 options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
               />
             </CardHeader>
             <CardBody>
