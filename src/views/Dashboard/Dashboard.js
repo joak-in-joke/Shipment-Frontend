@@ -11,6 +11,7 @@ import {
   FlightTakeoff as OnBoard,
   FlightLand as Coming,
   FiberManualRecord as Finished,
+  DateRangeTwoTone,
 } from "@material-ui/icons";
 // core components
 import GridItem from "components/Grid/GridItem.js";
@@ -49,6 +50,23 @@ export default function Dashboard() {
           onBoard: data.Abordos,
           finished: data.Finalizados,
           coming: data.Llegadas,
+          Anual: {
+            labels: [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "Mai",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ],
+            series: [data.anualGraph],
+          },
         });
         setIsLoading(false);
       }
@@ -151,7 +169,7 @@ export default function Dashboard() {
             <CardHeader color="bussiness2">
               <ChartistGraph
                 className="ct-chart"
-                data={emailsSubscriptionChart.data}
+                data={data.Anual}
                 type="Bar"
                 options={emailsSubscriptionChart.options}
                 responsiveOptions={emailsSubscriptionChart.responsiveOptions}
