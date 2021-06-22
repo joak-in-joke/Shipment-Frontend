@@ -12,6 +12,7 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 import { useForm, Controller } from "react-hook-form";
+import md5 from "md5";
 
 import API from "variables/api.js";
 // import Visibility from "@material-ui/icons/Visibility";
@@ -121,7 +122,7 @@ export default function UserProfile() {
       apellido: values.apellido,
       rut: values.rut,
       dv: values.dv,
-      mail: values.email,
+      mail: values.mail,
       cargo: values.cargo,
       asesor: values.asesor,
       telefono: values.telefono,
@@ -136,8 +137,8 @@ export default function UserProfile() {
   const updatePassword = () => {
     API.post(`users/updatepassword`, {
       id: userData.id,
-      password: values.password,
-      newPassword: values.newPassword,
+      password: md5(values.password),
+      newPassword: md5(values.newPassword),
     }).then(() => {
       setCambiar(!cambiar);
       console.log("bien esho");
