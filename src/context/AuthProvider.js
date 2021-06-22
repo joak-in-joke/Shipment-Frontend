@@ -39,7 +39,7 @@ const AuthProvider = (props) => {
     API.post(`auth/signin`, {
       mail: email,
       pass: md5(password),
-      //pass: password,
+      // pass: password,
     })
       .then((res) => {
         setIsLoading(false);
