@@ -61,12 +61,24 @@ export default function TableList() {
   const classes = useStyles();
   const history = useHistory();
   const [shipmentList, setShipmentList] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     API.get(`shipment`, {}).then((res) => {
       setShipmentList(res.data);
+      setIsLoading(false);
     });
   }, []);
+
+  const filterTable = (filtro, busqueda) => {
+    if (filtro && busqueda)
+      API.post(`shipment/filter`, {
+        filtro: filtro,
+        busqueda: busqueda,
+      }).then((res) => {
+        setShipmentList(res.data);
+      });
+  };
 
   const handleClickAddShipment = () => {
     history.push(`/admin/table/newshipment`);
@@ -95,11 +107,12 @@ export default function TableList() {
             </div>
           </CardHeader>
           <CardBody>
-            {shipmentList.length > 0 && (
+            {!isLoading && (
               <Table
                 tableHeaderColor="bussiness"
                 dataHeader={dataHeader}
                 tableData={shipmentList}
+                filterTable={filterTable}
               />
             )}
           </CardBody>

@@ -6,7 +6,7 @@ import { Add, Delete } from "@material-ui/icons";
 
 const TransbordSection = ({ isDisabled = true }) => {
   const classes = useStyles();
-  const { control, getValues } = useFormContext(); // retrieve all hook methods
+  const { control, getValues } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "transbordos",

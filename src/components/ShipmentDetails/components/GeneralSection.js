@@ -15,7 +15,9 @@ const GeneralSection = ({ isDisabled = true }) => {
   const {
     control,
     formState: { errors },
-  } = useFormContext(); // retrieve all hook methods
+    getValues,
+  } = useFormContext();
+  console.log(getValues());
   return (
     <Grid className={classes.rootSection}>
       Información general
@@ -124,7 +126,7 @@ const GeneralSection = ({ isDisabled = true }) => {
                   label="Estado"
                   value={value}
                   onChange={onChange}
-                  disabled={isDisabled && true}
+                  disabled={true}
                   defaultValue
                 >
                   <MenuItem value="origen">En Origen</MenuItem>

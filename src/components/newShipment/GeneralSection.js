@@ -125,12 +125,14 @@ const GeneralSection = () => {
                   label="Estado"
                   value={value}
                   onChange={onChange}
+                  defaultValue="origen"
+                  disabled={true}
                 >
                   <MenuItem value="">
                     <em>Seleccionar</em>
                   </MenuItem>
                   <MenuItem value="origen">En Origen</MenuItem>
-                  <MenuItem value="avordo">A Bordo</MenuItem>
+                  <MenuItem value="abordo">Abordo</MenuItem>
                   <MenuItem value="llegada">Llegada</MenuItem>
                   <MenuItem value="finalizado">Finalizado</MenuItem>
                 </Select>{" "}
