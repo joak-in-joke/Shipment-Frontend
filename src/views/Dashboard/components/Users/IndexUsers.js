@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { AuthContext } from "context/AuthProvider";
 import { makeStyles } from "@material-ui/core/styles";
 import API from "variables/api.js";
 import Card from "components/Card/Card.js";
@@ -19,6 +20,11 @@ const IndexUsers = () => {
   const [users, setUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [open, setOpen] = useState(false);
+  const {
+    userData: {
+      permisos: { perm_admin },
+    },
+  } = useContext(AuthContext);
 
   const [data, setData] = useState({
     tipo: "",
@@ -100,17 +106,18 @@ const IndexUsers = () => {
           <div className={classes.informationSecc}>
             <h4 className={classes.cardTitleWhite}>Cuentas</h4>
             <p className={classes.cardCategoryWhite}>
-              El ultimo empleado creado fue el 16-Septiembre
+              Lista de las cuentas creadas en el sistema
             </p>
           </div>
-          <Button
-            className={classes.addButton}
-            color="bussiness"
-            onClick={handleModal}
-          >
-            {/* Se le entrega a onClick la funcion handleClose para que al presionar me cambie el estado de open */}
-            Añadir
-          </Button>
+          {perm_admin && (
+            <Button
+              className={classes.addButton}
+              color="bussiness"
+              onClick={handleModal}
+            >
+              Añadir
+            </Button>
+          )}
         </CardHeader>
         <CardBody>
           {!isLoading && (

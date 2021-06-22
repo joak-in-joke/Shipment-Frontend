@@ -22,17 +22,14 @@ import {
   FormControlLabel,
   Switch,
   TextField,
-  // Select,
-  // InputLabel,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-
 const options = [
   { value: "id", label: "ID" },
   { value: "status", label: "Estado" },
   { value: "referencia", label: "Referencia" },
-  { value: "etd", label: "ETD" },
-  { value: "eta", label: "ETA" },
+  // { value: "etd", label: "ETD" },
+  // { value: "eta", label: "ETA" },
 ];
 
 const optionsStatus = [
@@ -216,7 +213,10 @@ const EnhancedTableToolbar = (props) => {
       {numSelected > 0 ? (
         <div>
           <Tooltip title="borrar">
-            <IconButton aria-label="delete">
+            <IconButton
+              aria-label="delete"
+              onClick={() => props.deleteShipments()}
+            >
               <DeleteIcon />
             </IconButton>
           </Tooltip>
@@ -346,6 +346,10 @@ export default function EnhancedTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { tableData, tableHeaderColor, dataHeader } = props;
 
+  const deleteShipments = () => {
+    props.deleteShipments(selected);
+  };
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -410,6 +414,7 @@ export default function EnhancedTable(props) {
         dense={dense}
         filterTable={props.filterTable}
         handleChangeDense={handleChangeDense}
+        deleteShipments={deleteShipments}
       />
       <TableContainer>
         <Table
@@ -435,7 +440,6 @@ export default function EnhancedTable(props) {
               .map((row, index) => {
                 const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
-
                 return (
                   <TableRow
                     hover

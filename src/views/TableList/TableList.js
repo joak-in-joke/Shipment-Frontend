@@ -11,6 +11,7 @@ import Table from "components/Table/TableCustom.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import Dialog from "./Dialog.js";
 
 import { dataHeader } from "./dataExample";
 import API from "variables/api.js";
@@ -62,16 +63,35 @@ export default function TableList() {
   const history = useHistory();
   const [shipmentList, setShipmentList] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [selecteds, setSelecteds] = useState([]);
 
-  useEffect(() => {
+  const fetch = () => {
     API.get(`shipment`, {}).then((res) => {
       setShipmentList(res.data);
       setIsLoading(false);
     });
+  };
+
+  const confirmDeleteShipments = () => {
+    console.log(selecteds);
+    API.post(`shipment/deleteMasive`, { id: selecteds }).then(() => {
+      fetch();
+      setOpenModal(false);
+    });
+  };
+
+  const deleteShipments = (selected) => {
+    setSelecteds(selected);
+    setOpenModal(true);
+  };
+
+  useEffect(() => {
+    fetch();
   }, []);
 
   const filterTable = (filtro, busqueda) => {
-    if (filtro && busqueda)
+    if (busqueda)
       API.post(`shipment/filter`, {
         filtro: filtro,
         busqueda: busqueda,
@@ -113,11 +133,21 @@ export default function TableList() {
                 dataHeader={dataHeader}
                 tableData={shipmentList}
                 filterTable={filterTable}
+                fetch={fetch}
+                deleteShipments={deleteShipments}
               />
             )}
           </CardBody>
         </Card>
       </GridItem>
+
+      <Dialog
+        open={openModal}
+        submit={() => confirmDeleteShipments()}
+        close={() => setOpenModal(false)}
+        title="Confirmar eliminacion"
+        content={`¿Estas seguro de eliminar estos embarques?`}
+      />
     </GridContainer>
   );
 }
