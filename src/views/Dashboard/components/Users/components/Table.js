@@ -55,8 +55,10 @@ export default function CustomTable(props) {
   });
 
   const handleClose = (e = null) => {
+    console.log(`users/${e}`);
     setOpen(!open);
     setId(e);
+
     API.get(`users/${e}`, {}).then(({ data: { respuesta, data } }) => {
       if (respuesta) {
         setData({

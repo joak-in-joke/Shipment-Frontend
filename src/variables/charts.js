@@ -54,10 +54,16 @@ const dailySalesChart = {
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
-      tension: 0,
+      tension: 0.2,
     }),
+    showArea: true,
+    showPoint: false,
+    axisX: {
+      showLabel: false,
+      showGrid: false,
+    },
     low: 0,
-    high: 8, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    high: 5, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,
@@ -124,7 +130,7 @@ const emailsSubscriptionChart = {
       showGrid: false,
     },
     low: 0,
-    high: 50,
+    high: 20,
     chartPadding: {
       top: 0,
       right: 5,
