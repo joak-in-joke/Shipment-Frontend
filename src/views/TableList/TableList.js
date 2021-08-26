@@ -67,7 +67,7 @@ export default function TableList() {
   const [selecteds, setSelecteds] = useState([]);
 
   const fetch = () => {
-    API.get(`shipment`, {}).then((res) => {
+    API.get(`shipments`, {}).then(({ data: res }) => {
       setShipmentList(res.data);
       setIsLoading(false);
     });
@@ -92,10 +92,11 @@ export default function TableList() {
 
   const filterTable = (filtro, busqueda) => {
     if (busqueda)
-      API.post(`shipment/filter`, {
+      API.post(`shipments/filter`, {
         filtro: filtro,
         busqueda: busqueda,
       }).then((res) => {
+        console.log(res.data)
         setShipmentList(res.data);
       });
   };

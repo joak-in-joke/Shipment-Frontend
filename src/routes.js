@@ -16,7 +16,12 @@
 
 */
 // @material-ui/icons
-import { SupervisorAccount, Person, Dashboard } from "@material-ui/icons";
+import {
+  SupervisorAccount,
+  Person,
+  Dashboard,
+  AttachMoney,
+} from "@material-ui/icons";
 /* import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
@@ -28,6 +33,7 @@ import TableList from "views/TableList/TableList.js";
 import ShipmentDetail from "views/ShipmentDetail/ShipmentDetail.js";
 import AddShipment from "views/AddShipment/AddShipment.js";
 import Providers from "views/Providers/Providers";
+import Finance from "views/Finance/Finance.js";
 /* import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
@@ -71,15 +77,15 @@ export const RoutesInMenu = [
     layout: "/admin",
     isMenu: true,
   },
-  // {
-  //   path: "/icons",
-  //   name: "Financiero",
-  //   rtlName: "الرموز",
-  //   icon: AttachMoney,
-  //   component: Icons,
-  //   layout: "/admin",
-  //  isMenu: true,
-  // },
+  {
+    path: "/finance",
+    name: "Financiero",
+    rtlName: "الرموز",
+    icon: AttachMoney,
+    component: Finance,
+    layout: "/admin",
+    isMenu: true,
+  },
 ];
 
 const Routes = [
@@ -128,15 +134,15 @@ const Routes = [
     layout: "/admin",
     isMenu: true,
   },
-  // {
-  //   path: "/icons",
-  //   name: "Financiero",
-  //   rtlName: "الرموز",
-  //   icon: AttachMoney,
-  //   component: Icons,
-  //   layout: "/admin",
-  //  isMenu: true,
-  // },
+  {
+    path: "/finance",
+    name: "Financiero",
+    rtlName: "الرموز",
+    icon: AttachMoney,
+    component: Finance,
+    layout: "/admin",
+    isMenu: true,
+  },
   {
     path: "/providers",
     name: "Proveedores",

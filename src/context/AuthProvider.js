@@ -37,17 +37,17 @@ const AuthProvider = (props) => {
   const SignIn = async (email, password) => {
     setErrorSignIn(false);
     API.post(`auth/signin`, {
-      mail: email,
-      pass: md5(password),
-      // pass: password,
+      email: email,
+      // pass: md5(password),
+      pass: password,
     })
       .then((res) => {
         setIsLoading(false);
+        console.log(res.data);
         if (res.data.resultado === false) {
           setErrorSignIn(true);
           return;
         }
-        console.log(res.data);
         setUserData(res.data.usuario);
         setToken(res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.usuario));
