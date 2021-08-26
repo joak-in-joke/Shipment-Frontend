@@ -26,18 +26,25 @@ import {
 import DeleteIcon from "@material-ui/icons/Delete";
 const options = [
   { value: "id", label: "ID" },
-  { value: "status", label: "Estado" },
+  { value: "estado", label: "Estado" },
   { value: "referencia", label: "Referencia" },
   // { value: "etd", label: "ETD" },
   // { value: "eta", label: "ETA" },
 ];
 
 const optionsStatus = [
-  { value: "origen", label: "Origen" },
-  { value: "abordo", label: "Abordo" },
-  { value: "llegada", label: "Llegada" },
-  { value: "finalizado", label: "Finalizado" },
+  { value: 1, label: "Origen" },
+  { value: 2, label: "Abordo" },
+  { value: 3, label: "Llegada" },
+  { value: 4, label: "Finalizado" },
 ];
+
+const estadoLabel = {
+  [1]: "Origen",
+  [2]: "Abordo",
+  [3]: "Llegada",
+  [4]: "Finalizado"
+};
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -248,7 +255,7 @@ const EnhancedTableToolbar = (props) => {
             placeholder="Selecciona filtro"
             onChange={(e) => setFiltro(e.value)}
           />
-          {filtro === "status" ? (
+          {filtro === "estado" ? (
             <Select
               className={classes.select}
               options={optionsStatus}
@@ -440,6 +447,9 @@ export default function EnhancedTable(props) {
               .map((row, index) => {
                 const isItemSelected = isSelected(row.id);
                 const labelId = `enhanced-table-checkbox-${index}`;
+                const etaDate = new Date(row.eta)
+                const etdDate = new Date(row.etd)
+                const estado = estadoLabel[row.estado];
                 return (
                   <TableRow
                     hover
@@ -472,7 +482,7 @@ export default function EnhancedTable(props) {
                       align="right"
                       onClick={(event) => handleClick(event, row.id)}
                     >
-                      {row.estado}
+                      {estado}
                     </TableCell>
                     <TableCell
                       align="right"
@@ -484,13 +494,13 @@ export default function EnhancedTable(props) {
                       align="right"
                       onClick={(event) => handleClick(event, row.id)}
                     >
-                      {row.etd}
+                      {etdDate.getDate()+'-'+(etdDate.getMonth()+1)+'-'+etdDate.getFullYear()}
                     </TableCell>
                     <TableCell
                       align="right"
                       onClick={(event) => handleClick(event, row.id)}
                     >
-                      {row.eta}
+                      {etaDate.getDate()+'-'+(etaDate.getMonth()+1)+'-'+etaDate.getFullYear()}
                     </TableCell>
                   </TableRow>
                 );

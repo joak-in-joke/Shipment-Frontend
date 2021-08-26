@@ -1,0 +1,34 @@
+
+
+graficos:   - embarques mensuales (50 embarques vs meses)
+            - embarques anuales (50 embarques vs años)
+            -* Utilidad mensual: grafico linea mensual de la utilidad (parte finanzas)
+
+
+embarques:  - agregar estado NULO (no afecta a los calculos de graficos)
+            - indexar embarques a id cliente
+
+
+cuentas:    - agregar cuentas de clientes (que solo puedan ver sus embarques asociados)
+            - cuentas tipo cliente SE DEBE ASOCIAR A UN PROVEEDOR
+            - tipo de cuenta: (equipo, cliente)
+            - quitar asesor
+
+misiones:   - extender a varchar(256)
+
+Proveedor:  nombre_proveedor,
+            pais
+            rut empresa
+            telefono
+            direccion
+            email
+
+            nombre contacto
+            cargo contacto
+
+            banco
+            tipo de cuenta
+            nro cuenta
+            tipo cuenta
+            nombre
+            email
