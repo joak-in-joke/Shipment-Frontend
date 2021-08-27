@@ -39,16 +39,15 @@ const ItemList = ({ id, info, deleteProvider, getProviders }) => {
       email: data.email,
       telefono: data.telefono,
 
-      nombre_proveedor: data.nombre_contacto,
-      cargo: data.cargo_contacto,
-      correo: data.email_contacto,
-      fono: data.telefono_contacto,
+      nombre_contacto: data.nombre_contacto,
+      cargo: data.cargo,
 
-      n_cuenta: data.numero_cuenta,
-      buzon: data.email_cuenta,
-      rutt: data.rut,
-      banco: data.banco_cuenta,
-      tipo_cuenta: data.tipo_cuenta,
+      n_cuenta: data.n_cuenta,
+      email_cuentabanco: data.email_cuentabanco,
+      rut_cuentabanco: data.rut_cuentabanco,
+      nombre_empresa: data.nombre_empresa,
+      banco: data.banco,
+      tipo_de_cuenta: data.tipo_de_cuenta,
     })
       .then(() => {
         getProviders();
@@ -163,14 +162,14 @@ const ItemList = ({ id, info, deleteProvider, getProviders }) => {
                           Nombre: {data.nombre_contacto}
                         </Typography>
                         <Typography className={classes.text}>
-                          Cargo: {data.cargo_contacto}
+                          Cargo: {data.cargo}
                         </Typography>
                         <Typography className={classes.text}>
-                          Teléfono: {data.telefono_contacto}
+                          Teléfono: {data.telefono}
                         </Typography>
-                        <Typography className={classes.text}>
+                        {/* <Typography className={classes.text}>
                           Email: {data.email_contacto}
-                        </Typography>
+                        </Typography> */}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -194,19 +193,22 @@ const ItemList = ({ id, info, deleteProvider, getProviders }) => {
                 </AccordionSummary>
                 <AccordionDetails className={classes.inline}>
                   <Typography className={classes.text}>
-                    Banco: {data.banco_cuenta}
+                    Banco: {data.banco}
                   </Typography>
                   <Typography className={classes.text}>
-                    Número de Cuenta: {data.numero_cuenta}
+                    Número de Cuenta: {data.n_cuenta}
                   </Typography>
                   <Typography className={classes.text}>
-                    Tipo de Cuenta: {data.tipo_cuenta}
+                    Rut: {data.rut_cuentabanco}
                   </Typography>
                   <Typography className={classes.text}>
-                    Nombre: {data.nombre_cuenta}
+                    Tipo de Cuenta: {data.tipo_de_cuenta}
                   </Typography>
                   <Typography className={classes.text}>
-                    Correo: {data.email_cuenta}
+                    Nombre: {data.nombre_empresa}
+                  </Typography>
+                  <Typography className={classes.text}>
+                    Correo: {data.email_cuentabanco}
                   </Typography>
                 </AccordionDetails>
               </Accordion>

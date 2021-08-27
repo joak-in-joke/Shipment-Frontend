@@ -25,15 +25,13 @@ export default function TableList() {
     email: "",
     telefono: "",
     nombre_contacto: "",
-    cargo_contacto: "",
-    telefono_contacto: "",
-    email_contacto: "",
-    banco_cuenta: "",
-    numero_cuenta: "",
-    tipo_cuenta: "",
-    nombre_cuenta: "",
-    email_cuenta: "",
-    rut_cuenta: "",
+    cargo: "",
+    banco: "",
+    n_cuenta: "",
+    tipo_de_cuenta: "",
+    nombre_empresa: "",
+    email_cuentabanco: "",
+    rut_cuentabanco: "",
   });
 
   const createProvider = () => {
@@ -46,16 +44,15 @@ export default function TableList() {
       email: data.email,
       telefono: data.telefono,
 
-      nombre_proveedor: data.nombre_contacto,
-      cargo: data.cargo_contacto,
-      correo: data.email_contacto,
-      fono: data.telefono_contacto,
+      nombre_contacto: data.nombre_contacto,
+      cargo: data.cargo,
 
-      n_cuenta: data.numero_cuenta,
-      buzon: data.email_cuenta,
-      rutt: data.rut,
-      banco: data.banco_cuenta,
-      tipo_cuenta: data.tipo_cuenta,
+      n_cuenta: data.n_cuenta,
+      email_cuentabanco: data.email_cuentabanco,
+      rut_cuentabanco: data.rut_cuentabanco,
+      nombre_empresa: data.nombre_empresa,
+      banco: data.banco,
+      tipo_de_cuenta: data.tipo_de_cuenta,
     })
       .then(() => {
         getProviders();
@@ -78,10 +75,10 @@ export default function TableList() {
   }, []);
 
   const getProviders = () => {
-    API.get(`provider`, {}).then(({ data: { proveedores, resultado } }) => {
-      if (proveedores) {
-        setProviders(proveedores);
-        console.log(proveedores);
+    API.get(`provider`, {}).then(({ data: { allProviders, resultado } }) => {
+      if (allProviders) {
+        setProviders(allProviders);
+        console.log(allProviders);
       }
     });
   };
