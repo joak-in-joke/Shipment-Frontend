@@ -12,14 +12,15 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
     email,
     telefono,
     nombre_contacto,
-    cargo_contacto,
-    telefono_contacto,
-    email_contacto,
-    banco_cuenta,
-    numero_cuenta,
-    tipo_cuenta,
-    nombre_cuenta,
-    email_cuenta,
+    cargo,
+    //telefono_contacto,
+    //email_contacto,
+    banco,
+    n_cuenta,
+    tipo_de_cuenta,
+    nombre_empresa,
+    email_cuentabanco,
+    rut_cuentabanco,
   } = data;
   return (
     <Grid container spacing={2}>
@@ -117,15 +118,15 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
         <TextField
           label="Cargo"
           variant="outlined"
-          name="cargo_contacto"
-          value={cargo_contacto}
-          defaultValue={isEditting ? cargo_contacto : null}
+          name="cargo"
+          value={cargo}
+          defaultValue={isEditting ? cargo : null}
           onChange={handleChange}
           className={classes.formControl}
         />
       </Grid>
 
-      <Grid item xs={2}>
+      {/* <Grid item xs={2}>
         <TextField
           label="Teléfono"
           variant="outlined"
@@ -148,7 +149,7 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
           onChange={handleChange}
           className={classes.formControl}
         />
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         Datos Bancarios
@@ -158,9 +159,9 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
         <TextField
           label="Banco"
           variant="outlined"
-          name="banco_cuenta"
-          value={banco_cuenta}
-          defaultValue={isEditting ? banco_cuenta : null}
+          name="banco"
+          value={banco}
+          defaultValue={isEditting ? banco : null}
           onChange={handleChange}
           className={classes.formControl}
           type="number"
@@ -171,9 +172,9 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
         <TextField
           label="Número de Cuenta"
           variant="outlined"
-          name="numero_cuenta"
-          value={numero_cuenta}
-          defaultValue={isEditting ? nombre_cuenta : null}
+          name="n_cuenta"
+          value={n_cuenta}
+          defaultValue={isEditting ? nombre_empresa : null}
           onChange={handleChange}
           className={classes.formControl}
           type="number"
@@ -184,9 +185,9 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
         <TextField
           label="Tipo de Cuenta"
           variant="outlined"
-          name="tipo_cuenta"
-          value={tipo_cuenta}
-          defaultValue={isEditting ? tipo_cuenta : null}
+          name="tipo_de_cuenta"
+          value={tipo_de_cuenta}
+          defaultValue={isEditting ? tipo_de_cuenta : null}
           onChange={handleChange}
           className={classes.formControl}
         />
@@ -196,9 +197,9 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
         <TextField
           label="Nombre"
           variant="outlined"
-          name="nombre_cuenta"
-          defaultValue={isEditting ? nombre_cuenta : null}
-          value={nombre_cuenta}
+          name="nombre_empresa"
+          defaultValue={isEditting ? nombre_empresa : null}
+          value={nombre_empresa}
           onChange={handleChange}
           className={classes.formControl}
         />
@@ -208,11 +209,24 @@ const InputModal = ({ data, handleChange, isEditting = false }) => {
         <TextField
           label="Email"
           variant="outlined"
-          name="email_cuenta"
-          value={email_cuenta}
-          defaultValue={isEditting ? email_cuenta : null}
+          name="email_cuentabanco"
+          value={email_cuentabanco}
+          defaultValue={isEditting ? email_cuentabanco : null}
           onChange={handleChange}
           className={classes.formControl}
+        />
+      </Grid>
+
+      <Grid item xs={2}>
+        <TextField
+          label="RUT"
+          variant="outlined"
+          name="rut_cuentabanco"
+          defaultValue={isEditting ? rut_cuentabanco : null}
+          value={rut_cuentabanco}
+          onChange={handleChange}
+          className={classes.formControl}
+          type="number"
         />
       </Grid>
     </Grid>
