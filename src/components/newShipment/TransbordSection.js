@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, IconButton, Switch, TextField } from "@material-ui/core";
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
 import { Add, Delete } from "@material-ui/icons";
+import Autocomplete from "components/Autocomplete/Autocomplete";
+import API from "variables/api.js";
 
 const TransbordSection = () => {
   const classes = useStyles();
   const { control, watch } = useFormContext();
   const transbordWatch = watch("transbordo", false);
+  const [ports, setPorts] = useState(null);
   const { fields, append, remove } = useFieldArray({
     control,
     name: "transbordos",
   });
+
+  const getPorts = () => {
+    API.get(`port`).then(({ data: { resultado, ports } }) => {
+      if (resultado) {
+        console.log(ports);
+        setPorts(ports);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getPorts();
+  }, []);
+
   return (
     <Grid className={classes.rootSectionTransbord}>
       <Controller
@@ -48,11 +65,11 @@ const TransbordSection = () => {
                   control={control}
                   name={`transbordos.${index}.puertoName`}
                   render={({ field: { onChange, value } }) => (
-                    <TextField
-                      onChange={onChange}
-                      value={value}
+                    <Autocomplete
+                      options={ports}
                       label="Puerto de trasbordo"
-                      variant="outlined"
+                      value={value}
+                      onChange={onChange}
                       className={classes.formControl}
                     />
                   )}
@@ -68,7 +85,6 @@ const TransbordSection = () => {
                       value={value}
                       label="naveID"
                       variant="outlined"
-                      type="number"
                       className={classes.formControl}
                     />
                   )}

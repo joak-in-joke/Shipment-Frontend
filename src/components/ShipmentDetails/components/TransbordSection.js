@@ -30,7 +30,7 @@ const TransbordSection = ({ isDisabled = true }) => {
           key={field.id}
           className={classes.containerItemsTransbord}
         >
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Controller
               control={control}
               name={`transbordos.${index}.puertoName`}
@@ -46,24 +46,7 @@ const TransbordSection = ({ isDisabled = true }) => {
               )}
             />
           </Grid>
-          <Grid item xs={3}>
-            <Controller
-              control={control}
-              name={`transbordos.${index}.naveId`}
-              defaultValue={getValues(`transbordos.${index}.naveId`)}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Valor"
-                  variant="outlined"
-                  type="number"
-                  className={classes.formControl}
-                  disabled={isDisabled && true}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <Controller
               control={control}
               name={`transbordos.${index}.date`}

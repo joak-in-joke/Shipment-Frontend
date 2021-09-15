@@ -93,11 +93,9 @@ export default function UserProfile() {
     nombre: userData.nombre,
     apellido: userData.apellido,
     rut: userData.rut,
-    dv: userData.dv,
-    mail: userData.mail,
+    email: userData.email,
     telefono: userData.telefono,
     cargo: userData.cargo,
-    asesor: userData.asesor,
     password: "",
     newPassword: "",
   });
@@ -121,10 +119,8 @@ export default function UserProfile() {
       nombre: values.nombre,
       apellido: values.apellido,
       rut: values.rut,
-      dv: values.dv,
-      mail: values.mail,
+      email: values.email,
       cargo: values.cargo,
-      asesor: values.asesor,
       telefono: values.telefono,
     };
     API.post(`users/update`, payload).then(() => {
@@ -228,7 +224,7 @@ export default function UserProfile() {
               </Grid>
             </Grid>
             <Grid container className={classes.formText} spacing={2}>
-              <Grid item xs={10}>
+              <Grid item xs>
                 <Controller
                   name="rut"
                   defaultValue={userData.rut}
@@ -252,37 +248,13 @@ export default function UserProfile() {
                   rules={{ required: "Rut requerido" }}
                 />
               </Grid>
-              <Grid item xs={2} spacing={2}>
-                <Controller
-                  name="dv"
-                  defaultValue={userData.dv}
-                  control={control}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <TextField
-                      label="DV"
-                      variant="outlined"
-                      defaultValue={userData.dv}
-                      value={value}
-                      onChange={onChange}
-                      type="text"
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      fullWidth="true"
-                    />
-                  )}
-                  rules={{ required: "DV requerido" }}
-                />
-              </Grid>
             </Grid>
 
             <Grid container className={classes.formText} spacing={2}>
               <Grid item xs>
                 <Controller
-                  name="mail"
-                  defaultValue={userData.mail}
+                  name="email"
+                  defaultValue={userData.email}
                   control={control}
                   render={({
                     field: { onChange, value },
@@ -291,7 +263,7 @@ export default function UserProfile() {
                     <TextField
                       label="Email"
                       variant="outlined"
-                      defaultValue={userData.mail}
+                      defaultValue={userData.email}
                       value={value}
                       onChange={onChange}
                       type="text"
@@ -353,32 +325,6 @@ export default function UserProfile() {
                     />
                   )}
                   rules={{ required: "Cargo requerido" }}
-                />
-              </Grid>
-            </Grid>
-            <Grid container className={classes.formText} spacing={2}>
-              <Grid item xs>
-                <Controller
-                  name="asesor"
-                  defaultValue={userData.asesor}
-                  control={control}
-                  render={({
-                    field: { onChange, value },
-                    fieldState: { error },
-                  }) => (
-                    <TextField
-                      label="Asesor"
-                      variant="outlined"
-                      defaultValue={userData.asesor}
-                      value={value}
-                      onChange={onChange}
-                      type="text"
-                      error={!!error}
-                      helperText={error ? error.message : null}
-                      fullWidth="true"
-                    />
-                  )}
-                  rules={{ required: "Asesor requerido" }}
                 />
               </Grid>
             </Grid>

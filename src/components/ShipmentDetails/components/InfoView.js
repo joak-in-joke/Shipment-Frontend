@@ -8,13 +8,13 @@ import DateSection from "./DateSection";
 import TransbordSection from "./TransbordSection";
 import useStyles from "../styles";
 
-export const InfoView = ({ isEditting }) => {
+export const InfoView = ({ isEditting, reset, getValues }) => {
   const classes = useStyles();
 
   return (
     <>
       <GeneralSection isDisabled={!isEditting} />
-      <ShippingSection isDisabled={!isEditting} />
+      <ShippingSection isDisabled={!isEditting} reset={reset} getValues={getValues} />
 
       <Grid container spacing={0}>
         <Grid item xs={7} className={classes.containerGoods}>

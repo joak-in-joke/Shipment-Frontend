@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller, useFormContext } from "react-hook-form";
+import Autocomplete from 'components/Autocomplete/Autocomplete';
 import API from "variables/api.js";
 
 const ShippingSection = () => {
@@ -18,18 +19,36 @@ const ShippingSection = () => {
   const transportWatch = watch("transporte");
   const tipeWatch = watch("tipo");
   const [providers, setProviders] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [operators, setOperators] = useState(null);
+  const [agency, setAgency] = useState(null);
+
+  const getOperators = () => {
+    API.get(`operator`).then(({ data: { resultado, operator } }) => {
+      if (resultado) {
+        setOperators(operator);
+      }
+    });
+  };
 
   const getProviders = () => {
-    API.get(`provider/all`).then(({ data: { resultado, getprovider } }) => {
+    API.get(`provider`).then(({ data: { resultado, allProviders } }) => {
       if (resultado) {
-        setProviders(getprovider);
-        setIsLoading(false);
+        setProviders(allProviders);
+      }
+    });
+  };
+
+  const getAgency = () => {
+    API.get(`agent`).then(({ data: { resultado, agent } }) => {
+      if (resultado) {
+        setAgency(agent);
       }
     });
   };
 
   useEffect(() => {
+    getAgency();
+    getOperators();
     getProviders();
   }, []);
 
@@ -42,26 +61,13 @@ const ShippingSection = () => {
             control={control}
             name="exportador"
             render={({ field: { onChange, value } }) => (
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="exportadorLabel">Exportador</InputLabel>
-                <Select
-                  labelId="exportadorLabel"
-                  value={value}
-                  onChange={onChange}
-                  label="Exportador"
-                >
-                  <MenuItem value="">
-                    <em>Seleccionar</em>
-                  </MenuItem>
-                  {isLoading
-                    ? null
-                    : providers.map(({ id, nombre }) => (
-                        <MenuItem key={id} value={nombre}>
-                          {nombre}
-                        </MenuItem>
-                      ))}
-                </Select>
-              </FormControl>
+              <Autocomplete
+                options={providers}
+                label="Exportador"
+                startValue={value}
+                onChange={onChange}
+                creatable={false}
+              />
             )}
           />
         </Grid>
@@ -71,26 +77,13 @@ const ShippingSection = () => {
             control={control}
             name="importador"
             render={({ field: { onChange, value } }) => (
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel id="importadorLabel">Importador</InputLabel>
-                <Select
-                  labelId="importadorLabel"
-                  value={value}
-                  onChange={onChange}
-                  label="Importador"
-                >
-                  <MenuItem value="">
-                    <em>Seleccionar</em>
-                  </MenuItem>
-                  {isLoading
-                    ? null
-                    : providers.map(({ id, nombre }) => (
-                        <MenuItem key={id} value={nombre}>
-                          {nombre}
-                        </MenuItem>
-                      ))}
-                </Select>
-              </FormControl>
+              <Autocomplete
+                options={providers}
+                label="Importador"
+                startValue={value}
+                onChange={onChange}
+                creatable={false}
+              />
             )}
           />
         </Grid>
@@ -100,12 +93,11 @@ const ShippingSection = () => {
             control={control}
             name="operador"
             render={({ field: { onChange, value } }) => (
-              <TextField
+              <Autocomplete
+                options={operators}
                 label="Operador logistico"
-                variant="outlined"
                 value={value}
                 onChange={onChange}
-                className={classes.formControl}
               />
             )}
           />
@@ -116,11 +108,10 @@ const ShippingSection = () => {
             control={control}
             name="agencia"
             render={({ field: { onChange, value } }) => (
-              <TextField
-                label="Agencia aduanas"
-                variant="outlined"
-                value={value}
-                className={classes.formControl}
+              <Autocomplete
+                options={agency}
+                label="Agencia aduana"
+                startValue={value}
                 onChange={onChange}
               />
             )}

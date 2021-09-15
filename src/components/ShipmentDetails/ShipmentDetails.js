@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Grid, Checkbox } from "@material-ui/core";
 import { useForm, FormProvider } from "react-hook-form";
 import { Edit, Delete } from "@material-ui/icons";
+import { format } from "date-fns";
 import Button from "components/CustomButtons/Button.js";
 import API from "variables/api.js";
 
@@ -20,72 +21,83 @@ export default function ShipmentDetails({ id }) {
   const [isEditting, setIsEditting] = useState(false);
 
   const formMethod = useForm();
-  const { setValue, getValues, reset } = formMethod;
+  const { getValues, reset } = formMethod;
 
   useEffect(() => {
     if (shipmentData) {
-      const mercanciasParse = shipmentData.mercancias.map((mercancia) => {
-        const parse = {
-          name: mercancia.nombre_mercancia,
-          value: mercancia.valor_usd,
-          flete: mercancia.flete_usd,
-          secure: mercancia.seguro_usd,
-        };
-        return parse;
-      });
-      const transbordosParse = shipmentData.trasbordos.map((transbordo) => {
-        const parse = {
-          puertoName: transbordo.puerto_transb,
-          naveId: transbordo.nave_transb,
-          date: transbordo.fecha,
-          secure: transbordo.seguro_usd,
-        };
-        return parse;
-      });
+      const mercanciasParse = shipmentData.DataEmbarque.ValorData.map(
+        (mercancia) => {
+          const parse = {
+            name: mercancia.nombre_mercancia,
+            value: mercancia.valor_usd,
+            flete: mercancia.flete_usd,
+            secure: mercancia.seguro_usd,
+          };
+          return parse;
+        }
+      );
+      const transbordosParse = shipmentData.DataEmbarque.TransbordoData.map(
+        (transbordo) => {
+          const parse = {
+            puertoName: transbordo.naver_transb,
+            naveId: transbordo.id,
+            date: format(new Date(transbordo.fecha_transb), "yyyy-MM-dd"),
+          };
+          return parse;
+        }
+      );
 
       reset({
         id: shipmentData.n_operacion,
-        tipo: shipmentData.tipo_operacion,
-        transporte: shipmentData.medio_transporte,
-        eta: shipmentData.eta,
-        etd: shipmentData.etd,
+        tipo: shipmentData.DataEmbarque.tipo_operacion,
+        transporte: shipmentData.media_transporte,
+        eta: format(new Date(shipmentData.eta), "yyyy-MM-dd"),
+        etd: format(new Date(shipmentData.etd), "yyyy-MM-dd"),
         estado: shipmentData.estado,
         referencia: shipmentData.referencia,
-        incoterm: shipmentData.intercom,
-        puertoETA: shipmentData.puertoembarque,
-        puertoETD: shipmentData.puertodestino,
-        exportador: shipmentData.exportador,
-        importador: shipmentData.importador,
-        operador: shipmentData.embarcador,
-        agencia: shipmentData.agencia_aduana,
-        tipoDocumento: shipmentData.tipo_documento,
-        documento: shipmentData.tipo_documento,
-        motonave: shipmentData.motonave,
-        viaje: shipmentData.viaje,
-        naviera: shipmentData.viaje,
-        reserva: shipmentData.reserva,
-        depositoContenedores: shipmentData.deposito_contenedores,
-        contTipo: shipmentData.cont_tipo,
-        sello: shipmentData.sello,
-        contenedor: shipmentData.data_transporte.contenedor,
-        bultos: shipmentData.data_transporte.cant_bultos,
-        peso: shipmentData.data_transporte.peso,
-        volumen: shipmentData.data_transporte.volumen,
-        almacen: shipmentData.data_transporte.lugar_destino,
-        destino: shipmentData.lugardestino,
+        incoterm: shipmentData.DataEmbarque.incoterm,
+        puertoETD: shipmentData.DataEmbarque.Puerto && shipmentData.DataEmbarque.Puerto.nombre, //
+        ...(shipmentData.media_transporte === "LCL" 
+        ? {puertoETA: shipmentData.DataEmbarque.DataLCL && shipmentData.DataEmbarque.DataLCL.Puerto.nombre} //
+        : {puertoETA: shipmentData.DataEmbarque.DataFCL && shipmentData.DataEmbarque.DataFCL.Puerto.nombre}),
+        exportadorId: shipmentData.DataEmbarque.id_exportador,
+        importadorId: shipmentData.DataEmbarque.id_importador,
+        operador: shipmentData.DataEmbarque.OperadorLogistico && shipmentData.DataEmbarque.OperadorLogistico.nombre,
+        agencia: shipmentData.DataEmbarque.AgenciaAduana && shipmentData.DataEmbarque.AgenciaAduana.nombre,
+        tipoDocumento: shipmentData.DataEmbarque.tipo_documento,
+        documento: shipmentData.DataEmbarque.documento,
+        motonave: shipmentData.DataEmbarque.motonave,
+        viaje: shipmentData.DataEmbarque.viaje,
+        naviera: shipmentData.DataEmbarque.naviera,
+        reserva: shipmentData.DataEmbarque.reserva,
+        contTipo: shipmentData.DataEmbarque.tipo_documento, //
+        depositoContenedores:
+        shipmentData.DataEmbarque.DataFCL && shipmentData.DataEmbarque.DataFCL.deposito_contenedores, //
+        sello: shipmentData.DataEmbarque.DataFCL && shipmentData.DataEmbarque.DataFCL.sello, //
+        ...(shipmentData.DataEmbarque.DataLCL === "LCL" && {
+          contenedor: shipmentData.DataEmbarque.DataLCL.contenedor, // LCL
+          bultos: parseInt(shipmentData.DataEmbarque.DataLCL.cant_bultos), // LCL
+          peso: parseInt(shipmentData.DataEmbarque.DataLCL.peso), // LCL
+          volumen: parseInt(shipmentData.DataEmbarque.DataLCL.volumen), // LCL
+          almacen: shipmentData.DataEmbarque.DataLCL.lugar_destino, //
+        }),
+        ...(shipmentData.media_transporte === "LCL" 
+        ? {destino: shipmentData.DataEmbarque.DataLCL && shipmentData.DataEmbarque.DataLCL.lugar_destino} //
+        : {destino: shipmentData.DataEmbarque.DataFCL && shipmentData.DataEmbarque.DataFCL.lugar_destino}),
         mercancias: mercanciasParse,
         transbordos: transbordosParse,
-        transbordo: shipmentData.trasbordos.length > 0 ? true : null,
+        transbordo:
+          shipmentData.DataEmbarque.TransbordoData.length > 0 ? true : null,
       });
     }
-  }, [shipmentData, getValues, setValue, reset]);
+  }, [shipmentData, reset]);
 
   useEffect(() => {
     API.get(`shipment/${id}`, {})
       .then(({ data: { resultado, data } }) => {
         if (resultado) {
-          console.log(data);
-          setShipmentData(data);
+          console.log(data.Shipment);
+          setShipmentData(data.Shipment);
         }
         setIsLoading(false);
       })
@@ -215,7 +227,7 @@ export default function ShipmentDetails({ id }) {
           </Button>
         </Grid>
 
-        <InfoView isEditting={isEditting} />
+        <InfoView isEditting={isEditting} reset={reset} getValues={getValues} />
       </form>
 
       <Dialog

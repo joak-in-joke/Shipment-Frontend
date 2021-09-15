@@ -34,8 +34,8 @@ const Index = () => {
 
   const createShipment = (data) => {
     API.post(`shipment/create`, data)
-      .then(({ data: { respuesta } }) => {
-        if (respuesta) {
+      .then(({ data: { resultado } }) => {
+        if (resultado) {
           setModal(true);
         } else console.log("Ocurrio un error :(");
       })
@@ -48,8 +48,8 @@ const Index = () => {
     console.log(data);
     const transbordos = data.transbordos.map((item) => {
       const parse = {
-        puerto_transb: item.puertoName,
-        nave_transb: item.naveId,
+        id_puerto_transbordo: item.puertoName ? item.puertoName.id : undefined,
+        naver_transb: item.naveId,
         fecha: item.date,
       };
       return parse;
@@ -71,13 +71,13 @@ const Index = () => {
       etd: data.etd,
       referencia: data.referencia,
       incoterm: data.incoterm,
-      puertoembarque: data.puertoETA,
-      puertodestino: data.puertoETD,
       lugardestino: data.destino,
-      exportador: data.exportador,
-      importador: data.importador,
-      embarcador: data.operador,
-      agencia_aduana: data.agencia,
+      id_puerto_embarque: data.puertoETA ? data.puertoETA.id : undefined,
+      id_puerto_destino: data.puertoETD ? data.puertoETD.id : undefined,
+      id_exportador: data.exportador ? data.exportador.id : undefined,
+      id_importador: data.importador ? data.importador.id : undefined,
+      id_operador: data.operador ? data.operador.id : undefined,
+      id_agencia_aduana: data.agencia ? data.agencia.id : undefined,
       tipo_documento: data.tipoDocumento,
       documento: data.documento,
       motonave: data.motonave,
@@ -94,11 +94,11 @@ const Index = () => {
       cant_bultos: data.bultos,
       peso: data.peso,
       volumen: data.volumen,
-      lugar_destino: data.almacen,
 
       mercancias: mercancias,
-      trasbordos: transbordos,
+      transbordos: transbordos,
     };
+    console.log(payload);
     createShipment(payload);
   };
 

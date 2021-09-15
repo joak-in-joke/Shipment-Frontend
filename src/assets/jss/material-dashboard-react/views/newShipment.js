@@ -75,7 +75,6 @@ const styles = {
     margin: "5px",
     display: "flex",
     width: "100%",
-    justifyContent: "center",
     alignItems: "center",
   },
   bodySection: {

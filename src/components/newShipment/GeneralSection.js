@@ -86,7 +86,6 @@ const GeneralSection = () => {
                 variant="outlined"
                 value={value}
                 onChange={onChange}
-                type="number"
                 error={errors.id}
                 className={classes.formControl}
               />

@@ -85,7 +85,6 @@ const GeneralSection = ({ isDisabled = true }) => {
                 value={value}
                 onChange={onChange}
                 disabled={isDisabled && true}
-                type="number"
                 error={errors.id}
                 className={classes.formControl}
               />
@@ -129,10 +128,10 @@ const GeneralSection = ({ isDisabled = true }) => {
                   disabled={isDisabled && true}
                   defaultValue
                 >
-                  <MenuItem value="origen">En Origen</MenuItem>
-                  <MenuItem value="abordo">Abordo</MenuItem>
-                  <MenuItem value="llegada">Llegada</MenuItem>
-                  <MenuItem value="finalizado">Finalizado</MenuItem>
+                  <MenuItem value="1">En Origen</MenuItem>
+                  <MenuItem value="2">Abordo</MenuItem>
+                  <MenuItem value="3">Llegada</MenuItem>
+                  <MenuItem value="4">Finalizado</MenuItem>
                 </Select>{" "}
               </FormControl>
             )}

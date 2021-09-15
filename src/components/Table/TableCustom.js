@@ -40,10 +40,10 @@ const optionsStatus = [
 ];
 
 const estadoLabel = {
-  [1]: "Origen",
-  [2]: "Abordo",
-  [3]: "Llegada",
-  [4]: "Finalizado"
+  1: "Origen",
+  2: "Abordo",
+  3: "Llegada",
+  4: "Finalizado"
 };
 
 function descendingComparator(a, b, orderBy) {

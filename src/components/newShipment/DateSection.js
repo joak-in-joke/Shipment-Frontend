@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, TextField } from "@material-ui/core";
-import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
 import { Controller, useFormContext } from "react-hook-form";
+import useStyles from "assets/jss/material-dashboard-react/views/newShipment";
+import Autocomplete from 'components/Autocomplete/Autocomplete';
+import API from "variables/api.js";
 
 const DateSection = () => {
   const classes = useStyles();
+  const [ports, setPorts] = useState(null);
   const { control } = useFormContext();
+
+  const getPorts = () => {
+    API.get(`port`).then(({ data: { resultado, ports } }) => {
+      if (resultado) {
+        console.log(ports)
+        setPorts(ports);
+      }
+    });
+  };
+
+  useEffect(() => {
+    getPorts();
+  }, []);
+
   return (
     <Grid className={classes.rootSection}>
       Información de fechas
@@ -35,9 +52,9 @@ const DateSection = () => {
             control={control}
             name="puertoETD"
             render={({ field: { onChange, value } }) => (
-              <TextField
+              <Autocomplete
+                options={ports}
                 label="Puerto de embarque"
-                variant="outlined"
                 value={value}
                 onChange={onChange}
                 className={classes.formControl}
@@ -71,9 +88,9 @@ const DateSection = () => {
             control={control}
             name="puertoETA"
             render={({ field: { onChange, value } }) => (
-              <TextField
+              <Autocomplete
+                options={ports}
                 label="Puerto de destino"
-                variant="outlined"
                 value={value}
                 onChange={onChange}
                 className={classes.formControl}
